@@ -89,7 +89,6 @@ def go_to_box(angle_sign, angle, dist, ids):
 while cv2.waitKey(4) == -1: # Wait for a key pressed event
     # retval, frameReference = cam.read() # Read frame
     image = cam.capture_array("main")
-    time.sleep(5)  # wait for camera to setups
 
     # if not image: # Error
         
@@ -97,7 +96,7 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
     #     exit(-1)
 
     # Show frames
-    cv2.imshow(WIN_RF, image)
+    #cv2.imshow(WIN_RF, image)
 
     params = aruco.DetectorParameters_create()
     corners, ids, rejected_corners = aruco.detectMarkers(image, aruco_dict, parameters=params)
@@ -128,8 +127,11 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
         go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
     else:
         turn(Direction.Right, 40)
-        sleep(3)
- 
+        sleep(0.5)
+    
+    cv2.imshow(WIN_RF, image)
+
+
 #print("ArUCo type '{}' with ID '{}".format(aruco_type, id))
 #tag_size = 600
 #tag = np.zeros((tag_size, tag_size, 1), dtype="uint8")
