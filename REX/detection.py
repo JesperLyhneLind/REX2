@@ -18,7 +18,7 @@ except ImportError:
 # Open a camera device for capturing
 #imageSize = (1280, 720)
 imageSize = (624, 352)
-FPS = 15
+FPS = 30
 cam = picamera2.Picamera2()
 frame_duration_limit = int(1/FPS * 1000000) # Microseconds
 # Change configuration to set resolution, framerate
@@ -86,10 +86,16 @@ def go_to_box(angle_sign, angle, dist, ids):
             driveM((dist - 50) / 100)
             print(arlo.stop()) 
 
+params = aruco.DetectorParameters_create()
+camMatrix = np.matrix([[459.3346823, 0, 612], # 612 px = 161.925 mm
+                        [0, 459.3346823, 360],   # 360 px = 95.25 mm
+                        [0, 0, 1]])
+print("lige før loop")
 while cv2.waitKey(4) == -1: # Wait for a key pressed event
     # retval, frameReference = cam.read() # Read frame
+    print("inde i loop")
     image = cam.capture_array("main")
-
+    cv2.imshow(WIN_RF, image)
     # if not image: # Error
         
     #     print("Error!")
@@ -98,11 +104,7 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
     # Show frames
     #cv2.imshow(WIN_RF, image)
 
-    params = aruco.DetectorParameters_create()
     corners, ids, rejected_corners = aruco.detectMarkers(image, aruco_dict, parameters=params)
-    camMatrix = np.matrix([[459.3346823, 0, 612], # 612 px = 161.925 mm
-                           [0, 459.3346823, 360],   # 360 px = 95.25 mm
-                           [0, 0, 1]])
 
     rvecs, tvecs, objPoints = aruco.estimatePoseSingleMarkers(corners, 145, camMatrix, None, None)
     z_vector = np.array([0, 0, 1])
@@ -129,7 +131,7 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
         turn(Direction.Right, 40)
         sleep(0.5)
     
-    cv2.imshow(WIN_RF, image)
+    
 
 
 #print("ArUCo type '{}' with ID '{}".format(aruco_type, id))
