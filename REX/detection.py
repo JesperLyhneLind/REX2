@@ -96,6 +96,7 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
     print("inde i loop")
     image = cam.capture_array("main")
     cv2.imshow(WIN_RF, image)
+    cv2.waitKey(1)
     # if not image: # Error
         
     #     print("Error!")
