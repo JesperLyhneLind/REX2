@@ -16,7 +16,8 @@ except ImportError:
     exit(-1)
 
 # Open a camera device for capturing
-imageSize = (1280, 720)
+#imageSize = (1280, 720)
+imageSize = (624, 352)
 FPS = 15
 cam = picamera2.Picamera2()
 frame_duration_limit = int(1/FPS * 1000000) # Microseconds
@@ -129,7 +130,7 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
 
     else:
         turn(Direction.Right, 40)
-        sleep(1)
+        sleep(3)
  
 #print("ArUCo type '{}' with ID '{}".format(aruco_type, id))
 #tag_size = 600
