@@ -34,7 +34,7 @@ WIN_RF = "Ottos camera"
 cv2.namedWindow(WIN_RF)
 cv2.moveWindow(WIN_RF, 100, 100)
 
-time.sleep(15)  # wait for camera to setups
+time.sleep(1)  # wait for camera to setups
 
 # Defining the ArUCo types.
 aruco_type = aruco.DICT_6X6_250
@@ -89,6 +89,7 @@ def go_to_box(angle_sign, angle, dist, ids):
 while cv2.waitKey(4) == -1: # Wait for a key pressed event
     # retval, frameReference = cam.read() # Read frame
     image = cam.capture_array("main")
+    time.sleep(5)  # wait for camera to setups
 
     # if not image: # Error
         
@@ -125,7 +126,6 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
         print("angle:", angle)
         print("ids", ids)
         go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
-
     else:
         turn(Direction.Right, 40)
         sleep(3)
