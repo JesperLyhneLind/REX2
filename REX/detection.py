@@ -34,7 +34,7 @@ WIN_RF = "Ottos camera"
 cv2.namedWindow(WIN_RF)
 cv2.moveWindow(WIN_RF, 100, 100)
 
-time.sleep(5)  # wait for camera to setups
+time.sleep(15)  # wait for camera to setups
 
 # Defining the ArUCo types.
 aruco_type = aruco.DICT_6X6_250
