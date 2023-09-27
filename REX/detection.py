@@ -30,7 +30,7 @@ cam.start(show_preview=False)
 
 print(cam.camera_configuration()) # Print the camera configuration in use
 
-time.sleep(1)  # wait for camera to setups
+time.sleep(10)  # wait for camera to setups
 
 
 WIN_RF = "Ottos camera"
