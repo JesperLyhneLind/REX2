@@ -74,13 +74,15 @@ def go_to_box(angle_sign, angle, dist, ids):
         print("dist: ", dist) # in centimeters.
         print("actual dist:", dist / 1000) # in meters.
         if angle_sign == -1:
+            print("turning left with " + str(angle) + " degrees")
             turn(Direction.Left, angle)
-            #if dist < 800
             iDrive((dist - 200) / 1000) # Stops the robot 2 cm before the box.
         elif angle_sign == 1:
+            print("turning right with " + str(angle) + " degrees")
             turn(Direction.Right, angle)
             iDrive((dist - 200) / 1000)
         else:
+            print("not turning at all")
             iDrive((dist - 200) / 1000)
 
 params = aruco.DetectorParameters_create()
