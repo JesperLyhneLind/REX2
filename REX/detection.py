@@ -128,19 +128,6 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
         print("vec:",vec)
         print("angle:", angle)
         print("ids", ids)
-        #go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
-    else:
-        turn(Direction.Right, 45)
-        #cam.capture_file("billede" + str(counter) + ".jpg")
-        #counter =+ counter
-
-    
-
-
-#print("ArUCo type '{}' with ID '{}".format(aruco_type, id))
-#tag_size = 600
-#tag = np.zeros((tag_size, tag_size, 1), dtype="uint8")
-#aruco.drawMarker(aruco_dict, id, tag_size, tag, 1)
-
-#tag_name = "arucoMarkers/" + str(aruco_type) + "_" + str(id) + ".png"
-#cv2.imwrite(tag_name, tag)
+        go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
+    #else:
+        #turn(Direction.Right, 45)
