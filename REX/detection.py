@@ -71,19 +71,18 @@ def go_to_box(angle_sign, angle, dist, ids):
         print("going to box")
         print("id: ", ids)
         print("dist: ", dist) # dist 678
-        print("actual dist:", (dist - 500) / 1000) # in meters.
-        actual_dist = ((dist - 500) / 1000)
+        print("actual dist:", (dist - 500) / 100) # in meters.
         if angle_sign == -1:
             #turn(Direction.Left, angle)
             #if dist < 800
-            iDrive(actual_dist)
+            iDrive((dist - 800) / 10)
             #iDrive(1)
         elif angle_sign == 1:
             #turn(Direction.Right, angle)
-            iDrive(actual_dist)
+            iDrive((dist - 800) / 10)
             #iDrive(1)
         else:
-            iDrive(actual_dist)
+            iDrive((dist - 800) / 10)
             #iDrive(1)
 
 params = aruco.DetectorParameters_create()
