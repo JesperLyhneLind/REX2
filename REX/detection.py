@@ -129,7 +129,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         arucos = []  # List for containing all ArUCo codes.
         for i in range(len(ids)):
             # Making a list of tupples containing ids & points.
-            arucos.append((list(corners[i]), list(id[i])))
+            arucos.append((list(corners[i]), list(ids[i])))
         print("arucos: ", arucos)
         norms = []
         for i in range(len(tvecs)):
