@@ -68,22 +68,22 @@ def iDrive(meters):
 
 
 def go_to_box(angle_sign, angle, dist, ids):
-        dist += 320
+        dist += 355 # The distance is not accurate and we therefore add a number to it.
         print("going to box")
         print("id: ", ids)
-        print("dist: ", dist) # dist 678
+        print("dist: ", dist) # in centimeters.
         print("actual dist:", (dist / 1000)) # in meters.
         if angle_sign == -1:
             #turn(Direction.Left, angle)
             #if dist < 800
-            iDrive(dist / 1000)
+            iDrive((dist - 200) / 1000) # Stops the robot 2 cm before the box.
             #iDrive(1)
         elif angle_sign == 1:
             #turn(Direction.Right, angle)
-            iDrive(dist / 1000)
+            iDrive((dist - 200) / 1000)
             #iDrive(1)
         else:
-            iDrive(dist / 1000)
+            iDrive((dist - 200) / 1000)
             #iDrive(1)
 
 params = aruco.DetectorParameters_create()
