@@ -62,7 +62,7 @@ def turn(dir: Direction, angle: int):
 def iDrive(meters):
     print(arlo.go_diff(70, 70, 1, 1))
     # Wait a bit while robot moves forward
-    sleep(0.7*meters)
+    sleep(1.7*meters)
     # send a stop command
     print(arlo.stop())   
     sleep(0.18)  
