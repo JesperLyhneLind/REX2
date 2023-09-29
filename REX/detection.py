@@ -74,11 +74,11 @@ def go_to_box(angle_sign, angle, dist, ids):
         print("dist: ", dist) # in centimeters.
         print("actual dist:", dist / 1000) # in meters.
         if angle_sign == -1:
-            #turn(Direction.Left, angle)
+            turn(Direction.Left, angle)
             #if dist < 800
             iDrive((dist - 200) / 1000) # Stops the robot 2 cm before the box.
         elif angle_sign == 1:
-            #turn(Direction.Right, angle)
+            turn(Direction.Right, angle)
             iDrive((dist - 200) / 1000)
         else:
             iDrive((dist - 200) / 1000)
