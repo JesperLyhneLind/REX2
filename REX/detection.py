@@ -70,19 +70,20 @@ def iDrive(meters):
 def go_to_box(angle_sign, angle, dist, ids):
         print("going to box")
         print("id: ", ids)
-        print("dist: ", dist)
-        print("actual dist:", (dist - 50) / 10)
+        print("dist: ", dist) # dist 678
+        print("actual dist:", (dist - 500) / 1000) # in meters.
+        actual_dist = ((dist - 500) / 1000)
         if angle_sign == -1:
             #turn(Direction.Left, angle)
-            #
-            iDrive((dist - 800) / 10)
+            #if dist < 800
+            iDrive(actual_dist)
             #iDrive(1)
         elif angle_sign == 1:
             #turn(Direction.Right, angle)
-            iDrive((dist - 800) / 10)
+            iDrive(actual_dist)
             #iDrive(1)
         else:
-            iDrive((dist - 800) / 10)
+            iDrive(actual_dists)
             #iDrive(1)
 
 params = aruco.DetectorParameters_create()
@@ -95,13 +96,6 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
     cv2.imshow(WIN_RF, image)
     cv2.waitKey(1)
     counter = 0
-    # if not image: # Error
-        
-    #     print("Error!")
-    #     exit(-1)
-
-    # Show frames
-    #cv2.imshow(WIN_RF, image)
 
     corners, ids, rejected_corners = aruco.detectMarkers(image, aruco_dict, parameters=params)
 
