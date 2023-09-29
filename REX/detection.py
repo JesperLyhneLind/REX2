@@ -131,7 +131,7 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
         #go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
     else:
         turn(Direction.Right, 90)
-        cam.capture_file("billede.jpg" + counter)
+        cam.capture_file("billede" + str(counter) + ".jpg")
         counter =+ counter
     
 
