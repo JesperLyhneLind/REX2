@@ -67,6 +67,11 @@ def iDrive(meters):
 
 
 
+# ASK KIM:
+# - VINKEL TIL KASSEN FRA ROBOT VIRKER VOLDSOM?
+# - DIST GIVER ET ALT FOR LAVT TAL. HVORFOR?
+
+
 def go_to_box(angle_sign, angle, dist, ids):
         dist += 355 # The distance is not accurate and we therefore add a number to it.
         print("going to box")
