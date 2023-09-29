@@ -52,13 +52,11 @@ def turn(dir: Direction, angle: int):
         sleep(angle/90)
         print(arlo.stop())
         sleep(0.1)
-        cam.capture_file("billede_left.jpg")
     else:
         print(arlo.go_diff(40, 40, 1, 0))
         sleep(angle/90)
         print(arlo.stop())
         sleep(0.1)
-        cam.capture_file("billede_right.jpg")
 
 # Drives one meter.
 def driveM(meters):
@@ -99,6 +97,7 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
     image = cam.capture_array("main")
     cv2.imshow(WIN_RF, image)
     cv2.waitKey(1)
+    counter = 0
     # if not image: # Error
         
     #     print("Error!")
@@ -132,6 +131,8 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
         #go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
     else:
         turn(Direction.Right, 90)
+        cam.capture_file("billede.jpg" + counter)
+        counter =+ counter
     
 
     
