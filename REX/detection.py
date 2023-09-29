@@ -49,14 +49,14 @@ class Direction(Enum):
 def turn(dir: Direction, angle: int):
     if dir == Direction.Left:
         print(arlo.go_diff(49, 49, 0, 1))
-        sleep(angle/130)
+        sleep(angle/150)
         print(arlo.stop())
-#        sleep(0.041)
+        sleep(0.021)
     else:
         print(arlo.go_diff(49, 49, 1, 0))
-        sleep(angle/130)
+        sleep(angle/150)
         print(arlo.stop())
-#        sleep(0.041)
+        sleep(0.021)
 
 # Drives one meter.
 def driveM(meters):
@@ -129,7 +129,7 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
         print("ids", ids)
         #go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
     else:
-        turn(Direction.Right, 20)
+        turn(Direction.Right, 90)
     
 
     
