@@ -62,7 +62,7 @@ def turn(dir: Direction, angle: int):
 def iDrive(meters):
     #print(arlo.go_diff(70, 70, 1, 1))
     print(arlo.go_diff(70, 70, 1, 1))
-    sleep(0.95)
+    sleep(1.7*meters)
     print(arlo.stop())
     sleep(0.041)
     # Wait a bit while robot moves forward
@@ -103,10 +103,8 @@ params = aruco.DetectorParameters_create()
 camMatrix = np.matrix([[459.3346823, 0, 612], # 612 px = 161.925 mm
                         [0, 459.3346823, 360],   # 360 px = 95.25 mm
                         [0, 0, 1]])
-print("lige før loop")
 while cv2.waitKey(4) == -1: # Wait for a key pressed event
     # retval, frameReference = cam.read() # Read frame
-    print("inde i loop")
     image = cam.capture_array("main")
     cv2.imshow(WIN_RF, image)
     cv2.waitKey(1)
