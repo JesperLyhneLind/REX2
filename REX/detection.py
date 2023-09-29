@@ -128,9 +128,13 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         # print(arlo.stop())
         arucos = []  # List for containing all ArUCo codes.
         for i in range(len(ids)):
-            # Making a list of tupples containing ids & points.
+            # Making a list of tuples containing ids & points.
             arucos.append((list(corners[i]), list(ids[i])))
-        print("arucos: ", arucos)
+            print("")
+            print("corners: ", list(corners[i]))
+            print("ids: ", list(ids[i]))
+            print("arucos: \n", arucos)
+            print("")
         norms = []
         for i in range(len(tvecs)):
             norms.append(np.linalg.norm(tvecs[i]))
