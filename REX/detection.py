@@ -83,7 +83,7 @@ def go_to_box(angle_sign, angle, dist, ids):
             iDrive(actual_dist)
             #iDrive(1)
         else:
-            iDrive(actual_dists)
+            iDrive(actual_dist)
             #iDrive(1)
 
 params = aruco.DetectorParameters_create()
