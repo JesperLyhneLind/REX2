@@ -49,12 +49,12 @@ class Direction(Enum):
 def turn(dir: Direction, angle: int):
     if dir == Direction.Left:
         print(arlo.go_diff(49, 49, 0, 1))
-        sleep(angle/200)
+        sleep(angle/130)
         print(arlo.stop())
 #        sleep(0.041)
     else:
         print(arlo.go_diff(49, 49, 1, 0))
-        sleep(angle/200)
+        sleep(angle/130)
         print(arlo.stop())
 #        sleep(0.041)
 
