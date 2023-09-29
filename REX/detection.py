@@ -83,10 +83,10 @@ def go_to_box(angle_sign, angle, dist, ids):
         elif angle_sign == 1:
             #turn(Direction.Right, angle)
             turn(Direction.Left, angle)
-            driveM((dist - 800) / 10)
+            iDrive((dist - 800) / 10)
             print(arlo.stop()) 
         else:
-            driveM((dist - 800) / 10)
+            iDrive((dist - 800) / 10)
             print(arlo.stop()) 
 
 params = aruco.DetectorParameters_create()
