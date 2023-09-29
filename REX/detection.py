@@ -67,7 +67,7 @@ def iDrive(meters):
     sleep(1.7*meters)
     # send a stop command
     print(arlo.stop())   
-    sleep(0.041)  
+    sleep(0.18)  
 
 def go_to_box(angle_sign, angle, dist, ids):
         print("going to box")
@@ -75,19 +75,13 @@ def go_to_box(angle_sign, angle, dist, ids):
         print("dist: ", dist)
         print("actual dist:", (dist - 50) / 10)
         if angle_sign == -1:
-            #turn(Direction.Left, angle)
-            turn(Direction.Right, angle) 
-            iDrive((dist - 800) / 10) #drive to box with 50 cm to spare
-            print(arlo.stop()) 
-            
-        elif angle_sign == 1:
-            #turn(Direction.Right, angle)
             turn(Direction.Left, angle)
+            iDrive((dist - 800) / 10) #drive to box with 50 cm to spare
+        elif angle_sign == 1:
+            turn(Direction.Right, angle)
             iDrive((dist - 800) / 10)
-            print(arlo.stop()) 
         else:
             iDrive((dist - 800) / 10)
-            print(arlo.stop()) 
 
 params = aruco.DetectorParameters_create()
 camMatrix = np.matrix([[459.3346823, 0, 612], # 612 px = 161.925 mm
