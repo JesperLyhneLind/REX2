@@ -51,12 +51,12 @@ def turn(dir: Direction, angle: int):
         print(arlo.go_diff(49, 49, 0, 1))
         sleep(angle/150)
         print(arlo.stop())
-        sleep(0.021)
+        sleep(0.050)
     else:
         print(arlo.go_diff(49, 49, 1, 0))
         sleep(angle/150)
         print(arlo.stop())
-        sleep(0.021)
+        sleep(0.050)
 
 # Drives one meter.
 def driveM(meters):
