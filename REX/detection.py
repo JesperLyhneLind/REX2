@@ -72,19 +72,16 @@ def go_to_box(angle_sign, angle, dist, ids):
         print("going to box")
         print("id: ", ids)
         print("dist: ", dist) # in centimeters.
-        print("actual dist:", (dist / 1000)) # in meters.
+        print("actual dist:", dist / 1000) # in meters.
         if angle_sign == -1:
             #turn(Direction.Left, angle)
             #if dist < 800
             iDrive((dist - 200) / 1000) # Stops the robot 2 cm before the box.
-            #iDrive(1)
         elif angle_sign == 1:
             #turn(Direction.Right, angle)
             iDrive((dist - 200) / 1000)
-            #iDrive(1)
         else:
             iDrive((dist - 200) / 1000)
-            #iDrive(1)
 
 params = aruco.DetectorParameters_create()
 camMatrix = np.matrix([[459.3346823, 0, 612], # 612 px = 161.925 mm
@@ -120,5 +117,5 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
         print("angle:", angle)
         print("ids", ids)
         go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
-    #else:
-        #turn(Direction.Right, 45)
+    else:
+        turn(Direction.Right, 45)
