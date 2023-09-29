@@ -59,7 +59,7 @@ def turn(dir: Direction, angle: int):
         sleep(0.18)
 
 # Drives one meter.
-def driveM(meters):
+def iDrive(meters):
     leftSpeed = 70
     rightSpeed = 70
     print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
@@ -75,15 +75,18 @@ def go_to_box(angle_sign, angle, dist, ids):
         print("dist: ", dist)
         print("actual dist:", (dist - 50) / 10)
         if angle_sign == -1:
-            turn(Direction.Left, angle) 
-            driveM((dist - 500) / 100) #drive to box with 50 cm to spare
+            #turn(Direction.Left, angle)
+            turn(Direction.Right, angle) 
+            iDrive((dist - 800) / 10) #drive to box with 50 cm to spare
             print(arlo.stop()) 
+            
         elif angle_sign == 1:
-            turn(Direction.Right, angle)
-            driveM((dist - 500) / 100)
+            #turn(Direction.Right, angle)
+            turn(Direction.Left, angle)
+            driveM((dist - 800) / 10)
             print(arlo.stop()) 
         else:
-            driveM((dist - 500) / 100)
+            driveM((dist - 800) / 10)
             print(arlo.stop()) 
 
 params = aruco.DetectorParameters_create()
