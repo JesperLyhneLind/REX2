@@ -67,6 +67,17 @@ def iDrive(meters):
     print(arlo.stop())   
     sleep(0.18)  
 
+
+    #1m forward
+    #print(arlo.go_diff(33, 33, 1, 1))
+    #sleep(0.25)
+    #print(arlo.go_diff(64, 64.3, 1, 1))
+    #sleep(0.95)
+    #print(arlo.stop())
+    #sleep(0.041)
+
+
+
 def go_to_box(angle_sign, angle, dist, ids):
         print("going to box")
         print("id: ", ids)
