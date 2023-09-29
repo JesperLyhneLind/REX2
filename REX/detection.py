@@ -48,15 +48,15 @@ class Direction(Enum):
 # Turns the robot angle degrees.
 def turn(dir: Direction, angle: int):
     if dir == Direction.Left:
-        print(arlo.go_diff(49, 49, 0, 1))
-        sleep(angle/150)
+        print(arlo.go_diff(40, 40, 0, 1))
+        sleep(angle/100)
         print(arlo.stop())
-        sleep(0.050)
+        sleep(0.070)
     else:
-        print(arlo.go_diff(49, 49, 1, 0))
-        sleep(angle/150)
+        print(arlo.go_diff(40, 40, 1, 0))
+        sleep(angle/100)
         print(arlo.stop())
-        sleep(0.050)
+        sleep(0.070)
 
 # Drives one meter.
 def driveM(meters):
