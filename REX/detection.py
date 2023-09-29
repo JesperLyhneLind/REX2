@@ -131,7 +131,11 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
             # Making a list of tuples containing ids & points.
             arucos.append((list(corners[i]), list(ids[i])))
             print("")
-            print("corners: ", list(corners[i].tolist()))
+            CORNERS = []
+            for sublist in corners:
+                for item in sublist:
+                    CORNERS.append(item)
+            print("corners: ", list(CORNERS[i].tolist()))
             print("ids: ", list(ids[i]))
             print("arucos: \n", arucos)
             print("")
