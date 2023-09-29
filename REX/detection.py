@@ -52,11 +52,13 @@ def turn(dir: Direction, angle: int):
         sleep(angle/90)
         print(arlo.stop())
         sleep(0.1)
+        cam.capture_file("billede_left.jpg")
     else:
         print(arlo.go_diff(40, 40, 1, 0))
         sleep(angle/90)
         print(arlo.stop())
         sleep(0.1)
+        cam.capture_file("billede_right.jpg")
 
 # Drives one meter.
 def driveM(meters):
