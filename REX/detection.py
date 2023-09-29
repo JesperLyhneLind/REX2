@@ -126,6 +126,10 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
 
     if tvecs is not None:
         # print(arlo.stop())
+        arucos = []  # List for containing all ArUCo codes.
+        for i in range(len(ids)):
+            # Making a list of tupples containing ids & points.
+            arucos.append((corners[i], ids[i]))
         norms = []
         for i in range(len(tvecs)):
             norms.append(np.linalg.norm(tvecs[i]))
@@ -141,6 +145,6 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         print("vec:", vec)
         print("angle:", angle)
         print("ids", ids)
-        go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
+        # go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
     else:
         turn(Direction.Right, 45)
