@@ -49,14 +49,14 @@ class Direction(Enum):
 def turn(dir: Direction, angle: int):
     if dir == Direction.Left:
         print(arlo.go_diff(40, 40, 0, 1))
-        sleep(angle/75)
+        sleep(angle/70)
         print(arlo.stop())
-        sleep(0.2)
+        sleep(0.18)
     else:
         print(arlo.go_diff(40, 40, 1, 0))
-        sleep(angle/75)
+        sleep(angle/70)
         print(arlo.stop())
-        sleep(0.2)
+        sleep(0.18)
 
 # Drives one meter.
 def driveM(meters):
