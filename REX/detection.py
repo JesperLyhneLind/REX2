@@ -68,7 +68,7 @@ def iDrive(meters):
 
 
 def go_to_box(angle_sign, angle, dist, ids):
-        dist + 320
+        dist += 320
         print("going to box")
         print("id: ", ids)
         print("dist: ", dist) # dist 678
