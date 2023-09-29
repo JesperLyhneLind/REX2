@@ -75,14 +75,14 @@ def go_to_box(angle_sign, angle, dist, ids):
         if angle_sign == -1:
             #turn(Direction.Left, angle)
             #if dist < 800
-            iDrive((dist - 800) / 10)
+            iDrive((dist - 200) / 100)
             #iDrive(1)
         elif angle_sign == 1:
             #turn(Direction.Right, angle)
-            iDrive((dist - 800) / 10)
+            iDrive((dist - 200) / 100)
             #iDrive(1)
         else:
-            iDrive((dist - 800) / 10)
+            iDrive((dist - 200) / 100)
             #iDrive(1)
 
 params = aruco.DetectorParameters_create()
