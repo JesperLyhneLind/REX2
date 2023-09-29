@@ -130,7 +130,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         for i in range(len(ids)):
             # Making a list of tupples containing ids & points.
             arucos.append((corners[i], ids[i]))
-        print(arucos)
+        print("arucos: ", arucos)
         norms = []
         for i in range(len(tvecs)):
             norms.append(np.linalg.norm(tvecs[i]))
