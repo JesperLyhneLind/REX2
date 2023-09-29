@@ -50,6 +50,7 @@ def turn(dir: Direction, angle: int):
     if dir == Direction.Left:
         print(arlo.go_diff(40, 40, 0, 1))
         sleep(angle/90)
+        
         print(arlo.stop())
         sleep(0.1)
     else:
@@ -133,7 +134,6 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
         turn(Direction.Right, 90)
         cam.capture_file("billede" + str(counter) + ".jpg")
         counter =+ counter
-    # Græder
 
     
 
