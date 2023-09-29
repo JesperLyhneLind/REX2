@@ -50,14 +50,13 @@ def turn(dir: Direction, angle: int):
     if dir == Direction.Left:
         print(arlo.go_diff(40, 40, 0, 1))
         sleep(angle/90)
-        
         print(arlo.stop())
-        sleep(0.1)
+        sleep(1)
     else:
         print(arlo.go_diff(40, 40, 1, 0))
         sleep(angle/90)
         print(arlo.stop())
-        sleep(0.1)
+        sleep(1)
 
 # Drives one meter.
 def driveM(meters):
@@ -132,8 +131,8 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
         #go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
     else:
         turn(Direction.Right, 90)
-        cam.capture_file("billede" + str(counter) + ".jpg")
-        counter =+ counter
+        #cam.capture_file("billede" + str(counter) + ".jpg")
+        #counter =+ counter
 
     
 
