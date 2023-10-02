@@ -126,7 +126,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
             print("ids: ", list(ids[i]))
             print("")
             # Making a list of tuples containing ids & points.
-            arucos.append(tvecs[i,0,0], tvecs[i,0,2], ids[i])
+            arucos.append((tvecs[i,0,0], tvecs[i,0,2], ids[i]))
             print("list of ArUCos: \n", arucos)
             print("")
         norms = []
