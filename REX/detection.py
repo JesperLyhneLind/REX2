@@ -102,6 +102,7 @@ params = aruco.DetectorParameters_create()
 camMatrix = np.matrix([[1803.766667, 0, 640],  # 612 px = 161.925 mm
                        [0, 1803.766667, 360],   # 360 px = 95.25 mm
                        [0, 0, 1]])
+
 while cv2.waitKey(4) == -1:  # Wait for a key pressed event
     # retval, frameReference = cam.read() # Read frame
     image = cam.capture_array("main")
@@ -128,7 +129,8 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
             # Making a list of tuples containing ids & points.
             arucos.append((tvecs[i,0,0], tvecs[i,0,2], ids[i]))
             print("list of ArUCos: \n", arucos)
-            print("")
+            print("aruco[0]", arucos[0])
+            print("aruco[0][0]", (arucos[0])[0])
         norms = []
         for i in range(len(tvecs)):
             norms.append(np.linalg.norm(tvecs[i]))
