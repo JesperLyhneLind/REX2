@@ -132,7 +132,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
             # Converting the array of lists of lists (corners) to a list.
             print("tvecs: ", (tvecs[i])[0], (tvecs[i])[2])
             print("ids: ", list(ids[i]))
-            
+            print("")
             # Making a list of tuples containing ids & points.
             arucos.append(((tvecs[i])[0], (tvecs[i])[2]), ids[i])
             print("arucos: \n", arucos)
