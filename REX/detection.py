@@ -16,8 +16,8 @@ except ImportError:
     exit(-1)
 
 # Open a camera device for capturing
-# imageSize = (1280, 720)
-imageSize = (624, 352)
+#imageSize = (624, 352)
+imageSize = (1280, 720)
 FPS = 30
 cam = picamera2.Picamera2()
 frame_duration_limit = int(1/FPS * 1000000)  # Microseconds
@@ -109,8 +109,8 @@ def go_to_box(angle_sign, angle, dist, ids):
 
 
 params = aruco.DetectorParameters_create()
-camMatrix = np.matrix([[459.3346823, 0, 612],  # 612 px = 161.925 mm
-                       [0, 459.3346823, 360],   # 360 px = 95.25 mm
+camMatrix = np.matrix([[1803.766667, 0, 640],  # 612 px = 161.925 mm
+                       [0, 1803.766667, 360],   # 360 px = 95.25 mm
                        [0, 0, 1]])
 while cv2.waitKey(4) == -1:  # Wait for a key pressed event
     # retval, frameReference = cam.read() # Read frame
