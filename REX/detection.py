@@ -63,8 +63,6 @@ def turn(dir: Direction, angle: int):
         sleep(0.18)
 
 # This method fucking drives ONE meter.
-
-
 def iDrive(meters):
     print(arlo.go_diff(70, 70, 1, 1))
     sleep(2.2*meters)
@@ -132,10 +130,11 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         for i in range(len(ids)):
             print("")
             # Converting the array of lists of lists (corners) to a list.
-            print("tvecs: ", list(tvecs[i]))
+            print("tvecs: ", (tvecs[i])[0], (tvecs[i])[2])
             print("ids: ", list(ids[i]))
+            
             # Making a list of tuples containing ids & points.
-            arucos.append((list(tvecs[i]), list(ids[i])))
+            arucos.append(((tvecs[i])[0], (tvecs[i])[2]), ids[i])
             print("arucos: \n", arucos)
             print("")
         norms = []
