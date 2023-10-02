@@ -84,7 +84,7 @@ def iDrive(meters):
 
 def go_to_box(angle_sign, angle, dist, ids):
     # The distance is not accurate and we therefore add a number to it.
-    dist += 355
+    #dist += 355
     print("going to box")
     print("id: ", ids)
     print("dist: ", dist)  # in centimeters.
