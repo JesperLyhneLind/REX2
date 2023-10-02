@@ -120,32 +120,31 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
     if tvecs is not None:
         # print(arlo.stop())
         arucos = []  # List for containing all ArUCo codes.
+        coordinates = []
+        #  coordinates = np.zeros(1, len(ids), 2)
+        print("coordinates: ", coordinates)
         for i in range(len(ids)):
             print("")
             # Converting the array of lists of lists (corners) to a list.
-            print("tvecs: ", tvecs[i,0,0], tvecs[i,0,2])
-            print("ids: ", list(ids[i]))
-            print("")
+            # print("tvecs: ", tvecs[i,0,0], tvecs[i,0,2])
+            # print("ids: ", list(ids[i]))
+            # print("")
             # Making a list of tuples containing ids & points.
-            arucos.append((tvecs[i,0,0], tvecs[i,0,2], ids[i]))
+            coordinates.append((tvecs[i,0,0], tvecs[i,0,2]))
+            arucos.append((tvecs[i,0,0], tvecs[i,0,2], ids[i,0]))
+            coords_np = np.array(coordinates)
             print("list of ArUCos: \n", arucos)
-            print("aruco[0]", arucos[0])
-            print("aruco[0][0]", (arucos[0])[0])
+            print("coords_np: ", coords_np)
         norms = []
         for i in range(len(tvecs)):
             norms.append(np.linalg.norm(tvecs[i]))
+
         maxvecidx = int(norms.index(min(norms)))
         vec = tvecs[norms.index(min(norms))][0]  # choose the closest vector
         dist = np.linalg.norm(vec)  # distance to the box
         dot = np.dot((vec / dist), z_vector)
         angle = np.degrees(np.arccos(dot))
         angle_sign = np.sign(vec)  # 1 is right, -1 is left
-        print("tvecs:", tvecs)
-        print("norms:", norms)
-        print("maxvecidx:", maxvecidx)
-        print("vec:", vec)
-        print("angle:", angle)
-        print("ids", ids)
         go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
     else:
         turn(Direction.Right, 45)
