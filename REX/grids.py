@@ -31,23 +31,17 @@ class GridOccupancyMap(object):
         
         return self.grid[indices[0], indices[1]] 
 
-    def populate(self, n_obs=6):
+    def populate(self, n_obs, coords):
         """
         generate a grid map with some circle shaped obstacles
         """
-        # arucos = detect.run()
-        origins = np.random.uniform(
-            low=self.map_area[0] + self.map_size[0]*0.2, 
-            high=self.map_area[0] + self.map_size[0]*0.8, 
-            size=(n_obs, 2))
-        
-        radius = np.random.uniform(low=0.1, high=0.3, size=n_obs)
+        radius = np.random.uniform(low=0.2, high=0.2, size=n_obs)
         #fill the grids by checking if the grid centroid is in any of the circle
         for i in range(self.n_grids[0]):
             for j in range(self.n_grids[1]):
                 centroid = np.array([self.map_area[0][0] + self.resolution * (i+0.5), 
                                      self.map_area[0][1] + self.resolution * (j+0.5)])
-                for o, r in zip(origins, radius):
+                for o, r in zip(coords, radius):
                     if np.linalg.norm(centroid - o) <= r:
                         self.grid[i, j] = 1
                         break

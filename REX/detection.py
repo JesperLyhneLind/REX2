@@ -5,6 +5,8 @@ import time
 from time import sleep
 import robot
 from enum import Enum
+import grids as g
+import matplotlib.pyplot as plt
 # import statemachine
 arlo = robot.Robot()
 
@@ -122,7 +124,6 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         arucos = []  # List for containing all ArUCo codes.
         coordinates = []
         #  coordinates = np.zeros(1, len(ids), 2)
-        print("coordinates: ", coordinates)
         for i in range(len(ids)):
             print("")
             # Converting the array of lists of lists (corners) to a list.
@@ -145,6 +146,13 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         dot = np.dot((vec / dist), z_vector)
         angle = np.degrees(np.arccos(dot))
         angle_sign = np.sign(vec)  # 1 is right, -1 is left
+    
+        map = g.GridOccupancyMap()
+        map.populate(len(ids), coords_np)
+        plt.clf()
+        map.draw_map()
+        plt.show()
+
         go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
     else:
         turn(Direction.Right, 45)
