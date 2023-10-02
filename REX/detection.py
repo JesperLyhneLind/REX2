@@ -69,16 +69,8 @@ def iDrive(meters):
     print(arlo.stop())
     sleep(0.18)
 
-
-# ASK KIM:
-# - VINKEL TIL KASSEN FRA ROBOT VIRKER VOLDSOM?
-# - DIST GIVER ET ALT FOR LAVT TAL. HVORFOR?
-# - LISTE AF POINTS (CORNERS[I]) OG IDS[I] - ARRAY OF LISTS OF LISTS?
-
-
 # HUSK:
 # SØRGE FOR EN STRATEGI FOR AT FINDE LANDMARKS
-
 
 def go_to_box(angle_sign, angle, dist, ids):
     # The distance is not accurate and we therefore add a number to it.
@@ -130,7 +122,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         for i in range(len(ids)):
             print("")
             # Converting the array of lists of lists (corners) to a list.
-            print("tvecs: ", (tvecs[i])[0], (tvecs[i])[2])
+            print("tvecs: ", tvecs[i,0,0], tvecs[i,0,2])
             print("ids: ", list(ids[i]))
             print("")
             # Making a list of tuples containing ids & points.
