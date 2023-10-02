@@ -99,8 +99,8 @@ def go_to_box(angle_sign, angle, dist, ids):
 
 
 params = aruco.DetectorParameters_create()
-camMatrix = np.matrix([[1803.766667, 0, 640],  # 612 px = 161.925 mm
-                       [0, 1803.766667, 360],   # 360 px = 95.25 mm
+camMatrix = np.matrix([[1618.7998, 0, 640],  # 612 px = 161.925 mm
+                       [0, 1618.7998, 360],   # 360 px = 95.25 mm
                        [0, 0, 1]])
 while cv2.waitKey(4) == -1:  # Wait for a key pressed event
     # retval, frameReference = cam.read() # Read frame
