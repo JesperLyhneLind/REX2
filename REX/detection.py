@@ -148,7 +148,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         angle_sign = np.sign(vec)  # 1 is right, -1 is left
     
         map = g.GridOccupancyMap()
-        map.populate(len(ids), coords_np)
+        map.populate(map, len(ids), coords_np)
         plt.clf()
         map.draw_map()
         plt.show()
