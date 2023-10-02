@@ -132,14 +132,10 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         for i in range(len(ids)):
             print("")
             # Converting the array of lists of lists (corners) to a list.
-            CORNERS = []
-            for sublist in corners:
-                for item in sublist:
-                    CORNERS.append(item)
-            print("corners: ", list(CORNERS[i].tolist()))
+            print("tvecs: ", list(tvecs[i]))
             print("ids: ", list(ids[i]))
             # Making a list of tuples containing ids & points.
-            arucos.append((list(CORNERS[i]), list(ids[i])))
+            arucos.append((list(tvecs[i]), list(ids[i])))
             print("arucos: \n", arucos)
             print("")
         norms = []
@@ -158,5 +154,5 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         print("angle:", angle)
         print("ids", ids)
         go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
-    #else:
-        #turn(Direction.Right, 45)
+    else:
+        turn(Direction.Right, 45)
