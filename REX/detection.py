@@ -133,10 +133,10 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
             # Making a list of tuples containing ids & points.
             coordinates.append((tvecs[i,0,0], tvecs[i,0,2]))
             arucos.append((tvecs[i,0,0], tvecs[i,0,2], ids[i,0]))
-            print("list of ArUCos: \n", arucos)
-            print("coords_np: ", coords_np)
+            print("list of ArUCos: \n", arucos)       
         norms = []
         coords_np = np.array(coordinates)
+        print("coords_np: ", coords_np)
         for i in range(len(tvecs)):
             norms.append(np.linalg.norm(tvecs[i]))
 
