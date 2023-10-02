@@ -133,10 +133,10 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
             # Making a list of tuples containing ids & points.
             coordinates.append((tvecs[i,0,0], tvecs[i,0,2]))
             arucos.append((tvecs[i,0,0], tvecs[i,0,2], ids[i,0]))
-            coords_np = np.array(coordinates)
             print("list of ArUCos: \n", arucos)
             print("coords_np: ", coords_np)
         norms = []
+        coords_np = np.array(coordinates)
         for i in range(len(tvecs)):
             norms.append(np.linalg.norm(tvecs[i]))
 
@@ -148,7 +148,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         angle_sign = np.sign(vec)  # 1 is right, -1 is left
     
         map = g.GridOccupancyMap()
-        map.populate(map, len(ids), coords_np)
+        map.populate(len(ids), coords_np)
         plt.clf()
         map.draw_map()
         plt.show()
