@@ -7,8 +7,9 @@ import robot
 from enum import Enum
 import grids as g
 import matplotlib.pyplot as plt
-# import statemachine
 arlo = robot.Robot()
+from matplotlib.animation import FFMpegWriter
+import robot_models, rrt
 
 try:
     import picamera2
@@ -143,14 +144,45 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         angle = np.degrees(np.arccos(dot))
         angle_sign = np.sign(vec)  # 1 is right, -1 is left
     
-        map = g.GridOccupancyMap()
-        map.populate(len(ids), coords_np)
-        print(map.in_collision((0, 0)))
-        print(map.in_collision(coords_np[0]))
-        plt.clf()
-        map.draw_map()
-        plt.show()
+        path_res = 1
+        map = g.GridOccupancyMap(low=(-20, 0), high=(20, 20), res=path_res)
+        # plt.clf()
+        # map.draw_map()
+        # plt.show()
 
-        go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
-    else:
-        turn(Direction.Right, 45)
+        robot = robot_models.PointMassModel(ctrl_range=[-1, 1])   
+
+        rrt = rrt.RRT(
+            start=[0, 0],
+            goal=[0, 19.8],
+            robot_model=robot,
+            map=map,
+            expand_dis=0.02,
+            path_resolution=1,
+            )
+        
+        show_animation = True
+        metadata = dict(title="RRT Test")
+        writer = FFMpegWriter(fps=15, metadata=metadata)
+        fig = plt.figure()
+        
+        with writer.saving(fig, "rrt_test.mp4", 100):
+            path = rrt.planning(animation=show_animation, writer=writer)
+
+            if path is None:
+                print("Cannot find path")
+            else:
+                print("found path!!")
+
+                # Draw final path
+                if show_animation:
+                    rrt.draw_graph()
+                    plt.plot([x for (x, y) in path], [y for (x, y) in path], '-r')
+                    plt.grid(True)
+                    plt.pause(0.01)  # Need for Mac
+                    plt.show()
+                    writer.grab_frame()
+
+            # go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
+else:
+    turn(Direction.Right, 45)
