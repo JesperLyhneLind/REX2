@@ -185,12 +185,12 @@ class RRT:
         return True
 
 
-import grid_occ, robot_models
+import grids as g, robot_models
 
 def main():
 
     path_res = 0.05
-    map = grid_occ.GridOccupancyMap(low=(-1, 0), high=(1, 2), res=path_res)
+    map = g.GridOccupancyMap(low=(-1, 0), high=(1, 2), res=path_res)
     map.populate()
 
     robot = robot_models.PointMassModel(ctrl_range=[-path_res, path_res])   

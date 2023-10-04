@@ -149,15 +149,12 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
     
         map = g.GridOccupancyMap()
         map.populate(len(ids), coords_np)
-        print("in collision coord", map.in_collision(coords_np[0]))
-        print("in collision origo", map.in_collision((0,0)))
-        print("in collision outside", map.in_collision((-400, 1000)))
-
-
         plt.clf()
         map.draw_map()
         plt.show()
 
-        go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
+        
+
+        # go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
     else:
         turn(Direction.Right, 45)
