@@ -185,7 +185,7 @@ class RRT:
         return True
 
 
-import grids as g, robot_models
+import grid_occ as g, robot_models
 
 def main():
 
