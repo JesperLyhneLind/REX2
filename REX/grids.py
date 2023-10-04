@@ -37,7 +37,8 @@ class GridOccupancyMap(object):
         """
         radius = np.fill(np.empty(1, n_obs), 1.4)
         print(radius)
-        # np.random.uniform(low=1.4, high=1.4, size=n_obs)
+        check = np.random.uniform(low=1.4, high=1.4, size=n_obs)
+        print(check)
         #fill the grids by checking if the grid centroid is in any of the circle
         for i in range(self.n_grids[0]):
             for j in range(self.n_grids[1]):
