@@ -154,10 +154,10 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
 
         rrt = rrt.RRT(
             start=[0, 0],
-            goal=[0, 19.8],
+            goal=[0, 19],
             robot_model=robot,
             map=map,
-            expand_dis=0.02,
+            expand_dis=1,
             path_resolution=1,
             )
         
