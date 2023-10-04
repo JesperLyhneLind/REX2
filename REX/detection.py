@@ -55,7 +55,7 @@ class Direction(Enum):
 def turn(dir: Direction, angle: int):
     if dir == Direction.Left:
         print(arlo.go_diff(40, 40, 0, 1))
-        sleep(angle/65)
+        sleep(angle/65) 
         print(arlo.stop())
         sleep(0.18)
     else:

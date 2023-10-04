@@ -1,5 +1,6 @@
 """
 
+
 Path planning with Randomized Rapidly-Exploring Random Trees (RRT)
 
 Adapted from 
