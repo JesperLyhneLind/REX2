@@ -146,6 +146,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
     
         path_res = 1
         map = g.GridOccupancyMap(low=(-20, 0), high=(20, 20), res=path_res)
+        map.populate(coords_np, len(ids))
         # plt.clf()
         # map.draw_map()
         # plt.show()
