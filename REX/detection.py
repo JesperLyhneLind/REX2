@@ -150,9 +150,9 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
     
         map = g.GridOccupancyMap()
         map.populate(len(ids), coords_np)
-        plt.clf()
-        map.draw_map()
-        plt.show()
+        # plt.clf()
+        # map.draw_map()
+        # plt.show()
 
         robot = robot_models.PointMassModel(ctrl_range=[-1, 1])   
 
