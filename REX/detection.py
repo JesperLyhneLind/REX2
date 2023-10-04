@@ -158,8 +158,8 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
             robot_model=robot,
             map=map,
             expand_dis=1,
-            path_resolution=1,
-            )
+            path_resolution=path_res,
+        )
         
         show_animation = True
         metadata = dict(title="RRT Test")
