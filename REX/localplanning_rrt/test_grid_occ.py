@@ -28,25 +28,24 @@ class GridOccupancyMap(object):
         for i, ind in enumerate(indices):
             if ind < 0 or ind >= self.n_grids[i]:
                 return 1
-        
+        print(self.grid[indices[0], indices[1]] )
         return self.grid[indices[0], indices[1]] 
 
     def populate(self, n_obs=6):
         """
         generate a grid map with some circle shaped obstacles
         """
-        origins = np.random.uniform(
-            low=self.map_area[0] + self.map_size[0]*0.2, 
-            high=self.map_area[0] + self.map_size[0]*0.8, 
-            size=(n_obs, 2))
-        radius = np.random.uniform(low=1, high=3, size=n_obs)
-        #fill the grids by checking if the grid centroid is in any of the circle
+        origins = np.array([[-6, 10],[0, 3]])
+        radius = np.random.uniform(low=2, high=2, size=n_obs)
+        #fill the grids by checking if we are in the area defined by the radius
+        print(self.map_area)
         for i in range(self.n_grids[0]):
             for j in range(self.n_grids[1]):
-                centroid = np.array([self.map_area[0][0] + self.resolution * (i+0.5), 
-                                     self.map_area[0][1] + self.resolution * (j+0.5)])
+                point = np.array([self.map_area[0][0] + self.resolution * i, 
+                                  self.map_area[0][1] + self.resolution * j])
+                print("point:", point)
                 for o, r in zip(origins, radius):
-                    if np.linalg.norm(centroid - o) <= r:
+                    if o[0]-r <= point[0] < o[0]+r and o[1]-r <= point[1] < o[1]+r:
                         self.grid[i, j] = 1
                         break
 
@@ -59,7 +58,9 @@ if __name__ == '__main__':
     map = GridOccupancyMap(low=(-20, 0), high=(20, 20), res=1)
 
     map.populate()
-
+    print("should be 0: ", map.in_collision((0,0)))
+    print("should be 1: ", map.in_collision((1, 1)))
+    print("should be 1: ", map.in_collision((2, 1)))
     plt.clf()
     map.draw_map()
     plt.show()
