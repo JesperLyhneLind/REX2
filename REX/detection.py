@@ -78,24 +78,24 @@ def go_to_box(angle_sign, angle, dist, ids):
     # The distance is not accurate and we therefore add a number to it.
     #dist += 355
     print("going to box")
-    print("id: ", ids)
-    print("dist: ", dist)  # in centimeters.
-    print("actual dist:", dist / 1000)  # in meters.
+    # print("id: ", ids)
+    # print("dist: ", dist)  # in centimeters.
+    # print("actual dist:", dist / 1000)  # in meters.
     if angle_sign == -1:
-        print("angle: ", angle)
-        print("angle_sign: ", angle_sign)
+        # print("angle: ", angle)
+        # print("angle_sign: ", angle_sign)
         print("turning left with " + str(angle) + " degrees")
         turn(Direction.Left, angle)
         iDrive((dist - 200) / 1000)  # Stops the robot 2 cm before the box.
     elif angle_sign == 1:
-        print("angle: ", angle)
-        print("angle_sign: ", angle_sign)
+        # print("angle: ", angle)
+        # print("angle_sign: ", angle_sign)
         print("turning right with " + str(angle) + " degrees")
         turn(Direction.Right, angle)
         iDrive((dist - 200) / 1000)
     else:
-        print("angle: ", angle)
-        print("angle_sign: ", angle_sign)
+        # print("angle: ", angle)
+        # print("angle_sign: ", angle_sign)
         print("not turning at all")
         iDrive((dist - 200) / 1000)
 
@@ -126,13 +126,9 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         #  coordinates = np.zeros(1, len(ids), 2)
         for i in range(len(ids)):
             print("")
-            # Converting the array of lists of lists (corners) to a list.
-            # print("tvecs: ", tvecs[i,0,0], tvecs[i,0,2])
-            # print("ids: ", list(ids[i]))
-            # print("")
             # Making a list of tuples containing ids & points.
             coordinates.append((tvecs[i,0,0]/100, tvecs[i,0,2]/100)) #coordinates in dm
-            arucos.append((tvecs[i,0,0], tvecs[i,0,2], ids[i,0]))
+            arucos.append((tvecs[i,0,0], tvecs[i,0,2], ids[i,0])) #coordinates in mm and ids
             print("list of ArUCos: \n", arucos)       
         norms = []
         coords_np = np.array(coordinates)
@@ -149,6 +145,8 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
     
         map = g.GridOccupancyMap()
         map.populate(len(ids), coords_np)
+        print(map.in_collision((0, 0)))
+        print(map.in_collision(coords_np[0]))
         plt.clf()
         map.draw_map()
         plt.show()

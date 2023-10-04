@@ -22,7 +22,7 @@ class GridOccupancyMap(object):
 
     def in_collision(self, pos):
         """
-        find if the position is occupied or not. return if the queried pos is outside the map
+        find if the position is occupied or not. return 1 if the queried pos is outside the map
         """
         indices = [int((pos[i] - self.map_area[0][i]) // self.resolution) for i in range(2)]
         for i, ind in enumerate(indices):
