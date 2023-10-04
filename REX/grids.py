@@ -35,10 +35,7 @@ class GridOccupancyMap(object):
         """
         generate a grid map with some circle shaped obstacles
         """
-        radius = np.fill(np.empty(1, n_obs), 1.4)
-        print(radius)
-        check = np.random.uniform(low=1.4, high=1.4, size=n_obs)
-        print(check)
+        radius = np.random.uniform(low=1.4, high=1.4, size=n_obs)
         #fill the grids by checking if the grid centroid is in any of the circle
         for i in range(self.n_grids[0]):
             for j in range(self.n_grids[1]):

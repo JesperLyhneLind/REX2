@@ -193,7 +193,7 @@ def main():
     map = grid_occ.GridOccupancyMap(low=(-1, 0), high=(1, 2), res=path_res)
     map.populate()
 
-    robot = robot_models.PointMassModel(ctrl_range=[-path_res, path_res])   #
+    robot = robot_models.PointMassModel(ctrl_range=[-path_res, path_res])   
 
     rrt = RRT(
         start=[0, 0],
