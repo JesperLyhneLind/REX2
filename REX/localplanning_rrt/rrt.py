@@ -200,7 +200,7 @@ def main():
         goal=[0, 19],
         robot_model=robot,
         map=map,
-        expand_dis=0.2,
+        expand_dis=1,
         path_resolution=path_res,
         )
     
