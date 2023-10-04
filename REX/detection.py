@@ -148,8 +148,8 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         angle = np.degrees(np.arccos(dot))
         angle_sign = np.sign(vec)  # 1 is right, -1 is left
     
-        map = g.GridOccupancyMap()
-        map.populate(len(ids), coords_np)
+        path_res = 1
+        map = g.GridOccupancyMap(low=(-20, 0), high=(20, 20), res=path_res)
         # plt.clf()
         # map.draw_map()
         # plt.show()
@@ -158,10 +158,10 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
 
         rrt = rrt.RRT(
             start=[0, 0],
-            goal=[0, 1.9],
+            goal=[0, 19.8],
             robot_model=robot,
             map=map,
-            expand_dis=0.2,
+            expand_dis=0.02,
             path_resolution=1,
             )
         
