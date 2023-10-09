@@ -108,8 +108,8 @@ def go_to_point(start, end):
     z_vector = np.array([0, 0, 1])
 
     dist = np.linalg.norm(vec)  # distance to the box
-    dot = np.dot((vec / dist), z_vector)
-    angle = np.degrees(np.arccos(dot))
+   # dot = np.dot((vec / dist), z_vector)
+    angle = np.degrees(np.arccos(vec/dist))
     angle_sign = np.sign(vec)  # 1 is right, -1 is left
 
     if angle_sign == -1:

@@ -218,6 +218,9 @@ try:
             # Resampling
             # XXX: You do this
 
+            # Computing particle weights & resamples at the same time.
+            res = SIR(data2, p, q)
+
 
             # Draw detected objects
             cam.draw_aruco_objects(colour)
