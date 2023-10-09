@@ -203,14 +203,9 @@ try:
         if not isinstance(objectIDs, type(None)):
             # List detected objects
             for i in range(len(objectIDs)):
-                id_list = []  # List for containing all ArUCo codes.
-                dist_list = []
-                angle_list = []
                 print("Object ID = ", objectIDs[i], ", Distance = ", dists[i], ", angle = ", angles[i])
                 # XXX: Do something for each detected object - remember, the same ID may appear several times
-                id_list.append(objectIDs[i]) if objectIDs[i] not in id_list else id_list
-                dist_list.append(dists[i]) if dists[i] not in dist_list else dist_list
-
+                objectIDs = list(set(objectIDs)) # removes duplicates of IDs from list.
 
 
 
