@@ -100,6 +100,38 @@ def go_to_box(angle_sign, angle, dist, ids):
         print("not turning at all")
         iDrive((dist - 200) / 1000)
 
+#go to box but instead it goes to a point
+def go_to_point(start, end):
+    dx = end[0] - start[0]
+    dy = end[1] - start[1]   
+    vec = np.arr([dx, dy])
+    z_vector = np.array([0, 0, 1])
+
+    dist = np.linalg.norm(vec)  # distance to the box
+    dot = np.dot((vec / dist), z_vector)
+    angle = np.degrees(np.arccos(dot))
+    angle_sign = np.sign(vec)  # 1 is right, -1 is left
+
+    if angle_sign == -1:
+        # print("angle: ", angle)
+        # print("angle_sign: ", angle_sign)
+        print("turning left with " + str(angle) + " degrees")
+        turn(Direction.Left, angle)
+        iDrive((dist) / 100)  # Stops the robot 2 cm before the box.
+    elif angle_sign == 1:
+        # print("angle: ", angle)
+        # print("angle_sign: ", angle_sign)
+        print("turning right with " + str(angle) + " degrees")
+        turn(Direction.Right, angle)
+        iDrive((dist / 100))
+    else:
+        # print("angle: ", angle)
+        # print("angle_sign: ", angle_sign)
+        print("not turning at all")
+        iDrive((dist) / 100)
+
+    
+    
 
 params = aruco.DetectorParameters_create()
 camMatrix = np.matrix([[1803.766667, 0, 640],  # 612 px = 161.925 mm
@@ -179,6 +211,9 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
                     plt.pause(0.01)  # Need for Mac
                     plt.show()
                     writer.grab_frame()
+                
+                for i in range(len(path)-1):
+                    go_to_point(path[i], path[i+1])
                 
 
             # go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])

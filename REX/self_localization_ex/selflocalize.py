@@ -3,11 +3,12 @@ import particle
 import camera
 import numpy as np
 import time
+from time import sleep
 from timeit import default_timer as timer
 import q1
 from q1 import SIR
 import sys
-
+import detection
 
 # Flags
 showGUI = True  # Whether or not to open GUI windows
@@ -22,8 +23,8 @@ def isRunningOnArlo():
 
 
 if isRunningOnArlo():
-    # XXX: You need to change this path to point to where your robot.py file is located // Done?
-    sys.path.append("../robot.py")
+    # XXX: You need to change this path to point to where your robot.py file is located
+    sys.path.append("../REX/robot.py")
 
 
 try:
@@ -169,34 +170,49 @@ try:
         if not isRunningOnArlo():
             if action == ord('w'): # Forward
                 velocity += 4.0
+                print(otto.go_diff(velocity, velocity, 1, 1))
+                sleep(0.18)
             elif action == ord('x'): # Backwards
                 velocity -= 4.0
+                print(otto.go_diff(velocity, velocity, 0, 0))
+                sleep(0.18)
             elif action == ord('s'): # Stop
                 velocity = 0.0
+                print(otto.stop())
                 angular_velocity = 0.0
             elif action == ord('a'): # Left
                 angular_velocity += 0.2
+                print(otto.go_diff(angular_velocity, angular_velocity, 1, 0))
+                sleep(0.18)
             elif action == ord('d'): # Right
                 angular_velocity -= 0.2
-
-
-
+                print(otto.go_diff(angular_velocity, angular_velocity, 0, 1))
+                sleep(0.18)
         
         # Use motor controls to update particles
         # XXX: Make the robot drive
         # XXX: You do this
-
+        
 
         # Fetch next frame
         colour = cam.get_next_frame()
         
         # Detect objects
         objectIDs, dists, angles = cam.detect_aruco_objects(colour)
+        
         if not isinstance(objectIDs, type(None)):
             # List detected objects
             for i in range(len(objectIDs)):
+                id_list = []  # List for containing all ArUCo codes.
+                dist_list = []
+                angle_list = []
                 print("Object ID = ", objectIDs[i], ", Distance = ", dists[i], ", angle = ", angles[i])
                 # XXX: Do something for each detected object - remember, the same ID may appear several times
+                id_list.append(objectIDs[i]) if objectIDs[i] not in id_list else id_list
+                dist_list.append(dists[i]) if dists[i] not in dist_list else dist_list
+
+
+
 
             # Compute particle weights
             # XXX: You do this
@@ -206,7 +222,7 @@ try:
 
             # Resampling
             # XXX: You do this
-            
+
 
             # Draw detected objects
             cam.draw_aruco_objects(colour)
