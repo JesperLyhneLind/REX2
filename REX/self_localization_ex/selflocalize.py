@@ -143,6 +143,7 @@ try:
     angular_velocity = 0.0 # radians/sec
 
     # Initialize the robot (XXX: You do this)
+    otto = robot.Robot()
 
     # Allocate space for world map
     world = np.zeros((500,500,3), dtype=np.uint8)
@@ -197,6 +198,7 @@ try:
 
             # Compute particle weights
             # XXX: You do this
+            
 
             # Resampling
             # XXX: You do this

@@ -32,7 +32,7 @@ picam2_config = cam.create_video_configuration({"size": imageSize, "format": 'RG
 cam.configure(picam2_config)  # Not really necessary
 cam.start(show_preview=False)
 
-print(cam.camera_configuration())  # Print the camera configuration in use
+# print(cam.camera_configuration())  # Print the camera configuration in use
 
 WIN_RF = "Ottos camera"
 cv2.namedWindow(WIN_RF)
@@ -154,7 +154,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
             goal=[0, 19],
             robot_model=robot,
             map=map,
-            expand_dis=2,
+            expand_dis=5,
             path_resolution=path_res,
         )
         
@@ -170,7 +170,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
                 print("Cannot find path")
             else:
                 print("found path!!")
-
+                print("FINAL PATH:", path)
                 # Draw final path
                 if show_animation:
                     rrt.draw_graph()
@@ -179,7 +179,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
                     plt.pause(0.01)  # Need for Mac
                     plt.show()
                     writer.grab_frame()
-                print("FINAL PATH:", path)
+                
 
             # go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
 else:
