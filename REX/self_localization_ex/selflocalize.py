@@ -4,6 +4,8 @@ import camera
 import numpy as np
 import time
 from timeit import default_timer as timer
+import q1
+from q1 import SIR
 import sys
 
 
@@ -20,7 +22,7 @@ def isRunningOnArlo():
 
 
 if isRunningOnArlo():
-    # XXX: You need to change this path to point to where your robot.py file is located
+    # XXX: You need to change this path to point to where your robot.py file is located // Done?
     sys.path.append("../robot.py")
 
 
@@ -198,10 +200,13 @@ try:
 
             # Compute particle weights
             # XXX: You do this
-            
+            # Bruger SIR fra q1
+            SIR(particles, q1.p, q1.q)
+
 
             # Resampling
             # XXX: You do this
+            
 
             # Draw detected objects
             cam.draw_aruco_objects(colour)
