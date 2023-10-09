@@ -151,8 +151,8 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         # map.draw_map()
         # plt.show()
 
-        robot = robot_models.PointMassModel(ctrl_range=[-1, 1])   
-
+        #robot = robot_models.PointMassModel(ctrl_range=[-1, 1])
+        robot = robot_models.PointMassModel(ctrl_range=[-path_res, path_res])   
         rrt = rrt.RRT(
             start=[0, 0],
             goal=[0, 19],
