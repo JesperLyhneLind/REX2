@@ -158,11 +158,11 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
             goal=[0, 19],
             robot_model=robot,
             map=map,
-            expand_dis=1,
+            expand_dis=2,
             path_resolution=path_res,
         )
         
-        show_animation = True
+        show_animation = False
         metadata = dict(title="RRT Test")
         writer = FFMpegWriter(fps=15, metadata=metadata)
         fig = plt.figure()
