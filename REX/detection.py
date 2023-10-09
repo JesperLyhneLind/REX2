@@ -111,6 +111,8 @@ def go_to_point(start, end):
    # dot = np.dot((vec / dist), z_vector)
     angle = np.degrees(np.arccos(vec/dist))
     angle_sign = np.sign(vec)  # 1 is right, -1 is left
+    print("angle",angle)
+    print("anlgesign",angle_sign)
 
     if angle_sign == -1:
         # print("angle: ", angle)
