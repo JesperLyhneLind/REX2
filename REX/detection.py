@@ -190,7 +190,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
             path_resolution=path_res,
         )
         
-        show_animation = True
+        show_animation = False
         metadata = dict(title="RRT Test")
         writer = FFMpegWriter(fps=2, metadata=metadata)
         fig = plt.figure()
