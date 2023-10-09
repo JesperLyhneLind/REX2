@@ -218,9 +218,11 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
                     plt.show()
                     writer.grab_frame()
                 
+                path_flipped = np.flip(path)
+                print("path flipped:", path_flipped)
                 for i in range(len(path)-1):
                     print("NOW GOIING")
-                    go_to_point(path[i], path[i+1])
+                    go_to_point(path_flipped[i], path_flipped[i+1])
                 
 
             # go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
