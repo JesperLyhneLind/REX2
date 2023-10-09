@@ -196,7 +196,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
             path_resolution=path_res,
         )
         
-        show_animation = False
+        show_animation = True
         metadata = dict(title="RRT Test")
         writer = FFMpegWriter(fps=2, metadata=metadata)
         fig = plt.figure()
@@ -217,12 +217,13 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
                     plt.pause(0.01)  # Need for Mac
                     plt.show()
                     writer.grab_frame()
+                    path_flipped = path.reverse() 
+                    print("path flipped:", path_flipped)
+                    for i in range(len(path)-1):
+                        print("NOW GOIING")
+                        go_to_point(path_flipped[i], path_flipped[i+1])
                 
-                path_flipped = path.reverse() 
-                print("path flipped:", path_flipped)
-                for i in range(len(path)-1):
-                    print("NOW GOIING")
-                    go_to_point(path_flipped[i], path_flipped[i+1])
+                
                 
 
             # go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
