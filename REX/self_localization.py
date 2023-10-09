@@ -38,4 +38,4 @@ map.populate(len(ids), coords_np)
 
 
 def MCL(x, u, z, map):
-    
+    x = (x, y, )
