@@ -58,9 +58,6 @@ if __name__ == '__main__':
     map = GridOccupancyMap(low=(-20, 0), high=(20, 20), res=1)
 
     map.populate()
-    print("should be 0: ", map.in_collision((0,0)))
-    print("should be 1: ", map.in_collision((1, 1)))
-    print("should be 1: ", map.in_collision((2, 1)))
     plt.clf()
     map.draw_map()
     plt.show()
