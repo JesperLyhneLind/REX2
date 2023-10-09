@@ -108,34 +108,33 @@ def go_to_point(start, end):
     z_vector = np.array([0, 1])
 
     dist = np.linalg.norm(vec)  # distance to the box
-    cross_product = np.cross(z_vector, vec)
-    dot_product = np.dot(z_vector, vec)
-    angle = np.arctan2(cross_product, dot_product)
-    angle_degrees = np.degrees(angle)
-    print("angle:", angle_degrees)
+    dot = np.dot((vec / dist), z_vector)
+    angle = np.degrees(np.arccos(dot))
+    angle_sign = np.sign(vec[0])  # 1 is right, -1 is left
+    print("angle",angle)
+    print("anlgesign",angle_sign)
 
     # dot = np.dot((vec / dist), z_vector)
     # angle = np.degrees(np.arccos(dot))
     # angle_sign = np.sign(vec[0])  # 1 is right, -1 is left
 
-    if angle_degrees > 0:
+    if angle_sign == -1:
         # print("angle: ", angle)
         # print("angle_sign: ", angle_sign)
-        print("turning left with " + str(angle_degrees) + " degrees")
-        turn(Direction.Left, abs(angle_degrees))
-        iDrive((dist) / 100)  # Stops the robot 2 cm before the box.
-    elif angle_degrees < 0:
+        print("turning left with " + str(angle) + " degrees")
+        turn(Direction.Left, angle)
+        iDrive((dist) / 10)  # Stops the robot 2 cm before the box.
+    elif angle_sign == 1:
         # print("angle: ", angle)
         # print("angle_sign: ", angle_sign)
-        print("turning right with " + str(angle_degrees) + " degrees")
-        turn(Direction.Right, abs(angle_degrees))
-        iDrive((dist / 10))
+        print("turning right with " + str(angle) + " degrees")
+        turn(Direction.Right, angle)
+        iDrive((dist) / 10)
     else:
         # print("angle: ", angle)
         # print("angle_sign: ", angle_sign)
         print("not turning at all")
         iDrive((dist) / 10)
-
     
     
 

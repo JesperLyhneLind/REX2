@@ -192,7 +192,7 @@ try:
         # Use motor controls to update particles
         # XXX: Make the robot drive
         # XXX: You do this
-        
+        otto.go_diff(particle)
 
         # Fetch next frame
         colour = cam.get_next_frame()
