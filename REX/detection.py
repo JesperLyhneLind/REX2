@@ -104,7 +104,7 @@ def go_to_box(angle_sign, angle, dist, ids):
 def go_to_point(start, end):
     dx = end[0] - start[0]
     dy = end[1] - start[1]   
-    vec = np.arr([dx, dy])
+    vec = np.array([dx, dy])
     z_vector = np.array([0, 0, 1])
 
     dist = np.linalg.norm(vec)  # distance to the box
