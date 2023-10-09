@@ -37,6 +37,7 @@ class GridOccupancyMap(object):
         """
         radius= np.empty((1, n_obs))
         radius.fill(1.85)
+        print(radius)
         #fill the grids by checking if the grid centroid is in any of the circle
         for i in range(self.n_grids[0]):
             for j in range(self.n_grids[1]):
@@ -46,6 +47,7 @@ class GridOccupancyMap(object):
                     if np.linalg.norm(centroid - o) <= r:
                         self.grid[i, j] = 1
                         break
+
         
     
     def draw_map(self):

@@ -1,6 +1,6 @@
 {
     "[python]": {
-        "editor.defaultFormatter": "ms-python.autopep8"
+        "editor.defaultFormatter": "ms-vsliveshare.vsliveshare"
     },
     "python.formatting.provider": "none"
 }
