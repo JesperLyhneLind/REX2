@@ -213,6 +213,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
                     writer.grab_frame()
                 
                 for i in range(len(path)-1):
+                    print("NOW GOIING")
                     go_to_point(path[i], path[i+1])
                 
 
