@@ -35,3 +35,7 @@ coords_np = np.array(coordinates)
 path_res = 1
 map = g.GridOccupancyMap(low=(-20, 0), high=(20, 20), res=path_res)
 map.populate(len(ids), coords_np)
+
+
+def MCL(x, u, z, map):
+    

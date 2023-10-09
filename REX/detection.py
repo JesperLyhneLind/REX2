@@ -147,11 +147,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         path_res = 1
         map = g.GridOccupancyMap(low=(-20, 0), high=(20, 20), res=path_res)
         map.populate(len(ids), coords_np)
-        # plt.clf()
-        # map.draw_map()
-        # plt.show()
 
-        #robot = robot_models.PointMassModel(ctrl_range=[-1, 1])
         robot = robot_models.PointMassModel(ctrl_range=[-path_res, path_res])   
         rrt = rrt.RRT(
             start=[0, 0],
@@ -162,9 +158,9 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
             path_resolution=path_res,
         )
         
-        show_animation = False
+        show_animation = True
         metadata = dict(title="RRT Test")
-        writer = FFMpegWriter(fps=15, metadata=metadata)
+        writer = FFMpegWriter(fps=2, metadata=metadata)
         fig = plt.figure()
         
         with writer.saving(fig, "rrt_test.mp4", 100):
@@ -183,6 +179,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
                     plt.pause(0.01)  # Need for Mac
                     plt.show()
                     writer.grab_frame()
+                print("FINAL PATH:", path)
 
             # go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
 else:
