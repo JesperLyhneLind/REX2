@@ -217,11 +217,12 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
                     plt.pause(0.01)  # Need for Mac
                     plt.show()
                     writer.grab_frame()
-                    path_flipped = path.reverse() 
-                    print("path flipped:", path_flipped)
-                    for i in range(len(path)-1):
-                        print("NOW GOIING")
-                        go_to_point(path_flipped[i], path_flipped[i+1])
+
+                path.reverse() 
+                print("path flipped:", path)
+                for i in range(len(path)-1):
+                    print("NOW GOIING")
+                    go_to_point(path[i], path[i+1])
                 
                 
                 
