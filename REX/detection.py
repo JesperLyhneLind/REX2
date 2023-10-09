@@ -218,7 +218,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
                     plt.show()
                     writer.grab_frame()
                 
-                path_flipped = np.flip(path)
+                path_flipped = path.reverse() 
                 print("path flipped:", path_flipped)
                 for i in range(len(path)-1):
                     print("NOW GOIING")
