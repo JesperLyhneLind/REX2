@@ -118,13 +118,13 @@ def go_to_point(start, end):
     # angle = np.degrees(np.arccos(dot))
     # angle_sign = np.sign(vec[0])  # 1 is right, -1 is left
 
-    if angle_degrees < 0:
+    if angle_degrees > 0:
         # print("angle: ", angle)
         # print("angle_sign: ", angle_sign)
         print("turning left with " + str(angle_degrees) + " degrees")
         turn(Direction.Left, abs(angle_degrees))
         iDrive((dist) / 100)  # Stops the robot 2 cm before the box.
-    elif angle_degrees > 0:
+    elif angle_degrees < 0:
         # print("angle: ", angle)
         # print("angle_sign: ", angle_sign)
         print("turning right with " + str(angle_degrees) + " degrees")
