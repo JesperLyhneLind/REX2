@@ -104,13 +104,13 @@ def go_to_box(angle_sign, angle, dist, ids):
 def go_to_point(start, end):
     dx = end[0] - start[0]
     dy = end[1] - start[1]   
-    vec = np.array([dx,0, dy])
-    z_vector = np.array([0, 0, 1])
+    vec = np.array([dx, dy])
+    z_vector = np.array([0, 1])
 
     dist = np.linalg.norm(vec)  # distance to the box
     dot = np.dot((vec / dist), z_vector)
     angle = np.degrees(np.arccos(dot))
-    angle_sign = np.sign(vec)  # 1 is right, -1 is left
+    angle_sign = np.sign(vec[0])  # 1 is right, -1 is left
     print("angle",angle)
     print("anlgesign",angle_sign)
 
