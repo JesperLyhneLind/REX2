@@ -204,7 +204,7 @@ def main():
         path_resolution=path_res,
         )
     
-    show_animation = True
+    show_animation = False
     metadata = dict(title="RRT Test")
     writer = FFMpegWriter(fps=15, metadata=metadata)
     fig = plt.figure()
