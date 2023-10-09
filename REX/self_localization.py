@@ -1,6 +1,7 @@
 import cv2
 from cv2 import aruco
 import grids as g
+import numpy as np
 
 try:
     import picamera2
@@ -29,6 +30,7 @@ rvecs, tvecs, objPoints = aruco.estimatePoseSingleMarkers(
     corners, 145, camMatrix, None, None)
 
 coordinates = []
+coords_np = np.array(coordinates)
 
 path_res = 1
 map = g.GridOccupancyMap(low=(-20, 0), high=(20, 20), res=path_res)
