@@ -71,7 +71,7 @@ def iDrive(meters):
     sleep(2.6*meters)
     print(arlo.stop())
     sleep(0.18)
-    
+
 # HUSK:
 # SØRGE FOR EN STRATEGI FOR AT FINDE LANDMARKS
 
@@ -187,7 +187,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         robot = robot_models.PointMassModel(ctrl_range=[-path_res, path_res])   
         rrt = rrt.RRT(
             start=[0, 0],
-            goal=[0, ],
+            goal=[0, 39],
             robot_model=robot,
             map=map,
             expand_dis=5,
