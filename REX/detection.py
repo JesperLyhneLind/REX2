@@ -110,12 +110,8 @@ def go_to_point(old, start, end):
     old_dist = np.linalg.norm(old_vec)  
     dot = np.dot(new_vec , old_vec)
     angle = np.degrees(np.arccos(dot/(new_dist*old_dist)))
-
     angle_sign = np.sign(new_vec[0])  # 1 is right, -1 is left
 
-    # dot = np.dot((vec / dist), z_vector)
-    # angle = np.degrees(np.arccos(dot))
-    # angle_sign = np.sign(vec[0])  # 1 is right, -1 is left
 
     if angle_sign == -1:
         # print("angle: ", angle)
@@ -128,12 +124,15 @@ def go_to_point(old, start, end):
         # print("angle_sign: ", angle_sign)
         print("turning right with " + str(angle) + " degrees")
         turn(Direction.Right, angle)
+        print("driving " + str(dist/100) + " m")        
         iDrive((dist) / 10)
     else:
         # print("angle: ", angle)
         # print("angle_sign: ", angle_sign)
         print("not turning at all")
         iDrive((dist) / 10)
+        print("driving " + str(dist/100) + " m")
+
     
     
 
