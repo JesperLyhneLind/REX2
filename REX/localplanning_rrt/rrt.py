@@ -185,7 +185,7 @@ class RRT:
         return True
 
 
-import test_grid_occ as g, robot_models
+import grid_occ as g, robot_models
 
 def main():
 
@@ -209,7 +209,7 @@ def main():
     writer = FFMpegWriter(fps=15, metadata=metadata)
     fig = plt.figure()
     
-    with writer.saving(fig, 'est.mp4', 100):
+    with writer.saving(fig, "rrt_test.mp4", 100):
         path = rrt.planning(animation=show_animation, writer=writer)
 
         if path is None:
