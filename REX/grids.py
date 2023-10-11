@@ -9,7 +9,7 @@ class GridOccupancyMap(object):
     """
 
     """
-    def __init__(self, low=(-20, 0), high=(20, 20), res=1) -> None:
+    def __init__(self, low, high, res) -> None:
         self.map_area = [low, high]    #a rectangular area    
         self.map_size = np.array([high[0]-low[0], high[1]-low[1]])
         self.resolution = res
@@ -46,8 +46,7 @@ class GridOccupancyMap(object):
                     if np.linalg.norm(centroid - o) <= r+2.2:
                         self.grid[i, j] = 1
                         break
-
-        
+    
     
     def draw_map(self):
         #note the x-y axes difference between imshow and plot
