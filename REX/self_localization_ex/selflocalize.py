@@ -12,6 +12,26 @@ import numpy.random as rand
 showGUI = True  # Whether or not to open GUI windows
 onRobot = True # Whether or not we are running on the Arlo robot
 
+try:
+    import picamera2
+    print("Camera.py: Using picamera2 module")
+except ImportError:
+    print("Camera.py: picamera2 module not available")
+    exit(-1)
+
+# Open a camera device for capturing
+#imageSize = (624, 352)
+imageSize = (1280, 720)
+FPS = 30
+cam = picamera2.Picamera2()
+frame_duration_limit = int(1/FPS * 1000000)  # Microseconds
+# Change configuration to set resolution, framerate
+picam2_config = cam.create_video_configuration({"size": imageSize, "format": 'RGB888'},
+                                               controls={"FrameDurationLimits": (
+                                                   frame_duration_limit, frame_duration_limit)},
+                                               queue=False)
+cam.configure(picam2_config)  # Not really necessary
+cam.start(show_preview=False)
 
 def isRunningOnArlo():
     """Return True if we are running on Arlo, otherwise False.
