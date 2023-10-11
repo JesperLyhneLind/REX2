@@ -119,21 +119,21 @@ def go_to_point(old, start, end):
         # print("angle_sign: ", angle_sign)
         print("turning left with " + str(angle) + " degrees")
         turn(Direction.Left, angle)
-        iDrive((new_dist) / 1000)  # Stops the robot 2 cm before the box.
-        print("driving " + str(new_dist/1000) + " m") 
+        iDrive((new_dist) / 10)  # Stops the robot 2 cm before the box.
+        print("driving " + str(new_dist/10) + " m") 
     elif angle_sign == 1:
         # print("angle: ", angle)
         # print("angle_sign: ", angle_sign)
         print("turning right with " + str(angle) + " degrees")
         turn(Direction.Right, angle)
-        print("driving " + str(new_dist/1000) + " m")        
-        iDrive((new_dist) / 1000)
+        print("driving " + str(new_dist/10) + " m")        
+        iDrive((new_dist) / 10)
     else:
         # print("angle: ", angle)
         # print("angle_sign: ", angle_sign)
         print("not turning at all")
-        iDrive((new_dist) / 1000)
-        print("driving " + str(new_dist/1000) + " m")
+        iDrive((new_dist) / 10)
+        print("driving " + str(new_dist/10) + " m")
 
     
     
