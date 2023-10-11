@@ -261,7 +261,13 @@ try:
 
             # Compute particle weights
             # XXX: You do this
-            # LOOK ABOVE.
+
+
+
+            # Bruger SIR fra q1
+            # Spørgsmål til Kim: Skal q have det samme interval som det vi lavede i q1.py
+            SIR(particles, q1.p, q1.q)
+
 
             # Resampling
             # XXX: You do this

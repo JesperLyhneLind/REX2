@@ -101,18 +101,17 @@ def go_to_box(angle_sign, angle, dist, ids):
         iDrive((dist - 200) / 1000)
 
 #go to box but instead it goes to a point
-def go_to_point(start, end):
-    dx = end[0] - start[0]
-    dy = end[1] - start[1]   
-    vec = np.array([dx, dy])
-    z_vector = np.array([0, 1])
+def go_to_point(old, start, end):
+    new_vec = np.array([end[0] - start[0], end[1] - start[1]])
+    old_vec =  np.array([start[0] - old[0], start[1] - old[1]])
 
-    dist = np.linalg.norm(vec)  # distance to the box
-    dot = np.dot((vec / dist), z_vector)
-    angle = np.degrees(np.arccos(dot))
-    angle_sign = np.sign(vec[0])  # 1 is right, -1 is left
-    print("angle",angle)
-    print("anlgesign",angle_sign)
+
+    new_dist = np.linalg.norm(new_vec)  
+    old_dist = np.linalg.norm(old_vec)  
+    dot = np.dot(new_vec , old_vec)
+    angle = np.degrees(np.arccos(dot/(new_dist*old_dist)))
+
+    angle_sign = np.sign(new_vec[0])  # 1 is right, -1 is left
 
     # dot = np.dot((vec / dist), z_vector)
     # angle = np.degrees(np.arccos(dot))
@@ -220,9 +219,11 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
                 path.reverse() 
                 print("path flipped:", path)
                 for i in range(len(path)-1):
-                    print("NOW GOIING")
-                    go_to_point(path[i], path[i+1])
-                
+                    if i == 0:
+                        go_to_point([0,0], [0,1], path[i+1])
+                    else:
+                        go_to_point(path[i-1], path[i], path[i+1])
+                            
                 
                 
 

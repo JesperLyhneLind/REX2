@@ -28,7 +28,6 @@ class GridOccupancyMap(object):
         for i, ind in enumerate(indices):
             if ind < 0 or ind >= self.n_grids[i]:
                 return 1
-        print(self.grid[indices[0], indices[1]] )
         return self.grid[indices[0], indices[1]] 
 
     def populate(self, n_obs=6):
@@ -38,12 +37,10 @@ class GridOccupancyMap(object):
         origins = np.array([[-6, 10],[0, 3]])
         radius = np.random.uniform(low=2, high=2, size=n_obs)
         #fill the grids by checking if we are in the area defined by the radius
-        print(self.map_area)
         for i in range(self.n_grids[0]):
             for j in range(self.n_grids[1]):
                 point = np.array([self.map_area[0][0] + self.resolution * i, 
                                   self.map_area[0][1] + self.resolution * j])
-                print("point:", point)
                 for o, r in zip(origins, radius):
                     if o[0]-r <= point[0] < o[0]+r and o[1]-r <= point[1] < o[1]+r:
                         self.grid[i, j] = 1
