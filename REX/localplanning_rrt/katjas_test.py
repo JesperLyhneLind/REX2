@@ -28,12 +28,6 @@ def go_to_point(old, start, end):
     angle = np.degrees(np.arccos(dot/(new_dist*old_dist)))
 
     angle_sign = np.sign(new_vec[0])  # 1 is right, -1 is left
-    print("angle", angle)
-    print("anlgesign", angle_sign)
-
-    # dot = np.dot((vec / dist), z_vector)
-    # angle = np.degrees(np.arccos(dot))
-    # angle_sign = np.sign(vec[0])  # 1 is right, -1 is left
 
     if angle_sign == -1:
         print("turning left with " + str(angle) + " degrees")
