@@ -5,10 +5,8 @@ import numpy as np
 import time
 from time import sleep
 from timeit import default_timer as timer
-import q1
-from q1 import SIR
 import sys
-import detection
+import numpy.random as rand
 
 # Flags
 showGUI = True  # Whether or not to open GUI windows
@@ -160,6 +158,35 @@ try:
     else:
         cam = camera.Camera(0, 'macbookpro', useCaptureThread = True)
 
+    # SIR-algorithm from q1.py
+    def norm(x, my, sig):
+        return (1/(np.sqrt(2*np.pi))*sig) * (np.e**((-1/2)*((x-my)**2/sig**2)))
+
+    def p(x):
+        return 0.3 * norm(x, 2.0, 1) + 0.4 * norm(x, 5.0, 2) + 0.3 * norm(x, 9.0, 1) 
+
+    def q(x):
+        if 0 <= x < 16:
+            return 1/15
+        else:
+            return 0
+
+    data = rand.uniform(low=0.0, high=15.0, size=20) 
+    data1 = rand.uniform(low=0.0, high=15.0, size=100) 
+    data2 = rand.uniform(low=0.0, high=15.0, size=1000) 
+
+
+    def SIR(data, p, q):
+        w = []
+        w_norm = []
+        for elem in data:
+            w.append(p(elem)/q(elem))
+
+        for elem in w:
+            w_norm.append(elem/(sum(w)))
+
+        return rand.choice(a=data, replace=True, p=w_norm, size=len(data))
+
     while True:
 
         # Move the robot according to user input (only for testing)
@@ -192,7 +219,7 @@ try:
         # Use motor controls to update particles
         # XXX: Make the robot drive
         # XXX: You do this
-        otto.go_diff(particle)
+        # LOOK ABOVE.
 
         # Fetch next frame
         colour = cam.get_next_frame()
@@ -206,11 +233,15 @@ try:
                 print("Object ID = ", objectIDs[i], ", Distance = ", dists[i], ", angle = ", angles[i])
                 # XXX: Do something for each detected object - remember, the same ID may appear several times
                 objectIDs = list(set(objectIDs)) # removes duplicates of IDs from list.
-
+                dists = list(set(dists)) # removes duplicates of distances.
+                angles = list(set(angles)) # removes duplicates of angles.
 
 
             # Compute particle weights
             # XXX: You do this
+
+
+
             # Bruger SIR fra q1
             # Spørgsmål til Kim: Skal q have det samme interval som det vi lavede i q1.py
             SIR(particles, q1.p, q1.q)
@@ -218,10 +249,8 @@ try:
 
             # Resampling
             # XXX: You do this
-
-            # Computing particle weights & resamples at the same time.
-            res = SIR(data2, p, q)
-
+            # LOOK ABOVE (is done in the SIR-algorithm).
+            
 
             # Draw detected objects
             cam.draw_aruco_objects(colour)
