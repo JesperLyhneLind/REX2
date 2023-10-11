@@ -5,3 +5,4 @@ Hvad skal vi gøre linje 207? objectIDs, dists og angles. # XXX: Do something fo
 Spørgsmål til Kim: Skal q have det samme interval som det vi lavede i q1.py
 Are we resampling in the SIR-algorithm?
 Use motor controls to update particles?
+Hvorfor virker camera ik?

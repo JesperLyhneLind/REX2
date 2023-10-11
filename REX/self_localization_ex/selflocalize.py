@@ -1,6 +1,7 @@
 import cv2
 import particle
 import camera
+# from camera import cam as cam
 import numpy as np
 import time
 from time import sleep
@@ -11,27 +12,6 @@ import numpy.random as rand
 # Flags
 showGUI = True  # Whether or not to open GUI windows
 onRobot = True # Whether or not we are running on the Arlo robot
-
-try:
-    import picamera2
-    print("Camera.py: Using picamera2 module")
-except ImportError:
-    print("Camera.py: picamera2 module not available")
-    exit(-1)
-
-# Open a camera device for capturing
-#imageSize = (624, 352)
-imageSize = (1280, 720)
-FPS = 30
-cam = picamera2.Picamera2()
-frame_duration_limit = int(1/FPS * 1000000)  # Microseconds
-# Change configuration to set resolution, framerate
-picam2_config = cam.create_video_configuration({"size": imageSize, "format": 'RGB888'},
-                                               controls={"FrameDurationLimits": (
-                                                   frame_duration_limit, frame_duration_limit)},
-                                               queue=False)
-cam.configure(picam2_config)  # Not really necessary
-cam.start(show_preview=False)
 
 def isRunningOnArlo():
     """Return True if we are running on Arlo, otherwise False.
@@ -247,30 +227,46 @@ try:
         # Detect objects
         objectIDs, dists, angles = cam.detect_aruco_objects(colour)
         
+        def distance_observation_model(d_M, x_i, y_i, d_i, sigma_d):
+            # Calculate the Gaussian PDF
+            pdf_value = (1 / np.sqrt(2 * np.pi * sigma_d**2)) * np.exp(-(d_M - d_i)**2 / (2 * sigma_d**2))
+            return pdf_value
+
         if not isinstance(objectIDs, type(None)):
             # List detected objects
             for i in range(len(objectIDs)):
                 print("Object ID = ", objectIDs[i], ", Distance = ", dists[i], ", angle = ", angles[i])
-                # XXX: Do something for each detected object - remember, the same ID may appear several times
-                objectIDs = list(set(objectIDs)) # removes duplicates of IDs from list.
-                dists = list(set(dists)) # removes duplicates of distances.
-                angles = list(set(angles)) # removes duplicates of angles.
+                # XXX: Do something for each detected object - remember, the same ID may appear several times.
 
+                # Use the camera function to get the measured distance
+                measured_distance = cam.get_object(objectIDs)[1]
+
+                # Find the corresponding true distance to the landmark
+                true_distance = np.sqrt((landmarks[objectID][0] - est_pose.getX())**2 + (landmarks[objectID][1] - est_pose.getY())**2)
+
+                # Use the distance observation model to update particle weights
+                for p in particles:
+                    particle_distance = np.sqrt((landmarks[objectID][0] - p.getX())**2 + (landmarks[objectID][1] - p.getY())**2)
+                    observation_model = distance_observation_model(measured_distance, p.getX(), p.getY(), particle_distance, add_uncertainty(particles, sigma, sigma_d))
+                    p.setWeight(p.getWeight() * observation_model)
+
+                #objectIDs = list(set(objectIDs)) # removes duplicates of IDs from list.
+                #dists = list(set(dists)) # removes duplicates of distances.
+                #angles = list(set(angles)) # removes duplicates of angles.
+
+            # Normalize particle weights
+            total_weight = sum([p.getWeight() for p in particles])
+            for p in particles:
+                p.setWeight(p.getWeight() / total_weight)
 
             # Compute particle weights
             # XXX: You do this
-
-
-
-            # Bruger SIR fra q1
-            # Spørgsmål til Kim: Skal q have det samme interval som det vi lavede i q1.py
-            SIR(particles, q1.p, q1.q)
-
+            # LOOK ABOVE.
 
             # Resampling
             # XXX: You do this
-            # LOOK ABOVE (is done in the SIR-algorithm).
-            
+            particles = SIR([p.getWeight() for p in particles], p, q)
+            particles = SIR_particles(particles, lambda x: x.getWeight(), lambda x: 1.0)  # Assuming a uniform proposal distribution
 
             # Draw detected objects
             cam.draw_aruco_objects(colour)
