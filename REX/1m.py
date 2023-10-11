@@ -7,15 +7,10 @@ import robot
 arlo = robot.Robot()
 
 print("Running ...")
+def iDrive(meters):
+    print(arlo.go_diff(70, 70, 1, 1))
+    sleep(2.2*meters)
+    print(arlo.stop())
+    sleep(0.18)
 
-
-# send a go_diff command to drive forward
-leftSpeed = 64
-rightSpeed = 64
-print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
-
-# Wait a bit while robot moves forward
-sleep(1.5)
-
-# send a stop command
-print(arlo.stop())
+iDrive(1)

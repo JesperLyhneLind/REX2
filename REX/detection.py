@@ -181,13 +181,13 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
         angle_sign = np.sign(vec)  # 1 is right, -1 is left
     
         path_res = 1
-        map = g.GridOccupancyMap(low=(-20, 0), high=(20, 20), res=path_res)
+        map = g.GridOccupancyMap(low=(-10, 0), high=(10, 40), res=path_res)
         map.populate(len(ids), coords_np)
 
         robot = robot_models.PointMassModel(ctrl_range=[-path_res, path_res])   
         rrt = rrt.RRT(
             start=[0, 0],
-            goal=[0, 19],
+            goal=[0, ],
             robot_model=robot,
             map=map,
             expand_dis=5,
@@ -224,9 +224,5 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
                     else:
                         go_to_point(path[i-1], path[i], path[i+1])
                             
-                
-                
-
-            # go_to_box(angle_sign[0], angle, dist, ids[maxvecidx])
-else:
-    turn(Direction.Right, 45)
+    else:
+        turn(Direction.Right, 45)
