@@ -1,7 +1,6 @@
 import cv2
 import particle
 import camera
-# from camera import cam as cam
 import numpy as np
 import time
 from time import sleep
@@ -153,6 +152,7 @@ try:
     draw_world(est_pose, particles, world)
 
     print("Opening and initializing camera")
+    camera = camera.Camera()
     if camera.isRunningOnArlo():
         cam = camera.Camera(0, 'arlo', useCaptureThread = True)
     else:
