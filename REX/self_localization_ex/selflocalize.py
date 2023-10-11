@@ -152,7 +152,7 @@ try:
     draw_world(est_pose, particles, world)
 
     print("Opening and initializing camera")
-    camera = camera.Camera()
+    #camera = camera.Camera()
     if camera.isRunningOnArlo():
         cam = camera.Camera(0, 'arlo', useCaptureThread = True)
     else:
@@ -300,6 +300,11 @@ finally:
     
     # Close all windows
     cv2.destroyAllWindows()
+    
+    if camera.isRunningOnArlo():
+        cam = camera.Camera(0, 'arlo', useCaptureThread = True)
+    else:
+        cam = camera.Camera(0, 'macbookpro', useCaptureThread = True)
 
     # Clean-up capture thread
     cam.terminateCaptureThread()
