@@ -68,10 +68,10 @@ def turn(dir: Direction, angle: int):
 # This method fucking drives ONE meter.
 def iDrive(meters):
     print(arlo.go_diff(70, 70, 1, 1))
-    sleep(2.2*meters)
+    sleep(2.6*meters)
     print(arlo.stop())
     sleep(0.18)
-
+    
 # HUSK:
 # SØRGE FOR EN STRATEGI FOR AT FINDE LANDMARKS
 
