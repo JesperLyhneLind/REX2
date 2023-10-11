@@ -110,7 +110,7 @@ def go_to_point(old, start, end):
     old_dist = np.linalg.norm(old_vec)  
     dot = np.dot(new_vec , old_vec)
     angle = np.degrees(np.arccos(dot/(new_dist*old_dist)))
-
+    print("dist", new_dist)
     angle_sign = np.sign(new_vec[0])  # 1 is right, -1 is left
 
 
@@ -119,21 +119,21 @@ def go_to_point(old, start, end):
         # print("angle_sign: ", angle_sign)
         print("turning left with " + str(angle) + " degrees")
         turn(Direction.Left, angle)
-        iDrive((dist) / 1000)  # Stops the robot 2 cm before the box.
-        print("driving " + str(dist/1000) + " m") 
+        iDrive((new_dist) / 1000)  # Stops the robot 2 cm before the box.
+        print("driving " + str(new_dist/1000) + " m") 
     elif angle_sign == 1:
         # print("angle: ", angle)
         # print("angle_sign: ", angle_sign)
         print("turning right with " + str(angle) + " degrees")
         turn(Direction.Right, angle)
-        print("driving " + str(dist/1000) + " m")        
-        iDrive((dist) / 1000)
+        print("driving " + str(new_dist/1000) + " m")        
+        iDrive((new_dist) / 1000)
     else:
         # print("angle: ", angle)
         # print("angle_sign: ", angle_sign)
         print("not turning at all")
-        iDrive((dist) / 1000)
-        print("driving " + str(dist/1000) + " m")
+        iDrive((new_dist) / 1000)
+        print("driving " + str(new_dist/1000) + " m")
 
     
     
