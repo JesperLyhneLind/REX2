@@ -10,7 +10,7 @@ import numpy.random as rand
 
 # Flags
 showGUI = True  # Whether or not to open GUI windows
-onRobot = True # Whether or not we are running on the Arlo robot
+onRobot = False # Whether or not we are running on the Arlo robot
 
 def isRunningOnArlo():
     """Return True if we are running on Arlo, otherwise False.
@@ -21,7 +21,7 @@ def isRunningOnArlo():
 
 if isRunningOnArlo():
     # XXX: You need to change this path to point to where your robot.py file is located
-    sys.path.append("../REX/robot.py")
+    sys.path.append("robot.py")
 
 
 try:
@@ -143,7 +143,8 @@ try:
     angular_velocity = 0.0 # radians/sec
 
     # Initialize the robot (XXX: You do this)
-    otto = robot.Robot()
+    if onRobot:
+        otto = robot.Robot()
 
     # Allocate space for world map
     world = np.zeros((500,500,3), dtype=np.uint8)
@@ -228,7 +229,7 @@ try:
                 # XXX: Do something for each detected object - remember, the same ID may appear several times.
 
                 # Use the camera function to get the measured distance
-                measured_distance = cam.get_object(objectIDs)[1]
+                objectType, distance, angle, colourProb = cam.get_object(
 
                 # Find the corresponding true distance to the landmark
                 true_distance = np.sqrt((landmarks[objectIDs][0] - est_pose.getX())**2 + (landmarks[objectIDs][1] - est_pose.getY())**2)
