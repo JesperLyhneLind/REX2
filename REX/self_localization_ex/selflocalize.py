@@ -47,10 +47,10 @@ CBLACK = (0, 0, 0)
 
 # Landmarks.
 # The robot knows the position of 2 landmarks. Their coordinates are in the unit centimeters [cm].
-landmarkIDs = [7, 10]
+landmarkIDs = [9, 4]
 landmarks = {
-    7: (0.0, 0.0),  # Coordinates for landmark 1
-    10: (300.0, 0.0)  # Coordinates for landmark 2
+    9: (0.0, 0.0),  # Coordinates for landmark 1
+    4: (200.0, 0.0)  # Coordinates for landmark 2
 }
 landmark_colors = [CRED, CGREEN] # Colors used when drawing the landmarks
 
@@ -237,18 +237,20 @@ try:
 
             # Normalize particle weights
             total_weight = sum([p.getWeight() for p in particles])
+            average_weight = total_weight/len(particles)
             normalized_weights = []
             for par in particles:
                 par.setWeight(par.getWeight() / total_weight)
                 normalized_weights.append(par.getWeight())
-            print("sum n weight: ", sum(normalized_weights))
 
             # Resampling
-            
             r_particles = rand.choice(a=particles, replace=True, p=normalized_weights, size=len(particles))
             particles = [copy.deepcopy(p) for p in r_particles]
             # Draw detected objects
             cam.draw_aruco_objects(colour)
+
+            if average_weight > 2.85e-06:
+                break
         else:
             # No observation - reset weights to uniform distribution
             for p in particles:
@@ -267,7 +269,6 @@ try:
             # Show world
             cv2.imshow(WIN_World, world)
     
-  
 finally: 
     # Make sure to clean up even if an exception occurred
     
@@ -277,3 +278,6 @@ finally:
     # Clean-up capture thread
     cam.terminateCaptureThread()
 
+print("done")
+print(average_weight)
+print(est_pose.getX(), est_pose.getY())
