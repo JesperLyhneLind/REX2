@@ -285,11 +285,14 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
 
                 path.reverse() 
                 print("path flipped:", path)
-                for i in range(len(path)-1):
-                    if i == 0:
-                        go_to_point([0,0], [0,1], path[i+1])
-                    else:
-                        go_to_point(path[i-1], path[i], path[i+1])
+                
+                navigate_route(path, 0)
+                break
+                # for i in range(len(path)-1):
+                #     if i == 0:
+                #         go_to_point([0,0], [0,1], path[i+1])
+                #     else:
+                #         go_to_point(path[i-1], path[i], path[i+1])
                             
     else:
         turn(Direction.Right, 45)
