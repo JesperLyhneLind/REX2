@@ -3,14 +3,14 @@ import particle
 import camera
 import numpy as np
 import time
-from time import sleep
 from timeit import default_timer as timer
 import sys
-import numpy.random as rand
+
 
 # Flags
 showGUI = True  # Whether or not to open GUI windows
-onRobot = False # Whether or not we are running on the Arlo robot
+onRobot = True # Whether or not we are running on the Arlo robot
+
 
 def isRunningOnArlo():
     """Return True if we are running on Arlo, otherwise False.
@@ -21,7 +21,7 @@ def isRunningOnArlo():
 
 if isRunningOnArlo():
     # XXX: You need to change this path to point to where your robot.py file is located
-    sys.path.append("robot.py")
+    sys.path.append("../../../../Arlo/python")
 
 
 try:
@@ -143,8 +143,6 @@ try:
     angular_velocity = 0.0 # radians/sec
 
     # Initialize the robot (XXX: You do this)
-    if onRobot:
-        otto = robot.Robot()
 
     # Allocate space for world map
     world = np.zeros((500,500,3), dtype=np.uint8)
@@ -158,117 +156,51 @@ try:
     else:
         cam = camera.Camera(0, 'macbookpro', useCaptureThread = True)
 
-    # SIR-algorithm from q1.py
-    def norm(x, my, sig):
-        return (1/(np.sqrt(2*np.pi))*sig) * (np.e**((-1/2)*((x-my)**2/sig**2)))
-
-   
-    # skal vel væk pga rigitg data
-    # data = rand.uniform(low=0.0, high=15.0, size=20) 
-    # data1 = rand.uniform(low=0.0, high=15.0, size=100) 
-    # data2 = rand.uniform(low=0.0, high=15.0, size=1000) 
-
-
-    def SIR(data, p, q):
-        w = []
-        w_norm = []
-        for elem in data:
-            w.append(p(elem)/q(elem))
-
-        for elem in w:
-            w_norm.append(elem/(sum(w)))
-
-        return rand.choice(a=data, replace=True, p=w_norm, size=len(data))
-
     while True:
 
         # Move the robot according to user input (only for testing)
         action = cv2.waitKey(10)
         if action == ord('q'): # Quit
             break
-
-        # Use motor controls to update particles
-        # XXX: Make the robot drive
-        #FLYT PARTIKLER
+    
         if not isRunningOnArlo():
             if action == ord('w'): # Forward
                 velocity += 4.0
-                print(otto.go_diff(velocity, velocity, 1, 1))
-                sleep(0.18)
             elif action == ord('x'): # Backwards
                 velocity -= 4.0
-                print(otto.go_diff(velocity, velocity, 0, 0))
-                sleep(0.18)
             elif action == ord('s'): # Stop
                 velocity = 0.0
-                print(otto.stop())
                 angular_velocity = 0.0
             elif action == ord('a'): # Left
                 angular_velocity += 0.2
-                print(otto.go_diff(angular_velocity, angular_velocity, 1, 0))
-                sleep(0.18)
             elif action == ord('d'): # Right
                 angular_velocity -= 0.2
-                print(otto.go_diff(angular_velocity, angular_velocity, 0, 1))
-                sleep(0.18)
 
-        particle.add_uncertainty(particles, 5, 0.5) #noise sigmas are centimeter and radians
+
+
+        
+        # Use motor controls to update particles
+        # XXX: Make the robot drive
+        # XXX: You do this
+
+
         # Fetch next frame
         colour = cam.get_next_frame()
         
         # Detect objects
         objectIDs, dists, angles = cam.detect_aruco_objects(colour)
-        
-        def distance_observation_model(d_M, d_i, sigma_d):
-            # Calculate the Gaussian PDF
-            pdf_value = (1 / np.sqrt(2 * np.pi * sigma_d**2)) * np.exp(-(d_M - d_i)**2 / (2 * sigma_d**2))
-            return pdf_value
-        
-        def angle_observation_model(phi_M, phi_i, sigma_theta):
-            # Calculate the Gaussian PDF
-            pdf_value = (1 / np.sqrt(2 * np.pi * sigma_theta**2)) * np.exp(-(phi_M - phi_i)**2 / (2 * sigma_theta**2))
-            return pdf_value
-
         if not isinstance(objectIDs, type(None)):
             # List detected objects
             for i in range(len(objectIDs)):
                 print("Object ID = ", objectIDs[i], ", Distance = ", dists[i], ", angle = ", angles[i])
-                # XXX: Do something for each detected object - remember, the same ID may appear several times.
-                # Use the camera function to get the measured distance
-                objectType, distance, angle, colourProb = cam.get_object(colour)
-                            
-                # Compute particle weights
-                # Use the distance observation model to update particle weights
-                for par in particles:
-                    #distance
-                    particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + 
-                                                ((landmarks[objectIDs[i]])[1] - par.getY())**2)
-                    sigma_d = 20 # try value 20cm
-                    p_d = distance_observation_model(distance, particle_distance, sigma_d**2)
+                # XXX: Do something for each detected object - remember, the same ID may appear several times
 
-                    #angle
-                    sigma_theta = 0.5 # try value 0.5 radians
-                    uvec_robot = [((landmarks[objectIDs[i]])[0] - par.getX()) / particle_distance, 
-                                  ((landmarks[objectIDs[i]])[1] - par.getY()) / particle_distance]
-                    uvec_orientation = [np.cos(par.getTheta()), np.sin(par.getTheta())]
-                    uvec_orientation_ortho = [- np.sin(par.getTheta()), np.cos(par.getTheta())]
-                    phi_i = np.sign(np.dot(uvec_robot, uvec_orientation_ortho))*np.arccos(np.dot(uvec_robot,uvec_orientation)) 
-                    p_phi = angle_observation_model(angle, phi_i, sigma_theta)
-
-                    p_x = p_d * p_phi
-                    #update weights
-                    par.setWeight(par.getWeight() * p_x)
-
-            # Normalize particle weights
-            total_weight = sum([p.getWeight() for p in particles])
-            normalized_weights = []
-            for par in particles:
-                par.setWeight(par.getWeight() / total_weight)
-                normalized_weights.append(par.getWeight())
+            # Compute particle weights
+            # XXX: You do this
 
             # Resampling
-            particles = rand.choice(a=particles, replace=True, p=normalized_weights, size=len(particles))
-        
+            # XXX: You do this
+
             # Draw detected objects
             cam.draw_aruco_objects(colour)
         else:
@@ -295,7 +227,7 @@ finally:
     
     # Close all windows
     cv2.destroyAllWindows()
-    
+
     # Clean-up capture thread
     cam.terminateCaptureThread()
 
