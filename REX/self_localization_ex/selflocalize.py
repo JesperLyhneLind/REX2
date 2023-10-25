@@ -131,7 +131,7 @@ try:
 
     t1 = time.time()
     # Initialize particles
-    num_particles = 500
+    num_particles = 1000
     particles = initialize_particles(num_particles)
     t2 = time.time()
     est_pose = particle.estimate_pose(particles) # The estimate of the robots current pose
@@ -188,7 +188,7 @@ try:
                 [p.move_particle(5, 0, 0.45) for p in particles]   
                 sleep(0.18)
 
-        particle.add_uncertainty(particles, 5, 0.3) #noise sigmas are centimeter and radians
+        particle.add_uncertainty(particles, 20, 0.3) #noise sigmas are centimeter and radians
         # Fetch next frame
         
         colour = cam.get_next_frame()
@@ -222,11 +222,11 @@ try:
                         t7= time.time()
                         #distance
                         particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
-                        sigma_d = 15 # try value 20cm
+                        sigma_d = 20 # try value 20cm
                         p_d = distance_observation_model(distance, particle_distance, sigma_d**2)
                         t8=time.time()
                         #angle
-                        sigma_theta = 0.25 # try value 0.5 radians
+                        sigma_theta = 0.3 # try value 0.5 radians
                         uvec_robot = [((landmarks[objectIDs[i]])[0] - par.getX()) / particle_distance, 
                                     ((landmarks[objectIDs[i]])[1] - par.getY()) / particle_distance]
                         uvec_orientation = [np.cos(par.getTheta()), np.sin(par.getTheta())]
@@ -253,22 +253,22 @@ try:
             # Draw detected objects
             cam.draw_aruco_objects(colour)
             t13 =time.time()
-            print("(windows)", t1-t0)
-            print("init particles", t2-t1)
-            print("est pose", t3-t2)
-            print("(world) + cam", t4-t3)
-            print("uncertainty", t5-t4)
-            print("detect", t6-t5)
-            print("loops?", t7-t6)
-            print("dist",t8-t7)
-            print("angle",t9-t8)
-            print("weights",t10-t9)
-            print("normalize",t11-t10)
-            print("resample",t12-t11)
-            print("draw",t13-t12)
+            # print("(windows)", t1-t0)
+            # print("init particles", t2-t1)
+            # print("est pose", t3-t2)
+            # print("(world) + cam", t4-t3)
+            # print("uncertainty", t5-t4)
+            # print("detect", t6-t5)
+            # print("loops?", t7-t6)
+            # print("dist",t8-t7)
+            # print("angle",t9-t8)
+            # print("weights",t10-t9)
+            # print("normalize",t11-t10)
+            # print("resample",t12-t11)
+            # print("draw",t13-t12)
             print(np.std(normalized_weights))
 
-            if np.std(normalized_weights) < 0.0015:
+            if np.std(normalized_weights) < 0.00015:
                 break
         
         else:
