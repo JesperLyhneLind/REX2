@@ -10,8 +10,8 @@ import numpy.random as rand
 import copy
 
 # Flags
-showGUI = True  # Whether or not to open GUI windows
-onRobot = False # Whether or not we are running on the Arlo robot
+showGUI = False  # Whether or not to open GUI windows
+onRobot = True # Whether or not we are running on the Arlo robot
 
 def isRunningOnArlo():
     """Return True if we are running on Arlo, otherwise False.
