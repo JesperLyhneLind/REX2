@@ -192,7 +192,7 @@ try:
         colour = cam.get_next_frame()
         
         # Detect objects
-        objectIDs, dists, angles = cam.detect_aruco_objects(colour)
+        d_objectIDs, dists, angles = cam.detect_aruco_objects(colour)
         
         def distance_observation_model(d_M, d_i, sigma_d):
             # Calculate the Gaussian PDF
@@ -204,9 +204,9 @@ try:
             pdf_value = (1 / np.sqrt(2 * np.pi * sigma_theta**2)) * np.exp(-(phi_M - phi_i)**2 / (2 * sigma_theta**2))
             return pdf_value
 
-        if not isinstance(objectIDs, type(None)):
+        if not isinstance(d_objectIDs, type(None)):
             # List detected objects
-            np.unique(objectIDs)
+            objectIDs = np.unique(d_objectIDs)
             for i in range(len(objectIDs)):
                 print("Object ID = ", objectIDs[i], ", Distance = ", dists[i], ", angle = ", angles[i])
                 # XXX: Do something for each detected object - remember, the same ID may appear several times.
@@ -238,7 +238,7 @@ try:
             # Normalize particle weights
             total_weight = sum([p.getWeight() for p in particles])
             average_weight = total_weight/len(particles)
-            normalized_weights = []
+            normalized_weights = []     
             for par in particles:
                 par.setWeight(par.getWeight() / total_weight)
                 normalized_weights.append(par.getWeight())
@@ -249,8 +249,10 @@ try:
             # Draw detected objects
             cam.draw_aruco_objects(colour)
 
-            if average_weight > 2.85e-06:
+            print(np.std(normalized_weights))
+            if np.std(normalized_weights) < 0.0011:
                 break
+        
         else:
             # No observation - reset weights to uniform distribution
             for p in particles:
