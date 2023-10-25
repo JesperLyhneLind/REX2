@@ -7,6 +7,7 @@ from time import sleep
 from timeit import default_timer as timer
 import sys
 import numpy.random as rand
+import copy
 
 # Flags
 showGUI = True  # Whether or not to open GUI windows
@@ -46,16 +47,12 @@ CBLACK = (0, 0, 0)
 
 # Landmarks.
 # The robot knows the position of 2 landmarks. Their coordinates are in the unit centimeters [cm].
-landmarkIDs = [3, 4]
+landmarkIDs = [7, 10]
 landmarks = {
-    3: (0.0, 0.0),  # Coordinates for landmark 1
-    4: (300.0, 0.0)  # Coordinates for landmark 2
+    7: (0.0, 0.0),  # Coordinates for landmark 1
+    10: (300.0, 0.0)  # Coordinates for landmark 2
 }
 landmark_colors = [CRED, CGREEN] # Colors used when drawing the landmarks
-
-
-
-
 
 def jet(x):
     """Colour map for drawing particles. This function determines the colour of 
@@ -113,7 +110,7 @@ def initialize_particles(num_particles):
     particles = []
     for i in range(num_particles):
         # Random starting points. 
-        p = particle.Particle(600.0*np.random.ranf() - 100.0, 600.0*np.random.ranf() - 250.0, np.mod(2.0*np.pi*np.random.ranf(), 2.0*np.pi), 1.0/num_particles)
+        p = particle.Particle(600.0*rand.ranf() - 100.0, 600.0*rand.ranf() - 250.0, np.mod(2.0*np.pi*rand.ranf(), 2.0*np.pi), 1.0/num_particles)
         particles.append(p)
 
     return particles
@@ -172,24 +169,22 @@ try:
         if not isRunningOnArlo():
             if action == ord('w'): # Forward
                 velocity += 4.0
-                print(otto.go_diff(velocity, velocity, 1, 1))
-                par.move_particle
+                [p.move_particle(0, 10, 0) for p in particles]
                 sleep(0.18)
             elif action == ord('x'): # Backwards
                 velocity -= 4.0
-                print(otto.go_diff(velocity, velocity, 0, 0))
+                [p.move_particle(0, -10, 0) for p in particles]
                 sleep(0.18)
             elif action == ord('s'): # Stop
                 velocity = 0.0
-                print(otto.stop())
                 angular_velocity = 0.0
             elif action == ord('a'): # Left
                 angular_velocity += 0.2
-                print(otto.go_diff(angular_velocity, angular_velocity, 1, 0))
+                [p.move_particle(-5, 0, -0.45) for p in particles]         
                 sleep(0.18)
             elif action == ord('d'): # Right
                 angular_velocity -= 0.2
-                print(otto.go_diff(angular_velocity, angular_velocity, 0, 1))
+                [p.move_particle(5, 0, 0.45) for p in particles]   
                 sleep(0.18)
 
         particle.add_uncertainty(particles, 5, 0.5) #noise sigmas are centimeter and radians
@@ -211,6 +206,7 @@ try:
 
         if not isinstance(objectIDs, type(None)):
             # List detected objects
+            np.unique(objectIDs)
             for i in range(len(objectIDs)):
                 print("Object ID = ", objectIDs[i], ", Distance = ", dists[i], ", angle = ", angles[i])
                 # XXX: Do something for each detected object - remember, the same ID may appear several times.
@@ -220,24 +216,24 @@ try:
                 # Compute particle weights
                 # Use the distance observation model to update particle weights
                 for par in particles:
-                    #distance
-                    particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + 
-                                                ((landmarks[objectIDs[i]])[1] - par.getY())**2)
-                    sigma_d = 20 # try value 20cm
-                    p_d = distance_observation_model(distance, particle_distance, sigma_d**2)
+                    if objectIDs[i] in landmarkIDs:
+                        #distance
+                        particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
+                        sigma_d = 15 # try value 20cm
+                        p_d = distance_observation_model(distance, particle_distance, sigma_d**2)
 
-                    #angle
-                    sigma_theta = 0.5 # try value 0.5 radians
-                    uvec_robot = [((landmarks[objectIDs[i]])[0] - par.getX()) / particle_distance, 
-                                  ((landmarks[objectIDs[i]])[1] - par.getY()) / particle_distance]
-                    uvec_orientation = [np.cos(par.getTheta()), np.sin(par.getTheta())]
-                    uvec_orientation_ortho = [- np.sin(par.getTheta()), np.cos(par.getTheta())]
-                    phi_i = np.sign(np.dot(uvec_robot, uvec_orientation_ortho))*np.arccos(np.dot(uvec_robot,uvec_orientation)) 
-                    p_phi = angle_observation_model(angle, phi_i, sigma_theta)
+                        #angle
+                        sigma_theta = 0.25 # try value 0.5 radians
+                        uvec_robot = [((landmarks[objectIDs[i]])[0] - par.getX()) / particle_distance, 
+                                    ((landmarks[objectIDs[i]])[1] - par.getY()) / particle_distance]
+                        uvec_orientation = [np.cos(par.getTheta()), np.sin(par.getTheta())]
+                        uvec_orientation_ortho = [- np.sin(par.getTheta()), np.cos(par.getTheta())]
+                        phi_i = np.sign(np.dot(uvec_robot, uvec_orientation_ortho))*np.arccos(np.dot(uvec_robot,uvec_orientation)) 
+                        p_phi = angle_observation_model(angle, phi_i, sigma_theta)
 
-                    p_x = p_d * p_phi
-                    #update weights
-                    par.setWeight(par.getWeight() * p_x)
+                        p_x = p_d * p_phi
+                        #update weights
+                        par.setWeight(par.getWeight() * p_x)
 
             # Normalize particle weights
             total_weight = sum([p.getWeight() for p in particles])
@@ -245,10 +241,12 @@ try:
             for par in particles:
                 par.setWeight(par.getWeight() / total_weight)
                 normalized_weights.append(par.getWeight())
+            print("sum n weight: ", sum(normalized_weights))
 
             # Resampling
-            particles = rand.choice(a=particles, replace=True, p=normalized_weights, size=len(particles))
-        
+            
+            r_particles = rand.choice(a=particles, replace=True, p=normalized_weights, size=len(particles))
+            particles = [copy.deepcopy(p) for p in r_particles]
             # Draw detected objects
             cam.draw_aruco_objects(colour)
         else:

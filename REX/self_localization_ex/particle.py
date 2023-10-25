@@ -34,6 +34,13 @@ class Particle(object):
     def setWeight(self, val):
         self.weight = val
 
+    def move_particle(self, delta_x, delta_y, delta_theta):
+    #Move the particle by (delta_x, delta_y, delta_theta)"""
+    #Tænker bare det er det her: 
+        self.setX(self.getX() + delta_x)
+        self.setY(self.getY() + delta_y)
+        self.setTheta(self.getTheta() + delta_theta)
+
 
 def estimate_pose(particles_list):
     """Estimate the pose from particles by computing the average position and orientation over all particles. 
@@ -62,12 +69,7 @@ def estimate_pose(particles_list):
     return Particle(x, y, theta)
      
      
-def move_particle(particle, delta_x, delta_y, delta_theta):
-    """Move the particle by (delta_x, delta_y, delta_theta)"""
-    #Tænker bare det er det her: 
-    particle.setX(particle.getX() + delta_x)
-    particle.setY(particle.getY() + delta_y)
-    particle.setTheta(particle.getTheta() + delta_theta)
+
 
 
 def add_uncertainty(particles_list, sigma, sigma_theta):
