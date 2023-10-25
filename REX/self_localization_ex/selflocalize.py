@@ -11,7 +11,7 @@ import copy
 import time
 
 # Flags
-showGUI = False  # Whether or not to open GUI windows
+showGUI = True  # Whether or not to open GUI windows
 onRobot = True # Whether or not we are running on the Arlo robot
 
 def isRunningOnArlo():
@@ -188,7 +188,7 @@ try:
                 [p.move_particle(5, 0, 0.45) for p in particles]   
                 sleep(0.18)
 
-        #particle.add_uncertainty(particles, 5, 0.5) #noise sigmas are centimeter and radians
+        particle.add_uncertainty(particles, 5, 0.3) #noise sigmas are centimeter and radians
         # Fetch next frame
         
         colour = cam.get_next_frame()
@@ -254,7 +254,7 @@ try:
             cam.draw_aruco_objects(colour)
             t13 =time.time()
             print(np.std(normalized_weights))
-            if np.std(normalized_weights) < 0.0022:
+            if np.std(normalized_weights) < 0.0015:
                 break
         
         else:
@@ -287,17 +287,17 @@ finally:
 print("done")
 print(average_weight)
 print(est_pose.getX(), est_pose.getY())
-print("(windows)", t1-t0)
-print("init particles", t2-t1)
-print("est pose", t3-t2)
-print("(world) + cam", t4-t3)
-print("uncertainty", t5-t4)
-print("detect", t6-t5)
-print("loops?", t7-t6)
-print("dist",t8-t7)
-print("angle",t9-t8)
-print("weights",t10-t9)
-print("normalize",t11-t10)
-print("resample",t12-t11)
-print("draw",t13-t12)
-print("est pose",t14-t13)
+# print("(windows)", t1-t0)
+# print("init particles", t2-t1)
+# print("est pose", t3-t2)
+# print("(world) + cam", t4-t3)
+# print("uncertainty", t5-t4)
+# print("detect", t6-t5)
+# print("loops?", t7-t6)
+# print("dist",t8-t7)
+# print("angle",t9-t8)
+# print("weights",t10-t9)
+# print("normalize",t11-t10)
+# print("resample",t12-t11)
+# print("draw",t13-t12)
+# print("est pose",t14-t13)
