@@ -74,7 +74,7 @@ def draw_world(est_pose, particles, world):
     # Constant needed for transforming from world coordinates to screen coordinates (flip the y-axis)
     ymax = world.shape[0]
 
-    world[:] = CWHITE # Clear background to white
+    world[:] = CBLACK # Clear background to white
 
     # Find largest weight
     max_weight = 0
@@ -130,7 +130,7 @@ try:
 
 
     # Initialize particles
-    num_particles = 1000
+    num_particles = 500
     particles = initialize_particles(num_particles)
 
     est_pose = particle.estimate_pose(particles) # The estimate of the robots current pose
