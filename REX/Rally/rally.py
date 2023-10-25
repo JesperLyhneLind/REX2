@@ -34,6 +34,3 @@ def orientation_vector(x, y, theta):
         # Calculate the relative vector.
         dx = landmarks[1][0] - robot_pose.getX
         dy = landmarks[1][1] - robot_pose.getY
-
-        # 
-        orientation_vec = (dx, dy, theta)
