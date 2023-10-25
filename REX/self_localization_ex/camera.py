@@ -9,16 +9,31 @@ from pkg_resources import parse_version
 
 gstreamerCameraFound = False
 piCameraFound = False
+piCamera2Found = False
 try:
     import picamera
     from picamera.array import PiRGBArray
     piCameraFound = True
+    print("Camera.py: Using picamera module")
 except ImportError:
-    print("Camera.py: picamera module not available - using OpenCV interface instead")
+    print("Camera.py: picamera module not available")
+
+try:
+    import picamera2
+    piCamera2Found = True
+    print("Camera.py: Using picamera2 module")
+except ImportError:
+    print("Camera.py: picamera2 module not available")
+
+if not piCameraFound and not piCamera2Found:
+    print("Camera.py: Using OpenCV interface instead")
+
 
 def isRunningOnArlo():
     """Return True if we are running on Arlo, otherwise False."""
-    return piCameraFound or gstreamerCameraFound
+    # TODO: Problematic that gstreamerCameraFound is first set after
+    #  instantiation of a Camera object
+    return piCameraFound or piCamera2Found or gstreamerCameraFound
 
 # Black magic in order to handle differences in namespace names in OpenCV 2.4 and 3.0
 OPCV3 = parse_version(cv2.__version__) >= parse_version('3')
@@ -81,6 +96,11 @@ class CaptureThread(threading.Thread):
                     # Python 2.x
                     image = image.reshape((self.cam.resolution[1], self.cam.resolution[0], 3))
 
+
+            elif piCamera2Found:
+                # TODO: Add support for pycamera2
+                image = self.cam.capture_array("main")
+
             else:  # Use OpenCV
                 retval, image = self.cam.read()  # Read frame
 
@@ -101,13 +121,17 @@ class Camera(object):
     """This class is responsible for doing the image processing. It detects known landmarks and 
     measures distances and orientations to these."""
     
-    def __init__(self, camidx, robottype='arlo', useCaptureThread = False):
+    def __init__(self, camidx, robottype='arlo', useCaptureThread=False):
         """Constructor:
              camidx - index of camera
              robottype - specify which robot you are using in order to use the correct camera calibration. 
                          Supported types: arlo, frindo, scribbler, macbookpro"""
 
+        print("robottype =", robottype)
         self.useCaptureThread = useCaptureThread
+
+        # TODO: Use this in the different camera configurations
+        self.FPS = 5 # Framerate
 
         # Set camera calibration info
         if robottype == 'arlo':
@@ -116,13 +140,13 @@ class Camera(object):
             #       7.0564929862291285e+02, 2.5634470978315028e+02, 0., 0., 1. ], dtype = np.float64)
             #self.intrinsic_matrix = np.asarray([ 6.0727040957659040e+02, 0., 3.0757300398967601e+02, 0.,
             #       6.0768864690145904e+02, 2.8935674612358201e+02, 0., 0., 1. ], dtype = np.float64)
-            self.intrinsic_matrix = np.asarray([500, 0., self.imageSize[0] / 2.0, 0.,
-                   500, self.imageSize[1] / 2.0, 0., 0., 1.], dtype = np.float64)
+            self.intrinsic_matrix = np.asarray([1687.0, 0., self.imageSize[0] / 2.0, 0.,
+                   1687.0, self.imageSize[1] / 2.0, 0., 0., 1.], dtype = np.float64)
             self.intrinsic_matrix.shape = (3, 3)
             #self.distortion_coeffs = np.asarray([ 1.1911006165076067e-01, -1.0003366233413549e+00,
             #       1.9287903277399834e-02, -2.3728201444308114e-03, -2.8137265581326476e-01 ], dtype = np.float64)
             self.distortion_coeffs = np.asarray([0., 0., 2.0546093607192093e-02, -3.5538453075048249e-03, 0.], dtype = np.float64)
-        if robottype == 'frindo':
+        elif robottype == 'frindo':
             self.imageSize = (640, 480)
             #self.intrinsic_matrix = np.asarray([ 7.1305391967046853e+02, 0., 3.1172820723774367e+02, 0.,
             #       7.0564929862291285e+02, 2.5634470978315028e+02, 0., 0., 1. ], dtype = np.float64)
@@ -188,6 +212,19 @@ class Camera(object):
             print("Camera height = ", self.cam.resolution[1])
             print("Camera FPS = ", self.cam.framerate)
 
+        elif piCamera2Found:
+            # TODO: Add support for pycamera2
+            self.cam = picamera2.Picamera2()
+            #self.picam2_config = self.cam.create_still_configuration()
+            frame_duration_limit = int(1/self.FPS * 1000000) # Microseconds
+            # TODO: Change configuration to set resolution, framerate
+            self.picam2_config = self.cam.create_video_configuration({"size": self.imageSize, "format": 'RGB888'},
+                                                                     controls={"FrameDurationLimits": (frame_duration_limit, frame_duration_limit)},
+                                                                     queue=False)
+            self.cam.configure(self.picam2_config) # Not really necessary
+            self.cam.start(show_preview=False)
+
+            time.sleep(1)  # wait for camera to setup
 
         else:  # Use OpenCV interface
 
@@ -242,14 +279,17 @@ class Camera(object):
         # Initialize worker thread and framebuffer
         if self.useCaptureThread:
             print("Using capture thread")
-            self.framebuffer = framebuffer.FrameBuffer()
+            self.framebuffer = framebuffer.FrameBuffer((self.imageSize[1], self.imageSize[0], 3))
             self.capturethread = CaptureThread(self.cam, self.framebuffer)
             self.capturethread.start()
             time.sleep(0.75)
 
     def __del__(self):
-        if piCameraFound:
+
+        # TODO: Add support for pycamera2
+        if piCameraFound or piCamera2Found:
             self.cam.close()
+
         
     def terminateCaptureThread(self):
         if self.useCaptureThread:
@@ -274,15 +314,20 @@ class Camera(object):
                 img = np.array((self.imageSize[0], self.imageSize[1], 3), dtype=np.uint8)
                         
         else:
+
             if piCameraFound:
-                # Use piCamera
+                # Use picamera module
             
                 self.cam.capture(self.rawCapture, format="bgr", use_video_port=True)
                 img = self.rawCapture.array
             
                 # clear the stream in preparation for the next frame
                 self.rawCapture.truncate(0)
-            
+
+            elif piCamera2Found:
+                # Use pycamera2 module
+                img = self.cam.capture_array("main")
+
             else: # Use OpenCV
                 retval, img = self.cam.read()  # Read frame
 
@@ -457,9 +502,10 @@ class Camera(object):
 if (__name__=='__main__'):
     print("Opening and initializing camera")
     
-    cam = Camera(0, 'macbookpro', useCaptureThread = True)
+    #cam = Camera(0, 'macbookpro', useCaptureThread=True)
     #cam = Camera(0, 'macbookpro', useCaptureThread = False)
-    #cam = Camera(0, 'arlo', useCaptureThread = True)
+    #cam = Camera(0, robottype='arlo', useCaptureThread=True)
+    cam = Camera(0, robottype='arlo', useCaptureThread=False)
     
     # Open a window
     WIN_RF1 = "Camera view"
@@ -488,12 +534,12 @@ if (__name__=='__main__'):
         #gray = cv2.convertScaleAbs(loggray)
         
         # Detect objects
-        objectType, distance, angle, colourProb = cam.get_object(colour)
-        if objectType != 'none':
-            print("Object type = ", objectType, ", distance = ", distance, ", angle = ", angle, ", colourProb = ", colourProb)
+        #objectType, distance, angle, colourProb = cam.get_object(colour)
+        #if objectType != 'none':
+        #    print("Object type = ", objectType, ", distance = ", distance, ", angle = ", angle, ", colourProb = ", colourProb)
 
         # Draw detected pattern
-        cam.draw_object(colour)
+        #cam.draw_object(colour)
 
         IDs, dists, angles = cam.detect_aruco_objects(colour)
         if not isinstance(IDs, type(None)):
