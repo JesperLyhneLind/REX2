@@ -253,7 +253,21 @@ try:
             # Draw detected objects
             cam.draw_aruco_objects(colour)
             t13 =time.time()
+            print("(windows)", t1-t0)
+            print("init particles", t2-t1)
+            print("est pose", t3-t2)
+            print("(world) + cam", t4-t3)
+            print("uncertainty", t5-t4)
+            print("detect", t6-t5)
+            print("loops?", t7-t6)
+            print("dist",t8-t7)
+            print("angle",t9-t8)
+            print("weights",t10-t9)
+            print("normalize",t11-t10)
+            print("resample",t12-t11)
+            print("draw",t13-t12)
             print(np.std(normalized_weights))
+
             if np.std(normalized_weights) < 0.0015:
                 break
         
@@ -264,7 +278,6 @@ try:
 
 
         est_pose = particle.estimate_pose(particles) # The estimate of the robots current pose
-        t14=time.time()
         if showGUI:
             # Draw map
             draw_world(est_pose, particles, world)
@@ -287,17 +300,4 @@ finally:
 print("done")
 print(average_weight)
 print(est_pose.getX(), est_pose.getY())
-print("(windows)", t1-t0)
-print("init particles", t2-t1)
-print("est pose", t3-t2)
-print("(world) + cam", t4-t3)
-print("uncertainty", t5-t4)
-print("detect", t6-t5)
-print("loops?", t7-t6)
-print("dist",t8-t7)
-print("angle",t9-t8)
-print("weights",t10-t9)
-print("normalize",t11-t10)
-print("resample",t12-t11)
-print("draw",t13-t12)
-print("est pose",t14-t13)
+
