@@ -158,27 +158,6 @@ try:
     else:
         cam = camera.Camera(0, 'macbookpro', useCaptureThread = True)
 
-    # SIR-algorithm from q1.py
-    def norm(x, my, sig):
-        return (1/(np.sqrt(2*np.pi))*sig) * (np.e**((-1/2)*((x-my)**2/sig**2)))
-
-   
-    # skal vel væk pga rigitg data
-    # data = rand.uniform(low=0.0, high=15.0, size=20) 
-    # data1 = rand.uniform(low=0.0, high=15.0, size=100) 
-    # data2 = rand.uniform(low=0.0, high=15.0, size=1000) 
-
-
-    def SIR(data, p, q):
-        w = []
-        w_norm = []
-        for elem in data:
-            w.append(p(elem)/q(elem))
-
-        for elem in w:
-            w_norm.append(elem/(sum(w)))
-
-        return rand.choice(a=data, replace=True, p=w_norm, size=len(data))
 
     while True:
 
@@ -194,6 +173,7 @@ try:
             if action == ord('w'): # Forward
                 velocity += 4.0
                 print(otto.go_diff(velocity, velocity, 1, 1))
+                par.move_particle
                 sleep(0.18)
             elif action == ord('x'): # Backwards
                 velocity -= 4.0
