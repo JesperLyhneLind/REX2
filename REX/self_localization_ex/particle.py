@@ -1,5 +1,6 @@
 import numpy as np
 import random_numbers as rn
+import time
 
 
 class Particle(object):
@@ -68,10 +69,6 @@ def estimate_pose(particles_list):
         
     return Particle(x, y, theta)
      
-     
-
-
-
 def add_uncertainty(particles_list, sigma, sigma_theta):
     """Add some noise to each particle in the list. Sigma and sigma_theta is the noise
     variances for position and angle noise."""
@@ -80,7 +77,7 @@ def add_uncertainty(particles_list, sigma, sigma_theta):
         particle.y += rn.randn(0.0, sigma)
         particle.theta = np.mod(particle.theta + rn.randn(0.0, sigma_theta), 2.0 * np.pi) 
 
-
+    
 def add_uncertainty_von_mises(particles_list, sigma, theta_kappa):
     """Add some noise to each particle in the list. Sigma and theta_kappa is the noise
     variances for position and angle noise."""
