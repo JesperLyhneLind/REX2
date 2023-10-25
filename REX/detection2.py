@@ -101,41 +101,107 @@ def go_to_box(angle_sign, angle, dist, ids):
         iDrive((dist - 200) / 1000)
 
 #go to box but instead it goes to a point
-def go_to_point(old, start, end):
-    new_vec = np.array([end[0] - start[0], end[1] - start[1]])
-    old_vec =  np.array([start[0] - old[0], start[1] - old[1]])
+# def go_to_point(old, start, end):
+#     new_vec = np.array([end[0] - start[0], end[1] - start[1]])
+#     old_vec =  np.array([start[0] - old[0], start[1] - old[1]])
 
 
-    new_dist = np.linalg.norm(new_vec)  
-    old_dist = np.linalg.norm(old_vec)  
-    dot = np.dot(new_vec , old_vec)
-    angle = np.degrees(np.arccos(dot/(new_dist*old_dist)))
-    print("dist", new_dist)
-    angle_sign = np.sign(new_vec[0])  # 1 is right, -1 is left
+#     new_dist = np.linalg.norm(new_vec)  
+#     old_dist = np.linalg.norm(old_vec)  
+#     dot = np.dot(new_vec , old_vec)
+#     angle = np.degrees(np.arccos(dot/(new_dist*old_dist)))
+#     print("dist", new_dist)
+#     angle_sign = np.sign(new_vec[0])  # 1 is right, -1 is left
 
 
-    if angle_sign == -1:
-        # print("angle: ", angle)
-        # print("angle_sign: ", angle_sign)
-        print("turning left with " + str(angle) + " degrees")
-        turn(Direction.Left, angle)
-        iDrive((new_dist) / 10)  # Stops the robot 2 cm before the box.
-        print("driving " + str(new_dist/10) + " m") 
-    elif angle_sign == 1:
-        # print("angle: ", angle)
-        # print("angle_sign: ", angle_sign)
-        print("turning right with " + str(angle) + " degrees")
-        turn(Direction.Right, angle)
-        print("driving " + str(new_dist/10) + " m")        
-        iDrive((new_dist) / 10)
-    else:
-        # print("angle: ", angle)
-        # print("angle_sign: ", angle_sign)
-        print("not turning at all")
-        iDrive((new_dist) / 10)
-        print("driving " + str(new_dist/10) + " m")
+#     if angle_sign == -1:
+#         # print("angle: ", angle)
+#         # print("angle_sign: ", angle_sign)
+#         print("turning left with " + str(angle) + " degrees")
+#         turn(Direction.Left, angle)
+#         iDrive((new_dist) / 10)  # Stops the robot 2 cm before the box.
+#         print("driving " + str(new_dist/10) + " m") 
+#     elif angle_sign == 1:
+#         # print("angle: ", angle)
+#         # print("angle_sign: ", angle_sign)
+#         print("turning right with " + str(angle) + " degrees")
+#         turn(Direction.Right, angle)
+#         print("driving " + str(new_dist/10) + " m")        
+#         iDrive((new_dist) / 10)
+#     else:
+#         # print("angle: ", angle)
+#         # print("angle_sign: ", angle_sign)
+#         print("not turning at all")
+#         iDrive((new_dist) / 10)
+#         print("driving " + str(new_dist/10) + " m")
 
-    
+
+
+
+
+
+
+
+
+import math
+
+def calculate_distance_and_angle(current_point, next_point):
+    # Calculate the vector from current_point to next_point
+    V_x = next_point[0] - current_point[0]
+    V_y = next_point[1] - current_point[1]
+
+    # Calculate distance between current_point and next_point
+    distance = math.sqrt(V_x**2 + V_y**2)
+
+    # Calculate angle between current_point and next_point (in radians)
+    angle = math.atan2(V_y, V_x)
+
+    return distance, angle
+
+def calculate_signed_angle(current_point, next_point, current_angle):
+    # Calculate vectors
+    V_x = next_point[0] - current_point[0]
+    V_y = next_point[1] - current_point[1]
+    U_x = math.cos(current_angle)
+    U_y = math.sin(current_angle)
+
+    # Calculate signed angle between U and V
+    signed_angle = math.atan2(U_x * V_y - U_y * V_x, U_x * V_x + U_y * V_y)
+
+    return signed_angle
+
+def navigate_route(route, current_angle):
+    current_point = route[0]
+
+    for i in range(1, len(route)):
+        next_point = route[i]
+        signed_angle = calculate_signed_angle(current_point, next_point, current_angle)
+        distance, _ = calculate_distance_and_angle(current_point, next_point)
+
+        # Drive the calculated distance
+        #drive_one_meter(distance)
+        iDrive(distance)
+        # Turn in the appropriate direction (clockwise for negative angles, counterclockwise for positive angles)
+        if signed_angle > 0:
+            #turn_specified_angle(counterclockwise_angle)
+            turn(Direction.Left, angle)
+        else:
+            #turn_specified_angle(clockwise_angle)
+            turn(Direction.Right, angle)
+
+        # Update the current point and angle
+        current_point = next_point
+        current_angle += signed_angle
+
+
+
+
+
+
+
+
+
+
     
 
 params = aruco.DetectorParameters_create()
@@ -221,7 +287,7 @@ while cv2.waitKey(4) == -1:  # Wait for a key pressed event
                 print("path flipped:", path)
                 for i in range(len(path)-1):
                     if i == 0:
-                        go_to_point([0,0], path[i], path[i+1])
+                        go_to_point([0,0], [0,1], path[i+1])
                     else:
                         go_to_point(path[i-1], path[i], path[i+1])
                             
