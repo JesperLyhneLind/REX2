@@ -34,3 +34,13 @@ def orientation_vector(x, y, theta):
         # Calculate the relative vector.
         dx = landmarks[1][0] - robot_pose.getX
         dy = landmarks[1][1] - robot_pose.getY
+
+        # Calculate the magnitude of the vector.
+        magnitude = math.sqrt(dx**2 + dy**2)
+
+        # Normalize the vector by dividing each component by the magnitude.
+        dx_norm = dx / magnitude
+        dy_norm = dy / magnitude
+
+        # Returns the orientation-vector.
+        return (dx_norm, dy_norm)

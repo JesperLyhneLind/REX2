@@ -9,6 +9,7 @@ import sys
 import numpy.random as rand
 import copy
 import time
+import math
 
 # Flags
 showGUI = True  # Whether or not to open GUI windows
@@ -188,7 +189,7 @@ try:
                 [p.move_particle(5, 0, 0.45) for p in particles]   
                 sleep(0.18)
 
-        particle.add_uncertainty(particles, 20, 0.3) #noise sigmas are centimeter and radians
+        particle.add_uncertainty_von_mises(particles, 20, 0.3) #noise sigmas are centimeter and radians
         # Fetch next frame
         
         colour = cam.get_next_frame()
@@ -198,12 +199,12 @@ try:
         t6=time.time()
         def distance_observation_model(d_M, d_i, sigma_d):
             # Calculate the Gaussian PDF
-            pdf_value = (1 / np.sqrt(2 * np.pi * sigma_d**2)) * np.exp(-(d_M - d_i)**2 / (2 * sigma_d**2))
+            pdf_value = (1 / np.sqrt(2 * np.pi * sigma_d**2)) * math.exp(-(d_M - d_i)**2 / (2 * sigma_d**2))
             return pdf_value
         
         def angle_observation_model(phi_M, phi_i, sigma_theta):
             # Calculate the Gaussian PDF
-            pdf_value = (1 / np.sqrt(2 * np.pi * sigma_theta**2)) * np.exp(-(phi_M - phi_i)**2 / (2 * sigma_theta**2))
+            pdf_value = (1 / np.sqrt(2 * np.pi * sigma_theta**2)) * math.exp(-(phi_M - phi_i)**2 / (2 * sigma_theta**2))
             return pdf_value
 
         if not isinstance(d_objectIDs, type(None)):
@@ -226,7 +227,7 @@ try:
                         p_d = distance_observation_model(distance, particle_distance, sigma_d**2)
                         t8=time.time()
                         #angle
-                        sigma_theta = 0.3 # try value 0.5 radians
+                        sigma_theta = 0.3# try value 0.3 radians
                         uvec_robot = [((landmarks[objectIDs[i]])[0] - par.getX()) / particle_distance, 
                                     ((landmarks[objectIDs[i]])[1] - par.getY()) / particle_distance]
                         uvec_orientation = [np.cos(par.getTheta()), np.sin(par.getTheta())]
@@ -240,7 +241,6 @@ try:
                         t10=time.time()
             # Normalize particle weights
             total_weight = sum([p.getWeight() for p in particles])
-            average_weight = total_weight/len(particles)
             normalized_weights = []     
             for par in particles:
                 par.setWeight(par.getWeight() / total_weight)
@@ -298,6 +298,5 @@ finally:
     cam.terminateCaptureThread()
 
 print("done")
-print(average_weight)
-print(est_pose.getX(), est_pose.getY())
+print("est_pose:", est_pose.getX(), est_pose.getY())
 
