@@ -157,7 +157,7 @@ try:
     else:
         cam = camera.Camera(0, 'macbookpro', useCaptureThread = True)
 
-    t4 = time.time()
+    #t4 = time.time()
     while True:
 
         # Move the robot according to user input (only for testing)
@@ -188,12 +188,14 @@ try:
                 angular_velocity -= 0.2
                 [p.move_particle(5, 0, 0.45) for p in particles]   
                 sleep(0.18)
-
-        particle.add_uncertainty_von_mises(particles, 20, 0.3) #noise sigmas are centimeter and radians
+        t4 = time.time()
+        #particle.add_uncertainty_von_mises(particles, 20, 0.3) #noise sigmas are centimeter and radians
+        particle.add_uncertainty(particles, 5, 0.05) #noise sigmas are centimeter and radians
         # Fetch next frame
+        t5=time.time()
         
         colour = cam.get_next_frame()
-        t5=time.time()
+        #t5=time.time()
         # Detect objects
         d_objectIDs, dists, angles = cam.detect_aruco_objects(colour)
         t6=time.time()
@@ -224,10 +226,10 @@ try:
                         #distance
                         particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
                         sigma_d = 20 # try value 20cm
-                        p_d = distance_observation_model(distance, particle_distance, sigma_d**2)
+                        p_d = distance_observation_model(distance, particle_distance, sigma_d)
                         t8=time.time()
                         #angle
-                        sigma_theta = 0.3# try value 0.3 radians
+                        sigma_theta = 0.05# try value 0.3 radians
                         uvec_robot = [((landmarks[objectIDs[i]])[0] - par.getX()) / particle_distance, 
                                     ((landmarks[objectIDs[i]])[1] - par.getY()) / particle_distance]
                         uvec_orientation = [np.cos(par.getTheta()), np.sin(par.getTheta())]
@@ -248,7 +250,9 @@ try:
             t11=time.time()
             # Resampling
             r_particles = rand.choice(a=particles, replace=True, p=normalized_weights, size=len(particles))
-            particles = [copy.deepcopy(p) for p in r_particles]
+            #particles = [copy.deepcopy(p) for p in r_particles]
+            particles = [particle.Particle(p.getX(), p.getY(), p.getTheta(), p.getWeight()) for p in r_particles]
+            
             t12=time.time()
             # Draw detected objects
             cam.draw_aruco_objects(colour)
