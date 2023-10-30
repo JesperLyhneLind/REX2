@@ -311,7 +311,7 @@ try:
             print("draw",t13-t12)
             print(np.std(normalized_weights))
 
-            if np.std(normalized_weights) < 0.0023:
+            if np.std(normalized_weights) < 0.0026:
                 break
         
         else:
