@@ -255,8 +255,6 @@ try:
             for par in particles:
                 par.setWeight(1.0)
                 for i in range(len(objectIDs)):
-                    
-                    
                     if objectIDs[i] in landmarkIDs:
                         particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
                         sigma_d = 20 # try value 20cm
@@ -267,6 +265,8 @@ try:
                         uvec_robot = [((landmarks[objectIDs[i]])[0] - par.getX()) / particle_distance, 
                                     ((landmarks[objectIDs[i]])[1] - par.getY()) / particle_distance]
                         uvec_orientation = [np.cos(par.getTheta()), np.sin(par.getTheta())]
+                        
+                        #fortgn byttet rundt
                         uvec_orientation_ortho = [np.sin(par.getTheta()), -np.cos(par.getTheta())]
                         
                         phi_i = np.sign(np.dot(uvec_robot, uvec_orientation_ortho))*np.arccos(np.dot(uvec_robot,uvec_orientation)) 
@@ -311,7 +311,7 @@ try:
             print("draw",t13-t12)
             print(np.std(normalized_weights))
 
-            if np.std(normalized_weights) < 0.00015:
+            if np.std(normalized_weights) < 0.0023:
                 break
         
         else:
