@@ -209,24 +209,58 @@ try:
             pdf_value = (1 / np.sqrt(2 * np.pi * sigma_theta**2)) * math.exp(-(phi_M - phi_i)**2 / (2 * sigma_theta**2))
             return pdf_value
 
+
+
         if not isinstance(d_objectIDs, type(None)):
             # List detected objects
             objectIDs = np.unique(d_objectIDs)
-            for i in range(len(objectIDs)):
-                print("Object ID = ", objectIDs[i], ", Distance = ", dists[i], ", angle = ", angles[i])
-                # XXX: Do something for each detected object - remember, the same ID may appear several times.
-                # Use the camera function to get the measured distance
-                objectType, distance, angle, colourProb = cam.get_object(colour)
+            print("Object ID = ", objectIDs, ", Distance = ", dists, ", angle = ", angles)
+            
+            
+            # for i in range(len(objectIDs)):
+            #     print("Object ID = ", objectIDs[i], ", Distance = ", dists[i], ", angle = ", angles[i])
+            #     # XXX: Do something for each detected object - remember, the same ID may appear several times.
+            #     # Use the camera function to get the measured distance
+            #     objectType, distance, angle, colourProb = cam.get_object(colour)
                             
-                # Compute particle weights
-                # Use the distance observation model to update particle weights
-                for par in particles:
+            #     # Compute particle weights
+            #     # Use the distance observation model to update particle weights
+            #     for par in particles:
+            #         if objectIDs[i] in landmarkIDs:
+            #             t7 = time.time()
+            #             #distance
+            #             particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
+            #             sigma_d = 20 # try value 20cm
+            #             p_d = distance_observation_model(distance, particle_distance, sigma_d)
+            #             t8=time.time()
+            #             #angle
+            #             sigma_theta = 0.05# try value 0.3 radians
+            #             uvec_robot = [((landmarks[objectIDs[i]])[0] - par.getX()) / particle_distance, 
+            #                         ((landmarks[objectIDs[i]])[1] - par.getY()) / particle_distance]
+            #             uvec_orientation = [np.cos(par.getTheta()), np.sin(par.getTheta())]
+            #             uvec_orientation_ortho = [- np.sin(par.getTheta()), np.cos(par.getTheta())]
+                        
+            #             phi_i = np.sign(np.dot(uvec_robot, uvec_orientation_ortho))*np.arccos(np.dot(uvec_robot,uvec_orientation)) 
+                        
+            #             p_phi = angle_observation_model(angle, phi_i, sigma_theta)
+            #             t9=time.time()
+            #             p_x = p_d * p_phi
+            #             #update weights
+            #             par.setWeight(par.getWeight() * p_x)
+            #             t10=time.time()
+
+
+
+            #objectType, distance, angle, colourProb = cam.get_object(colour)
+            for par in particles:
+                par.setWeight(1.0)
+                for i in range(len(objectIDs)):
+                    
+                    
                     if objectIDs[i] in landmarkIDs:
-                        t7= time.time()
-                        #distance
                         particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
                         sigma_d = 20 # try value 20cm
-                        p_d = distance_observation_model(distance, particle_distance, sigma_d)
+                        p_d = distance_observation_model(dists[i], particle_distance, sigma_d)
                         t8=time.time()
                         #angle
                         sigma_theta = 0.05# try value 0.3 radians
@@ -234,13 +268,17 @@ try:
                                     ((landmarks[objectIDs[i]])[1] - par.getY()) / particle_distance]
                         uvec_orientation = [np.cos(par.getTheta()), np.sin(par.getTheta())]
                         uvec_orientation_ortho = [- np.sin(par.getTheta()), np.cos(par.getTheta())]
+                        
                         phi_i = np.sign(np.dot(uvec_robot, uvec_orientation_ortho))*np.arccos(np.dot(uvec_robot,uvec_orientation)) 
-                        p_phi = angle_observation_model(angle, phi_i, sigma_theta)
+                        
+                        p_phi = angle_observation_model(angles[i], phi_i, sigma_theta)
                         t9=time.time()
                         p_x = p_d * p_phi
                         #update weights
                         par.setWeight(par.getWeight() * p_x)
                         t10=time.time()
+
+
             # Normalize particle weights
             total_weight = sum([p.getWeight() for p in particles])
             normalized_weights = []     
@@ -264,8 +302,8 @@ try:
             print("(world) + cam", t4-t3)
             print("uncertainty", t5-t4)
             print("detect", t6-t5)
-            print("loops?", t7-t6)
-            print("dist",t8-t7)
+            #print("loops?", t7-t6)
+            #print("dist",t8-t7)
             print("angle",t9-t8)
             print("weights",t10-t9)
             print("normalize",t11-t10)
