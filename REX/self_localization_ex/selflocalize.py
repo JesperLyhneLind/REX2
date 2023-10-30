@@ -49,9 +49,9 @@ CBLACK = (0, 0, 0)
 
 # Landmarks.
 # The robot knows the position of 2 landmarks. Their coordinates are in the unit centimeters [cm].
-landmarkIDs = [9, 4]
+landmarkIDs = [5, 4]
 landmarks = {
-    9: (0.0, 0.0),  # Coordinates for landmark 1
+    5: (0.0, 0.0),  # Coordinates for landmark 1
     4: (100.0, 0.0)  # Coordinates for landmark 2
 }
 landmark_colors = [CRED, CGREEN] # Colors used when drawing the landmarks
@@ -76,7 +76,7 @@ def draw_world(est_pose, particles, world):
     # Constant needed for transforming from world coordinates to screen coordinates (flip the y-axis)
     ymax = world.shape[0]
 
-    world[:] = CBLACK # Clear background to white
+    world[:] = CWHITE # Clear background to white
 
     # Find largest weight
     max_weight = 0
