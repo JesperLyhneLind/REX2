@@ -132,7 +132,7 @@ try:
 
     t1 = time.time()
     # Initialize particles
-    num_particles = 500
+    num_particles = 300
     particles = initialize_particles(num_particles)
     t2 = time.time()
     est_pose = particle.estimate_pose(particles) # The estimate of the robots current pose
@@ -253,6 +253,7 @@ try:
             # Draw detected objects
             cam.draw_aruco_objects(colour)
             t13 =time.time()
+            
             print("(windows)", t1-t0)
             print("init particles", t2-t1)
             print("est pose", t3-t2)
