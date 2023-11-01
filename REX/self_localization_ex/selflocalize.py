@@ -174,9 +174,7 @@ try:
             elif action == ord('s'): # Stop
                 velocity = 0.0
                 angular_velocity = 0.0
-            elif action == ord('a'): # Left
-                angular_velocity += 0.2
-                [p.move_particle(-5, 0, -0.45) for p in particles]         
+            elif action == ord('a'): # Left      
                 sleep(0.18)
             elif action == ord('d'): # Right
                 angular_velocity -= 0.2
@@ -250,7 +248,7 @@ try:
             cam.draw_aruco_objects(colour)
             print(np.std(normalized_weights))
             #sat op fra 0.00015
-            if np.std(normalized_weights) < 0.00115:
+            if np.std(normalized_weights) < 0.0000000001:
                 break
         
         else:
