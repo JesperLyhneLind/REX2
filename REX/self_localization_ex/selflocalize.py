@@ -312,7 +312,7 @@ try:
             print(np.std(normalized_weights))
 
             #sat op fra 0.00015
-            if np.std(normalized_weights) < 0.0026:
+            if np.std(normalized_weights) < 0.0005:
                 break
         
         else:
