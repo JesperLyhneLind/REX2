@@ -227,7 +227,7 @@ try:
                                     ((landmarks[objectIDs[i]])[1] - par.getY()) / particle_distance]
                         uvec_orientation = [np.cos(par.getTheta()), np.sin(par.getTheta())]
                         
-                        #fortgn byttet rundt
+                        #fortegn skal kun byttes rundt, hvis på webcam?
                         uvec_orientation_ortho = [-np.sin(par.getTheta()), np.cos(par.getTheta())]
                         
                         phi_i = np.sign(np.dot(uvec_robot, uvec_orientation_ortho))*np.arccos(np.dot(uvec_robot,uvec_orientation)) 
