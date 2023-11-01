@@ -180,7 +180,7 @@ try:
                 angular_velocity -= 0.2
                 [p.move_particle(5, 0, 0.45) for p in particles]   
                 sleep(0.18)
-        particle.add_uncertainty(particles, 5, 0.025) #noise sigmas are centimeter and radians
+        particle.add_uncertainty(particles, 2, 0.025) #noise sigmas are centimeter and radians
         # Fetch next frame
         
         colour = cam.get_next_frame()
@@ -208,14 +208,13 @@ try:
             #     objectType, distance, angle, colourProb = cam.get_object(colour)
                             
 
-
             #objectType, distance, angle, colourProb = cam.get_object(colour)
             for par in particles:
                 par.setWeight(1.0)
                 for i in range(len(objectIDs)):
                     if objectIDs[i] in landmarkIDs:
                         particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
-                        sigma_d = 5 # try value 20cm
+                        sigma_d = 2 # try value 20cm
                         p_d = distance_observation_model(dists[i], particle_distance, sigma_d)
                         #angle
                         sigma_theta = 0.025# try value 0.3 radians
