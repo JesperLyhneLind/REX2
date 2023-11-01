@@ -118,7 +118,6 @@ def initialize_particles(num_particles):
 
 
 # Main program #
-t0 = time.time()
 try:
     if showGUI:
         # Open windows
@@ -130,13 +129,10 @@ try:
         cv2.namedWindow(WIN_World)
         cv2.moveWindow(WIN_World, 500, 50)
 
-    t1 = time.time()
     # Initialize particles
     num_particles = 1000
     particles = initialize_particles(num_particles)
-    t2 = time.time()
     est_pose = particle.estimate_pose(particles) # The estimate of the robots current pose
-    t3 = time.time()
     # Driving parameters
     velocity = 0.0 # cm/sec
     angular_velocity = 0.0 # radians/sec
@@ -157,7 +153,6 @@ try:
     else:
         cam = camera.Camera(0, 'macbookpro', useCaptureThread = True)
 
-    #t4 = time.time()
     while True:
 
         # Move the robot according to user input (only for testing)
@@ -188,17 +183,13 @@ try:
                 angular_velocity -= 0.2
                 [p.move_particle(5, 0, 0.45) for p in particles]   
                 sleep(0.18)
-        t4 = time.time()
         #particle.add_uncertainty_von_mises(particles, 20, 0.3) #noise sigmas are centimeter and radians
         particle.add_uncertainty(particles, 5, 0.05) #noise sigmas are centimeter and radians
         # Fetch next frame
-        t5=time.time()
         
         colour = cam.get_next_frame()
-        #t5=time.time()
         # Detect objects
         d_objectIDs, dists, angles = cam.detect_aruco_objects(colour)
-        t6=time.time()
         def distance_observation_model(d_M, d_i, sigma_d):
             # Calculate the Gaussian PDF
             pdf_value = (1 / np.sqrt(2 * np.pi * sigma_d**2)) * math.exp(-(d_M - d_i)**2 / (2 * sigma_d**2))
@@ -216,39 +207,10 @@ try:
             objectIDs = np.unique(d_objectIDs)
             print("Object ID = ", objectIDs, ", Distance = ", dists, ", angle = ", angles)
             
-            
-            # for i in range(len(objectIDs)):
-            #     print("Object ID = ", objectIDs[i], ", Distance = ", dists[i], ", angle = ", angles[i])
             #     # XXX: Do something for each detected object - remember, the same ID may appear several times.
             #     # Use the camera function to get the measured distance
             #     objectType, distance, angle, colourProb = cam.get_object(colour)
                             
-            #     # Compute particle weights
-            #     # Use the distance observation model to update particle weights
-            #     for par in particles:
-            #         if objectIDs[i] in landmarkIDs:
-            #             t7 = time.time()
-            #             #distance
-            #             particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
-            #             sigma_d = 20 # try value 20cm
-            #             p_d = distance_observation_model(distance, particle_distance, sigma_d)
-            #             t8=time.time()
-            #             #angle
-            #             sigma_theta = 0.05# try value 0.3 radians
-            #             uvec_robot = [((landmarks[objectIDs[i]])[0] - par.getX()) / particle_distance, 
-            #                         ((landmarks[objectIDs[i]])[1] - par.getY()) / particle_distance]
-            #             uvec_orientation = [np.cos(par.getTheta()), np.sin(par.getTheta())]
-            #             uvec_orientation_ortho = [- np.sin(par.getTheta()), np.cos(par.getTheta())]
-                        
-            #             phi_i = np.sign(np.dot(uvec_robot, uvec_orientation_ortho))*np.arccos(np.dot(uvec_robot,uvec_orientation)) 
-                        
-            #             p_phi = angle_observation_model(angle, phi_i, sigma_theta)
-            #             t9=time.time()
-            #             p_x = p_d * p_phi
-            #             #update weights
-            #             par.setWeight(par.getWeight() * p_x)
-            #             t10=time.time()
-
 
 
             #objectType, distance, angle, colourProb = cam.get_object(colour)
@@ -259,7 +221,6 @@ try:
                         particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
                         sigma_d = 5 # try value 20cm
                         p_d = distance_observation_model(dists[i], particle_distance, sigma_d)
-                        t8=time.time()
                         #angle
                         sigma_theta = 0.05# try value 0.3 radians
                         uvec_robot = [((landmarks[objectIDs[i]])[0] - par.getX()) / particle_distance, 
@@ -272,11 +233,9 @@ try:
                         phi_i = np.sign(np.dot(uvec_robot, uvec_orientation_ortho))*np.arccos(np.dot(uvec_robot,uvec_orientation)) 
                         
                         p_phi = angle_observation_model(angles[i], phi_i, sigma_theta)
-                        t9=time.time()
                         p_x = p_d * p_phi
                         #update weights
                         par.setWeight(par.getWeight() * p_x)
-                        t10=time.time()
 
 
             # Normalize particle weights
@@ -285,30 +244,12 @@ try:
             for par in particles:
                 par.setWeight(par.getWeight() / total_weight)
                 normalized_weights.append(par.getWeight())
-            t11=time.time()
             # Resampling
             r_particles = rand.choice(a=particles, replace=True, p=normalized_weights, size=len(particles))
             #particles = [copy.deepcopy(p) for p in r_particles]
             particles = [particle.Particle(p.getX(), p.getY(), p.getTheta(), p.getWeight()) for p in r_particles]
-            
-            t12=time.time()
             # Draw detected objects
             cam.draw_aruco_objects(colour)
-            t13 =time.time()
-            
-            print("(windows)", t1-t0)
-            print("init particles", t2-t1)
-            print("est pose", t3-t2)
-            print("(world) + cam", t4-t3)
-            print("uncertainty", t5-t4)
-            print("detect", t6-t5)
-            #print("loops?", t7-t6)
-            #print("dist",t8-t7)
-            print("angle",t9-t8)
-            print("weights",t10-t9)
-            print("normalize",t11-t10)
-            print("resample",t12-t11)
-            print("draw",t13-t12)
             print(np.std(normalized_weights))
 
             #sat op fra 0.00015
@@ -334,13 +275,10 @@ try:
     
 finally: 
     # Make sure to clean up even if an exception occurred
-    
     # Close all windows
     cv2.destroyAllWindows()
-    
     # Clean-up capture thread
     cam.terminateCaptureThread()
 
 print("done")
 print("est_pose:", est_pose.getX(), est_pose.getY())
-
