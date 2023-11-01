@@ -13,4 +13,4 @@ def iDrive(meters):
     print(arlo.stop())
     sleep(0.18)
 
-iDrive(3)
+iDrive(1)
