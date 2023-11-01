@@ -1,12 +1,12 @@
 import cv2
-import self_localization_ex
-#from self_localization_ex import camera
-from self_localization_ex import selflocalize
+import sys
 import numpy as np
-import robot1
+import robot
 import math
+import particle
+import selflocalize_method
 
-otto = robot1.Robot()
+otto = robot.Robot()
 
 # Landmarks.
 # The robot knows the position of 4 landmarks. Their coordinates are in the unit centimeters [cm].
@@ -18,15 +18,14 @@ landmarks = {
     4: (400.0, 300.0)  # Coordinates for landmark 4
 }
 
-
 # Initialize particles.
-particles = selflocalize.initialize_particles(1000)
+particles = particle.initialize_particles(1000)
 
 # The estimate of the robots current pose
-est_pose = selflocalize.particle.estimate_pose(particles)
+est_pose = particle.estimate_pose(particles)
 
 # The estimate of the robots current pose
-robot_pose = selflocalize.particle.estimate_pose(particles) # (x, y, theta)
+robot_pose = particle.estimate_pose(particles) # (x, y, theta)
 
 # Funtion for finding the orientation vector from the robot towards its next goal.
 def orientation_vector(x, y, theta):
