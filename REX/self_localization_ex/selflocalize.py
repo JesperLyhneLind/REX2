@@ -190,7 +190,7 @@ try:
                 sleep(0.18)
         t4 = time.time()
         #particle.add_uncertainty_von_mises(particles, 20, 0.3) #noise sigmas are centimeter and radians
-        particle.add_uncertainty(particles, 20, 0.05) #noise sigmas are centimeter and radians
+        particle.add_uncertainty(particles, 5, 0.05) #noise sigmas are centimeter and radians
         # Fetch next frame
         t5=time.time()
         
@@ -257,7 +257,7 @@ try:
                 for i in range(len(objectIDs)):
                     if objectIDs[i] in landmarkIDs:
                         particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
-                        sigma_d = 20 # try value 20cm
+                        sigma_d = 5 # try value 20cm
                         p_d = distance_observation_model(dists[i], particle_distance, sigma_d)
                         t8=time.time()
                         #angle
@@ -267,7 +267,7 @@ try:
                         uvec_orientation = [np.cos(par.getTheta()), np.sin(par.getTheta())]
                         
                         #fortgn byttet rundt
-                        uvec_orientation_ortho = [np.sin(par.getTheta()), -np.cos(par.getTheta())]
+                        uvec_orientation_ortho = [-np.sin(par.getTheta()), np.cos(par.getTheta())]
                         
                         phi_i = np.sign(np.dot(uvec_robot, uvec_orientation_ortho))*np.arccos(np.dot(uvec_robot,uvec_orientation)) 
                         
