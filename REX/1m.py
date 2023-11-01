@@ -8,7 +8,7 @@ arlo = robot.Robot()
 
 print("Running ...")
 def iDrive(meters):
-    print(arlo.go_diff(70, 70, 1, 1))
+    print(arlo.go_diff(70, 74, 1, 1))
     sleep(2.6*meters)
     print(arlo.stop())
     sleep(0.18)
