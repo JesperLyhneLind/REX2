@@ -44,3 +44,11 @@ def orientation_vector(x, y, theta):
 
         # Returns the orientation-vector.
         return (dx_norm, dy_norm)
+
+
+
+
+otto.go_diff(70,71,1,1)
+sleep(2.6*meters)
+print(arlo.stop())
+sleep(0.18)
