@@ -49,9 +49,9 @@ CBLACK = (0, 0, 0)
 
 # Landmarks.
 # The robot knows the position of 2 landmarks. Their coordinates are in the unit centimeters [cm].
-landmarkIDs = [5, 4]
+landmarkIDs = [3, 4]
 landmarks = {
-    5: (0.0, 0.0),  # Coordinates for landmark 1
+    3: (0.0, 0.0),  # Coordinates for landmark 1
     4: (100.0, 0.0)  # Coordinates for landmark 2
 }
 landmark_colors = [CRED, CGREEN] # Colors used when drawing the landmarks
