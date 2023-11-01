@@ -190,7 +190,7 @@ try:
                 sleep(0.18)
         t4 = time.time()
         #particle.add_uncertainty_von_mises(particles, 20, 0.3) #noise sigmas are centimeter and radians
-        particle.add_uncertainty(particles, 5, 0.05) #noise sigmas are centimeter and radians
+        particle.add_uncertainty(particles, 20, 0.05) #noise sigmas are centimeter and radians
         # Fetch next frame
         t5=time.time()
         
@@ -312,7 +312,7 @@ try:
             print(np.std(normalized_weights))
 
             #sat op fra 0.00015
-            if np.std(normalized_weights) < 0.0005:
+            if np.std(normalized_weights) < 0.00076:
                 break
         
         else:
