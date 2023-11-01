@@ -7,7 +7,6 @@ from time import sleep
 from timeit import default_timer as timer
 import sys
 import numpy.random as rand
-import copy
 import time
 import math
 
@@ -183,7 +182,6 @@ try:
                 angular_velocity -= 0.2
                 [p.move_particle(5, 0, 0.45) for p in particles]   
                 sleep(0.18)
-        #particle.add_uncertainty_von_mises(particles, 20, 0.3) #noise sigmas are centimeter and radians
         particle.add_uncertainty(particles, 5, 0.05) #noise sigmas are centimeter and radians
         # Fetch next frame
         

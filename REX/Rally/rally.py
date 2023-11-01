@@ -18,6 +18,7 @@ landmarks = {
     4: (400.0, 300.0)  # Coordinates for landmark 4
 }
 
+
 # Initialize particles.
 particles = selflocalize.initialize_particles(1000)
 
