@@ -26,9 +26,9 @@ def angle_observation_model(phi_M, phi_i, sigma_theta):
     return pdf_value
 
 def self_localize(landmarks, landmarkIDs, num_particles):
-    while True:
-        
-        particle.add_uncertainty(particles, 5, 0.05) #noise sigmas are centimeter and radians
+    time1 = time.time()
+    while True and time_running < 15: #stop loop after 15 seconds
+        particle.add_uncertainty(particles, 2, 0.025) #noise sigmas are centimeter and radians
         # Fetch next frame
         
         colour = cam.get_next_frame()
@@ -43,9 +43,9 @@ def self_localize(landmarks, landmarkIDs, num_particles):
                 for i in range(len(objectIDs)):
                     if objectIDs[i] in landmarkIDs:
                         particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
-                        sigma_d = 5
+                        sigma_d = 2
                         p_d = distance_observation_model(dists[i], particle_distance, sigma_d)
-                        sigma_theta = 0.05
+                        sigma_theta = 0.025
                         
                         uvec_robot = [((landmarks[objectIDs[i]])[0] - par.getX()) / particle_distance, 
                                     ((landmarks[objectIDs[i]])[1] - par.getY()) / particle_distance]
@@ -73,11 +73,14 @@ def self_localize(landmarks, landmarkIDs, num_particles):
             particles = [particle.Particle(p.getX(), p.getY(), p.getTheta(), p.getWeight()) for p in r_particles]
 
             if np.std(normalized_weights) < 0.00115:
-                break
-        
+                return particles
         else:
             # No observation - reset weights to uniform distribution
             for p in particles:
                 p.setWeight(1.0/num_particles)
+    
+        time_running = time1-time.time()
+
         
-        return particles
+        
+

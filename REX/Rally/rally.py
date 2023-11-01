@@ -5,6 +5,7 @@ import robot
 import math
 import particle
 import selflocalize_method
+from time import sleep
 
 otto = robot.Robot()
 
@@ -50,5 +51,5 @@ def orientation_vector(x, y, theta):
 
 otto.go_diff(70,71,1,1)
 sleep(2.6*meters)
-print(arlo.stop())
+print(otto.stop())
 sleep(0.18)
