@@ -247,7 +247,7 @@ try:
             cam.draw_aruco_objects(colour)
             print(np.std(normalized_weights))
             #sat op fra 0.00015
-            if np.std(normalized_weights) < 0.0000000001:
+            if np.std(normalized_weights) < 0.00010:
                 break
         
         else:
