@@ -4,10 +4,17 @@ import numpy as np
 import robot
 import math
 import particle
+import detection
 import selflocalize_method
+import time
 from time import sleep
+from enum import Enum
 
 otto = robot.Robot()
+class Direction(Enum):
+    Left = 1
+    Right = 2
+
 
 # Landmarks.
 # The robot knows the position of 4 landmarks. Their coordinates are in the unit centimeters [cm].
@@ -49,9 +56,14 @@ def orientation_vector(x, y, theta):
 
 ret_particles = selflocalize_method.self_localize(landmarks, landmarkIDs, num_particles, particles)
 
-est_pose = particle.estimate_pose(ret_particles)
-
-print("est_pose:", est_pose.getX(), est_pose.getY())
+time1 = time.time()
+while True:
+    est_pose = particle.estimate_pose(ret_particles)
+    print("est_pose:", est_pose.getX(), est_pose.getY())
+    detection.turn(Direction.Right, 30)
+    time2 = time.time()
+    if time1 - time2 > 40:
+        break
 
 # otto.go_diff(70,71,1,1)
 # sleep(2.6*meters)
