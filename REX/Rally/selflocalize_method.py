@@ -15,6 +15,16 @@ sys.path.append("robot.py")
 cam = camera.Camera(0, 'arlo', useCaptureThread = True)
 otto = robot.Robot()
 
+def initialize_particles(num_particles):
+    particles = []
+    for i in range(num_particles):
+        # Random starting points. 
+        p = particle.Particle(600.0*rand.ranf() - 100.0, 600.0*rand.ranf() - 250.0, np.mod(2.0*np.pi*rand.ranf(), 2.0*np.pi), 1.0/num_particles)
+        particles.append(p)
+
+    return particles
+
+
 def distance_observation_model(d_M, d_i, sigma_d):
     # Calculate the Gaussian PDF
     pdf_value = (1 / np.sqrt(2 * np.pi * sigma_d**2)) * math.exp(-(d_M - d_i)**2 / (2 * sigma_d**2))

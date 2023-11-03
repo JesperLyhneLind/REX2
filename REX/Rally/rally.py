@@ -21,7 +21,7 @@ landmarks = {
 
 # Initialize particles.
 num_particles = 1000
-particles = particle.initialize_particles(num_particles)
+particles = selflocalize_method.initialize_particles(num_particles)
 # The estimate of the robots current pose
 
 est_pose = particle.estimate_pose(particles)
