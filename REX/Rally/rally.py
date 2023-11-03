@@ -4,16 +4,14 @@ import numpy as np
 import robot
 import math
 import particle
-import detection
 import selflocalize_method
-import time
 from time import sleep
 from enum import Enum
 
 otto = robot.Robot()
-class Direction(Enum):
-    Left = 1
-    Right = 2
+# class Direction(Enum):
+#     Left = 1
+#     Right = 2
 
 
 # Landmarks.
