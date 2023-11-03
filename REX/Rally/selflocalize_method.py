@@ -83,8 +83,16 @@ def self_localize(landmarks, landmarkIDs, num_particles, particles):
             r_particles = rand.choice(a=particles, replace=True, p=normalized_weights, size=len(particles))
             particles = [particle.Particle(p.getX(), p.getY(), p.getTheta(), p.getWeight()) for p in r_particles]
 
-            if np.std(normalized_weights) < 0.00115:
+
+
+            est_pose = particle.estimate_pose(particles)
+            print("est_pose from method:", est_pose.getX(), est_pose.getY())
+
+
+
+            if np.std(normalized_weights) < 0.0000115:
                 return particles
+            
         else:
             # No observation - reset weights to uniform distribution
             for p in particles:
