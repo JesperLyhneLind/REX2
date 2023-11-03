@@ -80,7 +80,3 @@ def self_localize(landmarks, landmarkIDs, num_particles):
                 p.setWeight(1.0/num_particles)
     
         time_running = time1-time.time()
-
-        
-        
-

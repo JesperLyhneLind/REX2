@@ -20,9 +20,10 @@ landmarks = {
 }
 
 # Initialize particles.
-particles = particle.initialize_particles(1000)
-
+num_particles = 1000
+particles = particle.initialize_particles(num_particles)
 # The estimate of the robots current pose
+
 est_pose = particle.estimate_pose(particles)
 
 # The estimate of the robots current pose
@@ -46,10 +47,13 @@ def orientation_vector(x, y, theta):
         # Returns the orientation-vector.
         return (dx_norm, dy_norm)
 
+ret_particles = selflocalize_method.self_localize(landmarks, landmarkIDs, num_particles)
 
+est_pose = particle.estimate_pose(ret_particles)
 
+print("est_pose:", est_pose.getX(), est_pose.getY())
 
-otto.go_diff(70,71,1,1)
-sleep(2.6*meters)
-print(otto.stop())
-sleep(0.18)
+# otto.go_diff(70,71,1,1)
+# sleep(2.6*meters)
+# print(otto.stop())
+# sleep(0.18)
