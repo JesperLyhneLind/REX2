@@ -56,14 +56,17 @@ def orientation_vector(x, y, theta):
 
 ret_particles = selflocalize_method.self_localize(landmarks, landmarkIDs, num_particles, particles)
 
-time1 = time.time()
-while True:
-    est_pose = particle.estimate_pose(ret_particles)
-    print("est_pose:", est_pose.getX(), est_pose.getY())
-    detection.turn(Direction.Right, 30)
-    time2 = time.time()
-    if time1 - time2 > 40:
-        break
+est_pose = particle.estimate_pose(ret_particles)
+print("est_pose:", est_pose.getX(), est_pose.getY())
+
+# time1 = time.time()
+# while True:
+#     est_pose = particle.estimate_pose(ret_particles)
+#     print("est_pose:", est_pose.getX(), est_pose.getY())
+#     detection.turn(Direction.Right, 30)
+#     time2 = time.time()
+#     if time1 - time2 > 40:
+#         break
 
 # otto.go_diff(70,71,1,1)
 # sleep(2.6*meters)
