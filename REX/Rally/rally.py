@@ -47,7 +47,7 @@ def orientation_vector(x, y, theta):
         # Returns the orientation-vector.
         return (dx_norm, dy_norm)
 
-ret_particles = selflocalize_method.self_localize(landmarks, landmarkIDs, num_particles)
+ret_particles = selflocalize_method.self_localize(landmarks, landmarkIDs, num_particles, particles)
 
 est_pose = particle.estimate_pose(ret_particles)
 

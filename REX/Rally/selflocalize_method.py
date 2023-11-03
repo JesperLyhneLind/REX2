@@ -35,7 +35,7 @@ def angle_observation_model(phi_M, phi_i, sigma_theta):
     pdf_value = (1 / np.sqrt(2 * np.pi * sigma_theta**2)) * math.exp(-(phi_M - phi_i)**2 / (2 * sigma_theta**2))
     return pdf_value
 
-def self_localize(landmarks, landmarkIDs, num_particles):
+def self_localize(landmarks, landmarkIDs, num_particles, particles):
     time1 = time.time()
     while True:# and time_running < 15: #stop loop after 15 seconds
         particle.add_uncertainty(particles, 2, 0.025) #noise sigmas are centimeter and radians
