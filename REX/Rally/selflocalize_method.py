@@ -52,6 +52,7 @@ def self_localize(landmarks, landmarkIDs, num_particles, particles):
                 par.setWeight(1.0)
                 for i in range(len(objectIDs)):
                     if objectIDs[i] in landmarkIDs:
+                        print(objectIDs[i])
                         particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
                         sigma_d = 2
                         p_d = distance_observation_model(dists[i], particle_distance, sigma_d)
