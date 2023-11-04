@@ -49,7 +49,7 @@ particles = selflocalize_method.initialize_particles(num_particles)
 # The estimate of the robots current pose
 robot_pose = particle.estimate_pose(particles) # (x, y, theta)
 
-# Funtion for finding the orientation vector from the robot towards its next goal in degrees.
+# Funtion for finding the orientation from the robot towards its next goal in degrees.
 def orientation(x, y, theta, id):
     # Calculate the wanted position, that the robot should drive to in order to visit the goal.
     wanted_posX = landmarkIDs[id-1][0] - robot_pose.getX # x-coordinate
@@ -62,6 +62,36 @@ def orientation(x, y, theta, id):
     return math.degrees(wanted_theta), wanted_posX, wanted_posY # degrees instead of radians.
 
 # 
+def singleResponsibilityStuff():
+    pass
+
+# 
+def si():
+    Left_sensor, Right_sensor, Front_sensor = drive_functionality.check()
+
+    if Left_sensor >= Right_sensor:
+        print("left")
+        turn(Direction.Left, 45)
+        drive_functionality.iDrive(1)
+        turn(Direction.Right, 90)
+        drive_functionality.iDrive(1)
+        turn(Direction.Left, 45)
+        drive_functionality.iDrive(1)
+        
+
+    elif Right_sensor > Left_sensor:
+        print("Right")
+        turn(Direction.Right, 45)
+        drive_functionality.iDrive(1)
+        turn(Direction.Left, 90)
+        drive_functionality.iDrive(1)
+        turn(Direction.Right, 45)
+        drive_functionality.iDrive(1)
+    else:
+        pass
+
+
+# Turns the robot and drives towards the goal while avoiding objects.
 def driveToGoal(goalX, goalY, theta):
     goal = (goalX-30, goalY-30)
     distance = math.sqrt(goalX**2 + goalY**2) # pythagorean theorem.
