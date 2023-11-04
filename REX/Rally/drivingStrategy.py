@@ -4,7 +4,6 @@ import numpy as np
 import robot
 import math
 import particle
-import drive_functionality
 import selflocalize_method
 from time import sleep
 from enum import Enum
@@ -14,7 +13,17 @@ class Direction(Enum):
     Left = 1
     Right = 2
 
-
+def turn(dir: Direction, angle: int):
+    if dir == Direction.Left:
+        print(otto.go_diff(40, 40, 0, 1))
+        sleep(angle/65) 
+        print(otto.stop())
+        sleep(0.18)
+    else:
+        print(otto.go_diff(40, 40, 1, 0))
+        sleep(angle/65)
+        print(otto.stop())
+        sleep(0.18)
 
 # Landmarks.
 # The robot knows the position of 4 landmarks. Their coordinates are in the unit centimeters [cm].
@@ -53,9 +62,4 @@ def orientation_vector(x, y, theta):
 
         # Returns the orientation-vector.
         return (dx_norm, dy_norm)
-
-ret_particles = selflocalize_method.self_localize(landmarks, landmarkIDs, num_particles, particles)
-
-est_pose = particle.estimate_pose(ret_particles)
-print("est_pose:", est_pose.getX(), est_pose.getY())
 

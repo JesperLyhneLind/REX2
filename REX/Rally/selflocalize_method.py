@@ -2,13 +2,13 @@ import cv2
 import particle
 import camera
 import numpy as np
-import rally
 from time import sleep
 from timeit import default_timer as timer
 import sys
 import numpy.random as rand
 import time
 import math
+import drive_functionality
 import robot
 
 sys.path.append("robot.py")
@@ -88,7 +88,7 @@ def self_localize(landmarks, landmarkIDs, num_particles, particles):
 
             landmarksSeen = filter(lambda x: x<5, objectIDs)
             if landmarksSeen == 1:
-                rally.turn(30) # Has the robot already seen one box 
+                drive_functionality.turn(30) # Has the robot already seen one box 
                 [p.move_particle(0, 0, math.radians(30)) for p in particles]   
                 
             if np.std(normalized_weights) < 0.0000115:

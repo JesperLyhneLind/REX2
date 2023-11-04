@@ -25,31 +25,27 @@ def check():
 # Turns the robot angle degrees.
 def turn(dir: Direction, angle: int):
     if dir == Direction.Left:
-        print(arlo.go_diff(49, 49, 0, 1))
-        sleep(angle/90)
+        print(arlo.go_diff(40, 41, 0, 1))
+        sleep(angle/65) 
         print(arlo.stop())
-        sleep(0.041)
+        sleep(0.18)
     else:
-        print(arlo.go_diff(49, 49, 1, 0))
-        sleep(angle/90)
+        print(arlo.go_diff(40, 41, 1, 0))
+        sleep(angle/65)
         print(arlo.stop())
-        sleep(0.041)
+        sleep(0.18)
 
 # Drives one meter.
-def driveM(meters):
-    leftSpeed = 70
-    rightSpeed = 70
-    print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
-    # Wait a bit while robot moves forward
-    sleep(1.7*meters)
-    # send a stop command
-    print(arlo.stop())   
-    sleep(0.041)   
+def iDrive(meters):
+    print(arlo.go_diff(70, 71, 1, 1))
+    sleep(2.6*meters)
+    print(arlo.stop())
+    sleep(0.18)
 
 # Drives the robot and checks which direction to go for avoiding an object.
 def drive(): 
-    arlo.go_diff(50, 50, 1, 1)
-    Left_sensor, Right_sensor = check()
+    arlo.go_diff(50, 51, 1, 1)
+    Left_sensor, Right_sensor, Front_sensor = check()
 
     if Left_sensor >= Right_sensor:
         print("left")

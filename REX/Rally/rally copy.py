@@ -4,6 +4,7 @@ import numpy as np
 import robot
 import math
 import particle
+import swerve
 import selflocalize_method
 from time import sleep
 from enum import Enum
@@ -34,6 +35,7 @@ landmarks = {
     3: (400.0, 0.0),  # Coordinates for landmark 3
     4: (400.0, 300.0)  # Coordinates for landmark 4
 }
+landmarks_counter = [1,2,3,4,1]
 
 # Initialize particles.
 num_particles = 1000
