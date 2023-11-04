@@ -103,6 +103,7 @@ def self_localize(landmarks, landmarkIDs, num_particles, particles):
         else:
             # No observation - reset weights to uniform distribution
             drive_functionality.turn(Direction.Right, 30) # Has the robot already seen one box 
+            sleep(1)
             [p.move_particle(0, 0, math.radians(30)) for p in particles]   
             # for p in particles:
             #     p.setWeight(1.0/num_particles)
