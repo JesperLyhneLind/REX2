@@ -11,6 +11,7 @@ import numpy.random as rand
 import time
 import math
 import drive_functionality
+from enum import Enum
 
 # Flags
 showGUI = True  # Whether or not to open GUI windows
