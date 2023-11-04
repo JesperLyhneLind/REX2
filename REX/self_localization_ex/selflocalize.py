@@ -3,17 +3,24 @@ import particle
 import camera
 import numpy as np
 import time
+import os
 from time import sleep
 from timeit import default_timer as timer
 import sys
 import numpy.random as rand
 import time
 import math
+import drive_functionality
 
 # Flags
 showGUI = True  # Whether or not to open GUI windows
 onRobot = True # Whether or not we are running on the Arlo robot
 
+class Direction(Enum):
+    Left = 1
+    Right = 2
+
+    
 def isRunningOnArlo():
     """Return True if we are running on Arlo, otherwise False.
       You can use this flag to switch the code from running on you laptop to Arlo - you need to do the programming here!
@@ -252,8 +259,11 @@ try:
         
         else:
             # No observation - reset weights to uniform distribution
-            for p in particles:
-                p.setWeight(1.0/num_particles)
+            drive_functionality.turn(Direction.Right, 30) # Has the robot already seen one box 
+            sleep(1)
+            [p.move_particle(0, 0, math.radians(30)) for p in particles]   
+            # for p in particles:
+            #     p.setWeight(1.0/num_particles)
 
 
         est_pose = particle.estimate_pose(particles) # The estimate of the robots current pose
