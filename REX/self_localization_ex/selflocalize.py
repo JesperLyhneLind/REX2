@@ -185,7 +185,7 @@ try:
                         #sigma_d = 5 # try value 20cm
                         sigma_d = 20 # try value 20cm
                         p_d = distance_observation_model(dists[i], particle_distance, sigma_d)
-                        print("pd:", p_d)
+                        #print("pd:", p_d)
                         if p_d == 0.0:
                             print("p_d = 0")
                             exit
@@ -202,7 +202,7 @@ try:
                         phi_i = np.sign(np.dot(uvec_robot, uvec_orientation_ortho))*np.arccos(np.dot(uvec_robot,uvec_orientation)) 
                         
                         p_phi = angle_observation_model(angles[i], phi_i, sigma_theta)
-                        print("p_phi:", p_phi)
+                        #print("p_phi:", p_phi)
                         if p_phi == 0.0:
                             print("p_phi = 0")
                             exit
