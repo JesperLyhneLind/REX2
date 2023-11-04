@@ -230,6 +230,9 @@ try:
         
         else:
             # No observation - reset weights to uniform distribution
+                #if len(landmarks_in_map) == 1 and len(landmarksSeen) < 2: 
+            drive_functionality.turn(drive_functionality.Direction.Right, 30)
+            [p.move_particle(0, 0, math.radians(30)) for p in particles]  
             for p in particles:
                 p.setWeight(1.0/num_particles)
         est_pose = particle.estimate_pose(particles) # The estimate of the robots current pose
