@@ -220,6 +220,8 @@ try:
                 if not landmarksSeen.__contains__(i):
                     landmarksSeen.append(i) # Has the robot already seen one box
             
+            print("landmarks_in_map", landmarks_in_map)
+            print("landmarksSeen", landmarksSeen)
             if len(landmarks_in_map) == 1 and len(landmarksSeen) < 2: 
                 drive_functionality.turn(drive_functionality.Direction.Right, 30)
                 [p.move_particle(0, 0, math.radians(30)) for p in particles]  
