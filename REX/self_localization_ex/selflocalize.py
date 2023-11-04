@@ -210,12 +210,12 @@ try:
             particles = [particle.Particle(p.getX(), p.getY(), p.getTheta(), p.getWeight()) for p in r_particles]
             # Draw detected objects
             cam.draw_aruco_objects(colour)
-            landmarksSeen.append(landmarks_in_map) # Has the robot already seen one box
+            #landmarksSeen.append(landmarks_in_map) # Has the robot already seen one box 
             print(np.std(normalized_weights))
             if np.std(normalized_weights) < 0.006:
                 break
-            landmarks_in_map = list(filter(lambda x: x in landmarkIDs, objectIDs))
             
+            landmarks_in_map = list(filter(lambda x: x in landmarkIDs, objectIDs))
             for i in landmarks_in_map:
                 if not landmarksSeen.__contains__(i):
                     landmarksSeen.append(i) # Has the robot already seen one box
