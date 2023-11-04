@@ -183,6 +183,7 @@ try:
                         particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
                         sigma_d = 5 # try value 20cm
                         p_d = distance_observation_model(dists[i], particle_distance, sigma_d)
+                        print("pd:", p_d)
                         #angle
                         sigma_theta = 0.03# try value 0.3 radians
                         uvec_robot = [((landmarks[objectIDs[i]])[0] - par.getX()) / particle_distance, 
@@ -195,6 +196,7 @@ try:
                         phi_i = np.sign(np.dot(uvec_robot, uvec_orientation_ortho))*np.arccos(np.dot(uvec_robot,uvec_orientation)) 
                         
                         p_phi = angle_observation_model(angles[i], phi_i, sigma_theta)
+                        print("p_phi:", p_phi)
                         p_x = p_d * p_phi
                         #update weights
                         par.setWeight(par.getWeight() * p_x)
