@@ -46,11 +46,11 @@ particles = selflocalize_method.initialize_particles(num_particles)
 
 # est_pose = particle.estimate_pose(particles)
 
-# The estimate of the robots current pose
-robot_pose = particle.estimate_pose(particles) # (x, y, theta)
-
 # Funtion for finding the orientation from the robot towards its next goal in degrees.
-def orientation(x, y, theta, id):
+def orientation(id):
+    # The estimate of the robots current pose
+    robot_pose = particle.estimate_pose(particles) # (x, y, theta)
+
     # Calculate the wanted position, that the robot should drive to in order to visit the goal.
     wanted_posX = landmarkIDs[id-1][0] - robot_pose.getX # x-coordinate
     wanted_posY = landmarkIDs[id-1][1] - robot_pose.getY # y-coordinate
@@ -65,37 +65,25 @@ def orientation(x, y, theta, id):
 #def correctID(id):
 #    id in landmarkIDs
 
-
-# Drives the robot and checks which direction to go for avoiding an object.
-def avoid(): 
-    #arlo.go_diff(70, 71, 1, 1)
+# Avoids an object and drives the robot 0.3m if there's nothing detected in front of it.
+def avoid():
     Left_sensor, Right_sensor, Front_sensor = drive_functionality.check()
 
     if Left_sensor >= Right_sensor:
-        print("left")
+        print("Turning left")
         turn(Direction.Left, 45)
-        Left_sensor, Right_sensor, Front_sensor = drive_functionality.check() # updates the front sensor.
-        if Front_sensor < 400:
-            avoid()
-        else:
-            drive_functionality.iDrive(0.3)
-            turn(Direction.Right, 90)
-            Left_sensor, Right_sensor, Front_sensor = drive_functionality.check() # updates the front sensor.
-            drive_functionality.iDrive(1)
-            turn(Direction.Left, 45)
-            drive_functionality.iDrive(1)
-        
-
-    elif Right_sensor > Left_sensor:
-        print("Right")
-        turn(Direction.Right, 45)
-        drive_functionality.iDrive(1)
-        turn(Direction.Left, 90)
-        drive_functionality.iDrive(1)
-        turn(Direction.Right, 45)
-        drive_functionality.iDrive(1)
     else:
-        pass
+        print("Turning right")
+        turn(Direction.Right, 45)
+
+    Left_sensor, Right_sensor, Front_sensor = drive_functionality.check()
+
+    if Front_sensor < 400:
+        print("Obstacle in front, continuing turn...")
+        avoid()
+    else:
+        print("No obstacle in front, moving forward...")
+        drive_functionality.iDrive(0.3)
 
 # Turns the robot and drives towards the goal while avoiding objects.
 def driveToGoal(goalX, goalY, theta):
@@ -106,22 +94,16 @@ def driveToGoal(goalX, goalY, theta):
         drive_functionality.turn(Direction.Right, theta) # left.
     elif np.sign(theta) == -1:
         drive_functionality.turn(Direction.Left, abs(theta)) # right.
-    else:
-        pass # straight forward.
 
-    left_sensor, right_sensor, front_sensor = drive_functionality.check()
-    if front_sensor > 400:
-        drive_functionality.iDrive(0.3) # drives 0,3 m.
-    else:
-        
-        
+    # Drives the robot towards the goal, while there's longer than 0,4m to the goal.
+    while distance > 400:
+        left_sensor, right_sensor, front_sensor = drive_functionality.check()
+        if front_sensor > 400:
+            drive_functionality.iDrive(0.3) # drives 0,3 m.
+        else:
+            avoid()
+            driveToGoal(goalX, goalY, )
 
-
-    # Drive towards the goal.
-    drive_functionality.iDrive(distance-30)
-
-    
-    pass
 
 # Skal pakkes ind med noget drive og dit dat
 left_sensor, right_sensor, front_sensor = drive_functionality.check() 

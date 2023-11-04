@@ -6,9 +6,12 @@ import time
 from time import sleep
 from timeit import default_timer as timer
 import sys
+import drive_functionality
 import numpy.random as rand
 import time
 import math
+
+
 # Flags
 showGUI = True  # Whether or not to open GUI windows
 onRobot = True # Whether or not we are running on the Arlo robot
@@ -43,6 +46,7 @@ landmarks = {
     6: (0.0, 300.0)  # Coordinates for landmark 2
 }
 landmark_colors = [CRED, CGREEN] # Colors used when drawing the landmarks
+landmarksSeen = []
 def jet(x):
     """Colour map for drawing particles. This function determines the colour of 
     a particle from its weight."""
@@ -206,10 +210,21 @@ try:
             particles = [particle.Particle(p.getX(), p.getY(), p.getTheta(), p.getWeight()) for p in r_particles]
             # Draw detected objects
             cam.draw_aruco_objects(colour)
+            landmarksSeen.append(landmarks_in_map) # Has the robot already seen one box
             print(np.std(normalized_weights))
-            #sat op fra 0.00015
             if np.std(normalized_weights) < 0.006:
                 break
+            landmarks_in_map = list(filter(lambda x: x in landmarkIDs, objectIDs))
+            
+            for i in landmarks_in_map:
+                if not landmarksSeen.__contains__(i):
+                    landmarksSeen.append(i) # Has the robot already seen one box
+            
+            if len(landmarks_in_map) == 1 and len(landmarksSeen) < 2: 
+                drive_functionality.turn(drive_functionality.Direction.Right, 30)
+                [p.move_particle(0, 0, math.radians(30)) for p in particles]  
+            
+            
         
         else:
             # No observation - reset weights to uniform distribution
@@ -224,6 +239,8 @@ try:
             cv2.imshow(WIN_RF1, colour)
             # Show world
             cv2.imshow(WIN_World, world)
+        
+        
     
 finally: 
     # Make sure to clean up even if an exception occurred
