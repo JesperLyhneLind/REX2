@@ -2,7 +2,7 @@ import cv2
 import particle
 import camera
 import numpy as np
-import time
+import rally
 from time import sleep
 from timeit import default_timer as timer
 import sys
@@ -36,7 +36,6 @@ def angle_observation_model(phi_M, phi_i, sigma_theta):
     return pdf_value
 
 def self_localize(landmarks, landmarkIDs, num_particles, particles):
-    #time1 = time.time()
     while True:# and time_running < 15: #stop loop after 15 seconds
         particle.add_uncertainty(particles, 2, 0.025) #noise sigmas are centimeter and radians
         # Fetch next frame
@@ -87,8 +86,11 @@ def self_localize(landmarks, landmarkIDs, num_particles, particles):
             est_pose = particle.estimate_pose(particles)
             print("est_pose from method:", est_pose.getX(), est_pose.getY())
 
-
-
+            landmarksSeen = filter(lambda x: x<5, objectIDs)
+            if landmarksSeen == 1:
+                rally.turn(30) # Has the robot already seen one box 
+                [p.move_particle(0, 0, math.radians(30)) for p in particles]   
+                
             if np.std(normalized_weights) < 0.0000115:
                 return particles
             
@@ -97,4 +99,3 @@ def self_localize(landmarks, landmarkIDs, num_particles, particles):
             for p in particles:
                 p.setWeight(1.0/num_particles)
     
-        #time_running = time1-time.time()
