@@ -254,6 +254,13 @@ try:
             cam.draw_aruco_objects(colour)
             print(np.std(normalized_weights))
             #sat op fra 0.00015
+
+            landmarksSeen = list(filter(lambda x: x in landmarkIDs, objectIDs))
+            print("objectsids:", objectIDs)
+            if len(landmarksSeen) == 1:
+                drive_functionality.turn(Direction.Right, 30) # Has the robot already seen one box 
+                [p.move_particle(0, 0, math.radians(30)) for p in particles] 
+                
             if np.std(normalized_weights) < 0.0010:
                 break
         

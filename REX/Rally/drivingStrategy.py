@@ -61,7 +61,9 @@ def orientation(x, y, theta, id):
     # Returns the orientation-vector.
     return math.degrees(wanted_theta), wanted_posX, wanted_posY # degrees instead of radians.
 
-def drive_to_goal(goalX, goalY):
+def drive_to_goal(goalx, goaly):
+    goal[0]
+    goal[1]
     
     pass
 
