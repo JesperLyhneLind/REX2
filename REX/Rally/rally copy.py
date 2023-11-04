@@ -4,7 +4,7 @@ import numpy as np
 import robot
 import math
 import particle
-import swerve
+import drive_functionality
 import selflocalize_method
 from time import sleep
 from enum import Enum
@@ -69,6 +69,10 @@ ret_particles = selflocalize_method.self_localize(landmarks, landmarkIDs, num_pa
 
 est_pose = particle.estimate_pose(ret_particles)
 print("est_pose:", est_pose.getX(), est_pose.getY())
+
+left_sensor, right_sensor, front_sensor = drive_functionality.check() 
+if front_sensor < 400: 
+        
 
 
 # otto.go_diff(70,71,1,1)

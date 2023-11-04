@@ -25,12 +25,12 @@ def check():
 # Turns the robot angle degrees.
 def turn(dir: Direction, angle: int):
     if dir == Direction.Left:
-        print(arlo.go_diff(40, 41, 0, 1))
+        print(arlo.go_diff(40, 40, 0, 1))
         sleep(angle/65) 
         print(arlo.stop())
         sleep(0.18)
     else:
-        print(arlo.go_diff(40, 41, 1, 0))
+        print(arlo.go_diff(40, 40, 1, 0))
         sleep(angle/65)
         print(arlo.stop())
         sleep(0.18)
@@ -50,20 +50,20 @@ def drive():
     if Left_sensor >= Right_sensor:
         print("left")
         turn(Direction.Left, 45)
-        driveM(1)
+        iDrive(1)
         turn(Direction.Right, 90)
-        driveM(1)
+        iDrive(1)
         turn(Direction.Left, 45)
-        driveM(1)
+        iDrive(1)
         
 
     elif Right_sensor > Left_sensor:
         print("Right")
         turn(Direction.Right, 45)
-        driveM(1)
+        iDrive(1)
         turn(Direction.Left, 90)
-        driveM(1)
+        iDrive(1)
         turn(Direction.Right, 45)
-        driveM(1)
+        iDrive(1)
     else:
         pass

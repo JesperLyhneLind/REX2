@@ -59,3 +59,4 @@ ret_particles = selflocalize_method.self_localize(landmarks, landmarkIDs, num_pa
 est_pose = particle.estimate_pose(ret_particles)
 print("est_pose:", est_pose.getX(), est_pose.getY())
 
+

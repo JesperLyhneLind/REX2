@@ -91,7 +91,7 @@ def self_localize(landmarks, landmarkIDs, num_particles, particles):
                 drive_functionality.turn(30) # Has the robot already seen one box 
                 [p.move_particle(0, 0, math.radians(30)) for p in particles]   
                 
-            if np.std(normalized_weights) < 0.0000115:
+            if np.std(normalized_weights) < 0.0000015:
                 return particles
             
         else:
