@@ -1,6 +1,6 @@
 import time
 from time import sleep
-import REX.self_localization_ex.robot as robot
+import robot
 from enum import Enum
 
 arlo = robot.Robot()
