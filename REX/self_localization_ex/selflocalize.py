@@ -56,10 +56,10 @@ CBLACK = (0, 0, 0)
 
 # Landmarks.
 # The robot knows the position of 2 landmarks. Their coordinates are in the unit centimeters [cm].
-landmarkIDs = [3, 4]
+landmarkIDs = [6, 7]
 landmarks = {
     3: (0.0, 0.0),  # Coordinates for landmark 1
-    4: (200.0, 0.0)  # Coordinates for landmark 2
+    4: (300.0, 0.0)  # Coordinates for landmark 2
 }
 landmark_colors = [CRED, CGREEN] # Colors used when drawing the landmarks
 
@@ -270,8 +270,8 @@ try:
             drive_functionality.turn(Direction.Right, 30) # Has the robot already seen one box 
             sleep(1)
             [p.move_particle(0, 0, math.radians(30)) for p in particles]   
-            # for p in particles:
-            #     p.setWeight(1.0/num_particles)
+            for p in particles:
+                p.setWeight(1.0/num_particles)
 
 
         est_pose = particle.estimate_pose(particles) # The estimate of the robots current pose

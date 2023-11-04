@@ -42,8 +42,6 @@ def iDrive(meters):
     print(arlo.stop())
     sleep(0.18)
 
-
-
 # Drives the robot and checks which direction to go for avoiding an object.
 def drive(): 
     arlo.go_diff(70, 71, 1, 1)
