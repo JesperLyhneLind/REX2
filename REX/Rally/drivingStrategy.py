@@ -46,17 +46,17 @@ particles = selflocalize_method.initialize_particles(num_particles)
 robot_pose = particle.estimate_pose(particles) # (x, y, theta)
 
 # Funtion for finding the orientation vector from the robot towards its next goal.
-def orientation(x, y, theta):
-    if landmarkIDs == 1:
+def orientation(x, y, theta, id):
+    # Calculate the wanted position, that the robot should drive to in order to visit the goal.
+    wanted_posX = landmarkIDs[id-1][0] - robot_pose.getX # x-coordinate
+    wanted_posY = landmarkIDs[id-1][1] - robot_pose.getY
 
-        # Calculate the wanted position, that the robot should drive to in order to visit the goal.
-        wanted_posX = landmarks[1][0] - robot_pose.getX # x-coordinate.
-        wanted_posY = landmarks[1][1] - robot_pose.getY # y-coordinate.
+    # Calculate the new theta.
+    wanted_theta = math.atan2(wanted_posX, wanted_posY)
 
-        # Calculate the new theta.
-        wanted_theta = math.atan2(wanted_posX, wanted_posY)
+    # Returns the orientation-vector.
+    return wanted_theta
 
-        # Returns the orientation-vector.
-        return wanted_theta
+def drive_to_goal():
 
-def drive
+    pass
