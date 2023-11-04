@@ -98,4 +98,3 @@ def self_localize(landmarks, landmarkIDs, num_particles, particles):
             # No observation - reset weights to uniform distribution
             for p in particles:
                 p.setWeight(1.0/num_particles)
-    
