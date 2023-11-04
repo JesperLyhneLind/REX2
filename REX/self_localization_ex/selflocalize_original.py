@@ -25,7 +25,7 @@ if isRunningOnArlo():
 
 
 try:
-    import robot
+    import REX.self_localization_ex.robot as robot
     onRobot = True
 except ImportError:
     print("selflocalize.py: robot module not present - forcing not running on Arlo!")

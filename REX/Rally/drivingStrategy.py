@@ -61,22 +61,29 @@ def orientation(x, y, theta, id):
     # Returns the orientation-vector.
     return math.degrees(wanted_theta), wanted_posX, wanted_posY # degrees instead of radians.
 
-# 
-def singleResponsibilityStuff():
-    pass
+# Checks if the detected ID is in the landmarkIDs.
+#def correctID(id):
+#    id in landmarkIDs
 
-# 
-def si():
+
+# Drives the robot and checks which direction to go for avoiding an object.
+def avoid(): 
+    #arlo.go_diff(70, 71, 1, 1)
     Left_sensor, Right_sensor, Front_sensor = drive_functionality.check()
 
     if Left_sensor >= Right_sensor:
         print("left")
         turn(Direction.Left, 45)
-        drive_functionality.iDrive(1)
-        turn(Direction.Right, 90)
-        drive_functionality.iDrive(1)
-        turn(Direction.Left, 45)
-        drive_functionality.iDrive(1)
+        Left_sensor, Right_sensor, Front_sensor = drive_functionality.check() # updates the front sensor.
+        if Front_sensor < 400:
+            avoid()
+        else:
+            drive_functionality.iDrive(0.3)
+            turn(Direction.Right, 90)
+            Left_sensor, Right_sensor, Front_sensor = drive_functionality.check() # updates the front sensor.
+            drive_functionality.iDrive(1)
+            turn(Direction.Left, 45)
+            drive_functionality.iDrive(1)
         
 
     elif Right_sensor > Left_sensor:
@@ -90,14 +97,25 @@ def si():
     else:
         pass
 
-
 # Turns the robot and drives towards the goal while avoiding objects.
 def driveToGoal(goalX, goalY, theta):
-    goal = (goalX-30, goalY-30)
     distance = math.sqrt(goalX**2 + goalY**2) # pythagorean theorem.
 
+    # Let the robot face the goal.
+    if np.sign(theta) == 1:
+        drive_functionality.turn(Direction.Right, theta) # left.
+    elif np.sign(theta) == -1:
+        drive_functionality.turn(Direction.Left, abs(theta)) # right.
+    else:
+        pass # straight forward.
+
     left_sensor, right_sensor, front_sensor = drive_functionality.check()
-    drive_functionality.turn()
+    if front_sensor > 400:
+        drive_functionality.iDrive(0.3) # drives 0,3 m.
+    else:
+        
+        
+
 
     # Drive towards the goal.
     drive_functionality.iDrive(distance-30)

@@ -3,47 +3,29 @@ import particle
 import camera
 import numpy as np
 import time
-import os
 from time import sleep
 from timeit import default_timer as timer
 import sys
 import numpy.random as rand
 import time
 import math
-import drive_functionality
-from enum import Enum
-
 # Flags
 showGUI = True  # Whether or not to open GUI windows
 onRobot = True # Whether or not we are running on the Arlo robot
-
-class Direction(Enum):
-    Left = 1
-    Right = 2
-
-    
 def isRunningOnArlo():
     """Return True if we are running on Arlo, otherwise False.
       You can use this flag to switch the code from running on you laptop to Arlo - you need to do the programming here!
     """
     return onRobot
-
-
 if isRunningOnArlo():
     # XXX: You need to change this path to point to where your robot.py file is located
     sys.path.append("robot.py")
-
-
 try:
     import robot
     onRobot = True
 except ImportError:
     print("selflocalize.py: robot module not present - forcing not running on Arlo!")
     onRobot = False
-
-
-
-
 # Some color constants in BGR format
 CRED = (0, 0, 255)
 CGREEN = (0, 255, 0)
@@ -53,43 +35,34 @@ CYELLOW = (0, 255, 255)
 CMAGENTA = (255, 0, 255)
 CWHITE = (255, 255, 255)
 CBLACK = (0, 0, 0)
-
 # Landmarks.
 # The robot knows the position of 2 landmarks. Their coordinates are in the unit centimeters [cm].
 landmarkIDs = [6, 7]
 landmarks = {
-    6: (0.0, 0.0),  # Coordinates for landmark 1
-    7: (0.0, 300.0)  # Coordinates for landmark 2
+    6: (0.0, 300.0),  # Coordinates for landmark 1
+    7: (100.0, 300.0)  # Coordinates for landmark 2
 }
 landmark_colors = [CRED, CGREEN] # Colors used when drawing the landmarks
-
 def jet(x):
     """Colour map for drawing particles. This function determines the colour of 
     a particle from its weight."""
     r = (x >= 3.0/8.0 and x < 5.0/8.0) * (4.0 * x - 3.0/2.0) + (x >= 5.0/8.0 and x < 7.0/8.0) + (x >= 7.0/8.0) * (-4.0 * x + 9.0/2.0)
     g = (x >= 1.0/8.0 and x < 3.0/8.0) * (4.0 * x - 1.0/2.0) + (x >= 3.0/8.0 and x < 5.0/8.0) + (x >= 5.0/8.0 and x < 7.0/8.0) * (-4.0 * x + 7.0/2.0)
     b = (x < 1.0/8.0) * (4.0 * x + 1.0/2.0) + (x >= 1.0/8.0 and x < 3.0/8.0) + (x >= 3.0/8.0 and x < 5.0/8.0) * (-4.0 * x + 5.0/2.0)
-
     return (255.0*r, 255.0*g, 255.0*b)
-
 def draw_world(est_pose, particles, world):
     """Visualization.
     This functions draws robots position in the world coordinate system."""
-
     # Fix the origin of the coordinate system
     offsetX = 100
     offsetY = 250
-
     # Constant needed for transforming from world coordinates to screen coordinates (flip the y-axis)
     ymax = world.shape[0]
-
     world[:] = CWHITE # Clear background to white
-
     # Find largest weight
     max_weight = 0
     for particle in particles:
         max_weight = max(max_weight, particle.getWeight())
-
     # Draw particles
     for particle in particles:
         x = int(particle.getX() + offsetX)
@@ -99,31 +72,24 @@ def draw_world(est_pose, particles, world):
         b = (int(particle.getX() + 15.0*np.cos(particle.getTheta()))+offsetX, 
                                      ymax - (int(particle.getY() + 15.0*np.sin(particle.getTheta()))+offsetY))
         cv2.line(world, (x,y), b, colour, 2)
-
     # Draw landmarks
     for i in range(len(landmarkIDs)):
         ID = landmarkIDs[i]
         lm = (int(landmarks[ID][0] + offsetX), int(ymax - (landmarks[ID][1] + offsetY)))
         cv2.circle(world, lm, 5, landmark_colors[i], 2)
-
     # Draw estimated robot pose
     a = (int(est_pose.getX())+offsetX, ymax-(int(est_pose.getY())+offsetY))
     b = (int(est_pose.getX() + 15.0*np.cos(est_pose.getTheta()))+offsetX, 
                                  ymax-(int(est_pose.getY() + 15.0*np.sin(est_pose.getTheta()))+offsetY))
     cv2.circle(world, a, 5, CMAGENTA, 2)
     cv2.line(world, a, b, CMAGENTA, 2)
-
-
 def initialize_particles(num_particles):
     particles = []
     for i in range(num_particles):
         # Random starting points. 
         p = particle.Particle(600.0*rand.ranf() - 100.0, 600.0*rand.ranf() - 250.0, np.mod(2.0*np.pi*rand.ranf(), 2.0*np.pi), 1.0/num_particles)
         particles.append(p)
-
     return particles
-
-
 # Main program #
 try:
     if showGUI:
@@ -131,11 +97,9 @@ try:
         WIN_RF1 = "Robot view"
         cv2.namedWindow(WIN_RF1)
         cv2.moveWindow(WIN_RF1, 50, 50)
-
         WIN_World = "World view"
         cv2.namedWindow(WIN_World)
         cv2.moveWindow(WIN_World, 500, 50)
-
     # Initialize particles
     num_particles = 1000
     particles = initialize_particles(num_particles)
@@ -143,30 +107,23 @@ try:
     # Driving parameters
     velocity = 0.0 # cm/sec
     angular_velocity = 0.0 # radians/sec
-
     # Initialize the robot (XXX: You do this)
     if onRobot:
         otto = robot.Robot()
-
     # Allocate space for world map
     world = np.zeros((500,500,3), dtype=np.uint8)
-
     # Draw map
     draw_world(est_pose, particles, world)
-
     print("Opening and initializing camera")
     if camera.isRunningOnArlo():
         cam = camera.Camera(0, 'arlo', useCaptureThread = True)
     else:
         cam = camera.Camera(0, 'macbookpro', useCaptureThread = True)
-
     while True:
-
         # Move the robot according to user input (only for testing)
         action = cv2.waitKey(10)
         if action == ord('q'): # Quit
             break
-
         # Use motor controls to update particles
         # XXX: Make the robot drive
         #FLYT PARTIKLER
@@ -188,7 +145,7 @@ try:
                 angular_velocity -= 0.2
                 [p.move_particle(5, 0, 0.45) for p in particles]   
                 sleep(0.18)
-        particle.add_uncertainty(particles, 8, 0.3) #noise sigmas are centimeter and radians
+        particle.add_uncertainty(particles, 2, 0.025) #noise sigmas are centimeter and radians
         # Fetch next frame
         
         colour = cam.get_next_frame()
@@ -203,9 +160,6 @@ try:
             # Calculate the Gaussian PDF
             pdf_value = (1 / np.sqrt(2 * np.pi * sigma_theta**2)) * math.exp(-(phi_M - phi_i)**2 / (2 * sigma_theta**2))
             return pdf_value
-
-
-
         if not isinstance(d_objectIDs, type(None)):
             # List detected objects
             objectIDs = np.unique(d_objectIDs)
@@ -215,7 +169,6 @@ try:
             #     # Use the camera function to get the measured distance
             #     objectType, distance, angle, colourProb = cam.get_object(colour)
                             
-
             #objectType, distance, angle, colourProb = cam.get_object(colour)
             for par in particles:
                 par.setWeight(1.0)
@@ -239,8 +192,6 @@ try:
                         p_x = p_d * p_phi
                         #update weights
                         par.setWeight(par.getWeight() * p_x)
-
-
             # Normalize particle weights
             total_weight = sum([p.getWeight() for p in particles])
             normalized_weights = []     
@@ -253,27 +204,15 @@ try:
             particles = [particle.Particle(p.getX(), p.getY(), p.getTheta(), p.getWeight()) for p in r_particles]
             # Draw detected objects
             cam.draw_aruco_objects(colour)
-            print("std:", np.std(normalized_weights))
+            print(np.std(normalized_weights))
             #sat op fra 0.00015
-
-            landmarksSeen = list(filter(lambda x: x in landmarkIDs, objectIDs))
-            print("objectsids:", objectIDs)
-            if len(landmarksSeen) == 1:
-                drive_functionality.turn(Direction.Right, 30) # Has the robot already seen one box 
-                [p.move_particle(0, 0, math.radians(30)) for p in particles] 
-                
-            if np.std(normalized_weights) < 0.00000:
+            if np.std(normalized_weights) < 0.0000000001:
                 break
         
         else:
             # No observation - reset weights to uniform distribution
-            drive_functionality.turn(Direction.Right, 30) # Has the robot already seen one box 
-            sleep(1)
-            [p.move_particle(0, 0, math.radians(30)) for p in particles]   
             for p in particles:
                 p.setWeight(1.0/num_particles)
-
-
         est_pose = particle.estimate_pose(particles) # The estimate of the robots current pose
         if showGUI:
             # Draw map
@@ -281,7 +220,6 @@ try:
     
             # Show frame
             cv2.imshow(WIN_RF1, colour)
-
             # Show world
             cv2.imshow(WIN_World, world)
     
@@ -291,6 +229,5 @@ finally:
     cv2.destroyAllWindows()
     # Clean-up capture thread
     cam.terminateCaptureThread()
-
 print("done")
 print("est_pose:", est_pose.getX(), est_pose.getY())

@@ -36,23 +36,9 @@ particles = selflocalize_method.initialize_particles(num_particles)
 # The estimate of the robots current pose
 robot_pose = particle.estimate_pose(particles) # (x, y, theta)
 
-# Funtion for finding the orientation vector from the robot towards its next goal.
-def orientation_vector(x, y, theta):
-    if landmarkIDs == 1:
 
-        # Calculate the relative vector.
-        dx = landmarks[1][0] - robot_pose.getX
-        dy = landmarks[1][1] - robot_pose.getY
 
-        # Calculate the magnitude of the vector.
-        magnitude = math.sqrt(dx**2 + dy**2)
 
-        # Normalize the vector by dividing each component by the magnitude.
-        dx_norm = dx / magnitude
-        dy_norm = dy / magnitude
-
-        # Returns the orientation-vector.
-        return (dx_norm, dy_norm)
 
 ret_particles = selflocalize_method.self_localize(landmarks, landmarkIDs, num_particles, particles)
 
