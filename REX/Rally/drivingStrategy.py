@@ -96,16 +96,11 @@ def driveToGoal(goalX, goalY, theta):
         drive_functionality.turn(Direction.Left, abs(theta)) # right.
 
     # Drives the robot towards the goal, while there's longer than 0,4m to the goal.
-    while distance > 400:
+    if distance > 400:
         left_sensor, right_sensor, front_sensor = drive_functionality.check()
         if front_sensor > 400:
             drive_functionality.iDrive(0.3) # drives 0,3 m.
         else:
             avoid()
-            driveToGoal(goalX, goalY, )
+            driveToGoal(goalX, goalY, theta) 
 
-
-# Skal pakkes ind med noget drive og dit dat
-left_sensor, right_sensor, front_sensor = drive_functionality.check() 
-if front_sensor < 400: 
-    landmarks_index += 1
