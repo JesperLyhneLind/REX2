@@ -262,7 +262,7 @@ try:
                 drive_functionality.turn(Direction.Right, 30) # Has the robot already seen one box 
                 [p.move_particle(0, 0, math.radians(30)) for p in particles] 
                 
-            if np.std(normalized_weights) < 0.000010:
+            if np.std(normalized_weights) < 0.00000:
                 break
         
         else:
