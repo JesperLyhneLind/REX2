@@ -253,7 +253,7 @@ try:
             particles = [particle.Particle(p.getX(), p.getY(), p.getTheta(), p.getWeight()) for p in r_particles]
             # Draw detected objects
             cam.draw_aruco_objects(colour)
-            print(np.std(normalized_weights))
+            print("std:", np.std(normalized_weights))
             #sat op fra 0.00015
 
             landmarksSeen = list(filter(lambda x: x in landmarkIDs, objectIDs))
@@ -262,7 +262,7 @@ try:
                 drive_functionality.turn(Direction.Right, 30) # Has the robot already seen one box 
                 [p.move_particle(0, 0, math.radians(30)) for p in particles] 
                 
-            if np.std(normalized_weights) < 0.00010:
+            if np.std(normalized_weights) < 0.000010:
                 break
         
         else:
