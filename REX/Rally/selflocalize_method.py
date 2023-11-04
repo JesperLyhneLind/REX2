@@ -10,6 +10,11 @@ import time
 import math
 import drive_functionality
 import robot
+from enum import Enum
+
+class Direction(Enum):
+    Left = 1
+    Right = 2
 
 sys.path.append("robot.py")
 cam = camera.Camera(0, 'arlo', useCaptureThread = True)
@@ -89,7 +94,7 @@ def self_localize(landmarks, landmarkIDs, num_particles, particles):
             landmarksSeen = list(filter(lambda x: x in landmarkIDs, objectIDs))
             print("objectsids:", objectIDs)
             if len(landmarksSeen) == 1:
-                drive_functionality.turn(30) # Has the robot already seen one box 
+                drive_functionality.turn(Direction.Right, 30) # Has the robot already seen one box 
                 [p.move_particle(0, 0, math.radians(30)) for p in particles]   
                 
             if np.std(normalized_weights) < 0.0000015:
