@@ -188,7 +188,7 @@ try:
                 angular_velocity -= 0.2
                 [p.move_particle(5, 0, 0.45) for p in particles]   
                 sleep(0.18)
-        particle.add_uncertainty(particles, 2, 0.025) #noise sigmas are centimeter and radians
+        particle.add_uncertainty(particles, 8, 0.3) #noise sigmas are centimeter and radians
         # Fetch next frame
         
         colour = cam.get_next_frame()
