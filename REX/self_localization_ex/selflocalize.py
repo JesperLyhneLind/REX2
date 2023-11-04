@@ -185,6 +185,7 @@ try:
                         p_d = distance_observation_model(dists[i], particle_distance, sigma_d)
                         print("pd:", p_d)
                         if p_d == 0.0:
+                            print("p_d = 0")
                             break
                         #angle
                         sigma_theta = 0.03# try value 0.3 radians
@@ -200,6 +201,7 @@ try:
                         p_phi = angle_observation_model(angles[i], phi_i, sigma_theta)
                         print("p_phi:", p_phi)
                         if p_phi == 0.0:
+                            print("p_phi = 0")
                             break
                         p_x = p_d * p_phi
                         #update weights
@@ -219,6 +221,7 @@ try:
             #landmarksSeen.append(landmarks_in_map) # Has the robot already seen one box 
             print(np.std(normalized_weights))
             if np.std(normalized_weights) < 0.006:
+                print("done")
                 break
             
             landmarks_in_map = list(filter(lambda x: x in landmarkIDs, objectIDs))
@@ -259,5 +262,5 @@ finally:
     cv2.destroyAllWindows()
     # Clean-up capture thread
     cam.terminateCaptureThread()
-print("done")
+#print("done")
 print("est_pose:", est_pose.getX(), est_pose.getY())
