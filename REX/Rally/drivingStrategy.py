@@ -51,15 +51,11 @@ def orientation_vector(x, y, theta):
 
         # Calculate the wanted position, that the robot should drive to in order to visit the goal.
         wanted_posX = landmarks[1][0] - robot_pose.getX # x-coordinate.
-        wanted_posY = landmarks[1][1] - robot_pose.getY # y-
+        wanted_posY = landmarks[1][1] - robot_pose.getY # y-coordinate.
 
-        # Calculate the magnitude of the vector.
-        magnitude = math.sqrt(wanted_posX**2 + wanted_posY**2)
-
-        # Normalize the vector by dividing each component by the magnitude.
-        dx_norm = wanted_posX / magnitude
-        dy_norm = wanted_posY / magnitude
+        # Calculate the new theta.
+        wanted_theta = math.atan2(wanted_posX, wanted_posY)
 
         # Returns the orientation-vector.
-        return (dx_norm, dy_norm)
+        return wanted_theta
 
