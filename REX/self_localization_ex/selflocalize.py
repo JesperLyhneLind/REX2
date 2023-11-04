@@ -186,7 +186,7 @@ try:
                         print("pd:", p_d)
                         if p_d == 0.0:
                             print("p_d = 0")
-                            break
+                            exit
                         #angle
                         sigma_theta = 0.03# try value 0.3 radians
                         uvec_robot = [((landmarks[objectIDs[i]])[0] - par.getX()) / particle_distance, 
@@ -202,7 +202,7 @@ try:
                         print("p_phi:", p_phi)
                         if p_phi == 0.0:
                             print("p_phi = 0")
-                            break
+                            exit
                         p_x = p_d * p_phi
                         #update weights
                         par.setWeight(par.getWeight() * p_x)
