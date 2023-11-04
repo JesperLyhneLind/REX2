@@ -223,7 +223,7 @@ try:
             cam.draw_aruco_objects(colour)
             #landmarksSeen.append(landmarks_in_map) # Has the robot already seen one box 
             print(np.std(normalized_weights))
-            if np.std(normalized_weights) < 0.00075:
+            if np.std(normalized_weights) < 0.00085:
                 print("done")
                 break
             
