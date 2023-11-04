@@ -49,16 +49,16 @@ robot_pose = particle.estimate_pose(particles) # (x, y, theta)
 def orientation_vector(x, y, theta):
     if landmarkIDs == 1:
 
-        # Calculate the relative vector.
-        dx = landmarks[1][0] - robot_pose.getX
-        dy = landmarks[1][1] - robot_pose.getY
+        # Calculate the wanted position, that the robot should drive to in order to visit the goal.
+        wanted_posX = landmarks[1][0] - robot_pose.getX # x-coordinate.
+        wanted_posY = landmarks[1][1] - robot_pose.getY # y-
 
         # Calculate the magnitude of the vector.
-        magnitude = math.sqrt(dx**2 + dy**2)
+        magnitude = math.sqrt(wanted_posX**2 + wanted_posY**2)
 
         # Normalize the vector by dividing each component by the magnitude.
-        dx_norm = dx / magnitude
-        dy_norm = dy / magnitude
+        dx_norm = wanted_posX / magnitude
+        dy_norm = wanted_posY / magnitude
 
         # Returns the orientation-vector.
         return (dx_norm, dy_norm)

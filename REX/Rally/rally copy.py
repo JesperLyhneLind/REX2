@@ -35,7 +35,8 @@ landmarks = {
     3: (400.0, 0.0),  # Coordinates for landmark 3
     4: (400.0, 300.0)  # Coordinates for landmark 4
 }
-landmarks_counter = [1,2,3,4,1]
+landmarks_inOrder = [1,2,3,4,1]
+landmarks_index = 0
 
 # Initialize particles.
 num_particles = 1000
@@ -70,9 +71,11 @@ ret_particles = selflocalize_method.self_localize(landmarks, landmarkIDs, num_pa
 est_pose = particle.estimate_pose(ret_particles)
 print("est_pose:", est_pose.getX(), est_pose.getY())
 
+# Skal pakkes ind med noget drive og dit dat
 left_sensor, right_sensor, front_sensor = drive_functionality.check() 
 if front_sensor < 400: 
-        
+    landmarks_index += 1
+
 
 
 # otto.go_diff(70,71,1,1)

@@ -87,6 +87,7 @@ def self_localize(landmarks, landmarkIDs, num_particles, particles):
             print("est_pose from method:", est_pose.getX(), est_pose.getY())
 
             landmarksSeen = filter(lambda x: x<5, objectIDs)
+            print("landmarks seen:", landmarksSeen)
             if landmarksSeen == 1:
                 drive_functionality.turn(30) # Has the robot already seen one box 
                 [p.move_particle(0, 0, math.radians(30)) for p in particles]   

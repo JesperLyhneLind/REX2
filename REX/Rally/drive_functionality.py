@@ -44,7 +44,7 @@ def iDrive(meters):
 
 # Drives the robot and checks which direction to go for avoiding an object.
 def drive(): 
-    arlo.go_diff(50, 51, 1, 1)
+    arlo.go_diff(70, 71, 1, 1)
     Left_sensor, Right_sensor, Front_sensor = check()
 
     if Left_sensor >= Right_sensor:
