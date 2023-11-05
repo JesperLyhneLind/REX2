@@ -241,6 +241,10 @@ try:
                 if np.std(normalized_weights) < 0.00005:
                     print("done")
                     break
+                else:
+                    drive_functionality.turn(drive_functionality.Direction.Right, 30)
+                    [p.move_particle(0, 0, math.radians(30)) for p in particles]  
+
             else: #he only sees boxes that are not in dictionary
                 drive_functionality.turn(drive_functionality.Direction.Right, 30)
                 [p.move_particle(0, 0, math.radians(30)) for p in particles] 
