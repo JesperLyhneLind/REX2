@@ -129,7 +129,7 @@ def self_localize(landmarks, landmarkIDs):
             
         else:
             # No observation - reset weights to uniform distribution
-            print("no landmarks seen")
+            print("no landmarks seen") 
             drive_functionality.turn(drive_functionality.Direction.Right, 30)
             sleep(1)
             [p.move_particle(0, 0, -math.radians(30)) for p in particles]  
