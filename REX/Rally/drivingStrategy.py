@@ -57,13 +57,13 @@ def avoid():
     drive_functionality.iDrive(0.5)
     print("i'm done avoiding now!")
 
-def canYouSeeTarget(goalID, cam):
-    # Check if it can see target
-    colour = cam.get_next_frame()
-    d_objectIDs, dists, angles = cam.detect_aruco_objects(colour)
-    if not isinstance(d_objectIDs, type(None)):
-        print("I can see the target: ", goalID in d_objectIDs)
-        return goalID in d_objectIDs
+# def canYouSeeTarget(goalID, cam):
+#     # Check if it can see target
+#     colour = cam.get_next_frame()
+#     d_objectIDs, dists, angles = cam.detect_aruco_objects(colour)
+#     if not isinstance(d_objectIDs, type(None)):
+#         print("I can see the target: ", goalID in d_objectIDs)
+#         return goalID in d_objectIDs
 
 
 # Turns the robot and drives towards the goal while avoiding objects.
@@ -78,10 +78,10 @@ def driveAlongVec(vecX, vecY, theta, goalID, cam):
         drive_functionality.turn(Direction.Left, abs(theta)) # left.
         print("turning right with degrees ", abs(theta))
     # If yes go until sensor sensors
-        if canYouSeeTarget(goalID, cam):
-            print("I can see the target!!")
-            res = drive_functionality.iDrive(40) # Drives until reaching landmark.
-            return 2
+        # if canYouSeeTarget(goalID, cam):
+        #     print("I can see the target!!")
+        #     res = drive_functionality.iDrive(40) # Drives until reaching landmark.
+        #     return 2
     # If not do as before:
     # Drives the robot towards the goal, while there's longer than 0,4m to the goal.
     if drive_functionality.iDrive((distance-40)/100) == 1:
