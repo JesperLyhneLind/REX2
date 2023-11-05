@@ -36,21 +36,22 @@ def turn(dir: Direction, angle: int):
         print(arlo.stop())
         sleep(0.18)
 
-# Drives one meter.
+# Drives a certain amount of meters until obstacle is detected in front of it.
 def iDrive(meters):
     print(arlo.go_diff(70, 71, 1, 1))
     start = time.perf_counter()
     while True:
+        Left_sensor, Right_sensor, Front_sensor = check()
+        if Front_sensor < 400:
+            print(arlo.stop())
+            return 1 # Otto stopped because of obstacle
         if (time.perf_counter() - start > (2.6*meters)):
             print(arlo.stop())
             sleep(0.18)
             return 0 # Otto drived intended distance
    
 
-    
-while (isDriving): # or some other form of loop
-if (time.perf_counter() – start > 5): # Stop after 5 seconds
-print arlo.stop()
+
 
 # Drives the robot and checks which direction to go for avoiding an object.
 def drive(): 
