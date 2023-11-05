@@ -129,7 +129,6 @@ def self_localize(landmarks, landmarkIDs):
             [p.move_particle(0, 0, -math.radians(30)) for p in particles]  
             for p in particles:
                 p.setWeight(1.0/len(particles))
-        est_pose = particle.estimate_pose(particles)
-        #print("selflocalize done, position estimated to be", est_pose)
-        print("est_pose:", est_pose.getX(), est_pose.getY())
-        return est_pose
+    est_pose = particle.estimate_pose(particles)
+    print("est_pose:", est_pose.getX(), est_pose.getY())
+    return est_pose
