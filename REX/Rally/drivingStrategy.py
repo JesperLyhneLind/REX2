@@ -23,7 +23,7 @@ landmarks = {
     3: (400.0, 0.0),  # Coordinates for landmark 3
     4: (400.0, 300.0)  # Coordinates for landmark 4
 }
-landmarks_inOrder = [1,2,3,4,1]
+#landmarks_inOrder = [1,2,3,4,1]
 
 # Funtion for finding the orientation from the robot towards its next goal in degrees.
 def orientation(id_index):
@@ -31,6 +31,7 @@ def orientation(id_index):
     robot_pose = selflocalize_method.self_localize(landmarks, landmarkIDs)
 
     # Calculate the vector, that the robot should drive to in order to visit the goal.
+    print("goal: ", (landmarks[id_index]))
     vec_posX = (landmarks[id_index])[0] - robot_pose.getX() # x-coordinate
     vec_posY = (landmarks[id_index])[1] - robot_pose.getY() # y-coordinate
 
@@ -54,7 +55,7 @@ def avoid():
     drive_functionality.iDrive(0.5)
 
 # Turns the robot and drives towards the goal while avoiding objects.
-def driveToGoal(vecX, vecY, theta):
+def driveAlongVec(vecX, vecY, theta):
     distance = math.sqrt(vecX**2 + vecY**2) # pythagorean theorem.
     print("driving " + str(distance) + " to goal in " + str(vecX) + " " + str(vecY))
     # Let the robot face the goal.
