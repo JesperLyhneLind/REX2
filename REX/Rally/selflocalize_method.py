@@ -17,7 +17,7 @@ class Direction(Enum):
     Right = 2
 
 sys.path.append("robot.py")
-cam = camera.Camera(1, 'arlo', useCaptureThread = True)
+cam = camera.Camera(0, 'arlo', useCaptureThread = True)
 otto = robot.Robot()
 landmarksSeen = []
 

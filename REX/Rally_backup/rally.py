@@ -14,8 +14,6 @@ class Direction(Enum):
     Left = 1
     Right = 2
 
-
-
 # Landmarks.
 # The robot knows the position of 4 landmarks. Their coordinates are in the unit centimeters [cm].
 landmarkIDs = [1, 2, 3, 4]

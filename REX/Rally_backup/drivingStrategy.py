@@ -32,8 +32,9 @@ def detectLandmark(id):
         colour = cam.get_next_frame()
         # Detect objects
         d_objectIDs, dists, angles = cam.detect_aruco_objects(colour)
-        if id in d_objectIDs:
-            return 1 # Spotted
+        if not isinstance(d_objectIDs, type(None)):
+            if id in d_objectIDs:
+                return 1 # Spotted
         drive_functionality.turn(Direction.Right, 30)
     return 0 # Turned full 360 degrees
 
