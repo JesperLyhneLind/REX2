@@ -59,7 +59,7 @@ def canYouSeeTarget(goalID, cam):
     # Check if it can see target
     colour = cam.get_next_frame()
     d_objectIDs, dists, angles = cam.detect_aruco_objects(colour)
-    if isinstance(d_objectIDs, type(None)):
+    if not isinstance(d_objectIDs, type(None)):
         return goalID in d_objectIDs
 
 
