@@ -45,10 +45,10 @@ def avoid():
     Left_sensor, Right_sensor, Front_sensor = drive_functionality.check()
 
     if Left_sensor >= Right_sensor:
-        print("Turning left")
+        print("Turning left - avoid, 45")
         drive_functionality.turn(Direction.Left, 45)
     else:
-        print("Turning right")
+        print("Turning right - avoid, 45")
         drive_functionality.turn(Direction.Right, 45)
 
     drive_functionality.iDrive(0.5)
