@@ -236,17 +236,20 @@ try:
             print("landmarksSeen", landmarksSeen)
             if len(landmarks_in_map) == 1 and len(landmarksSeen) < 2: 
                 drive_functionality.turn(drive_functionality.Direction.Right, 30)
+                sleep(1)
                 [p.move_particle(0, 0, math.radians(30)) for p in particles]  
             elif len(landmarksSeen) >= 2: 
-                if np.std(normalized_weights) < 0.00005:
+                if np.std(normalized_weights) < 0.003:
                     print("done")
                     break
                 else:
                     drive_functionality.turn(drive_functionality.Direction.Right, 30)
+                    sleep(1)
                     [p.move_particle(0, 0, math.radians(30)) for p in particles]  
 
             else: #he only sees boxes that are not in dictionary
                 drive_functionality.turn(drive_functionality.Direction.Right, 30)
+                sleep(1)
                 [p.move_particle(0, 0, math.radians(30)) for p in particles] 
 
             
