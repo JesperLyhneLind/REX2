@@ -28,8 +28,7 @@ while landmarks_index < 5:
     #Check orientation
     vec_t, vec_x, vec_y = drivingStrategy.orientation(landmarks_inOrder[landmarks_index], cam)
     # If it has seen the goal and drives blindly or the distance has been reached successfully
-    if drivingStrategy.driveAlongVec(vec_x, vec_y, vec_t, landmarks_inOrder[landmarks_index], cam) == 2 : 
-        #or drivingStrategy.driveAlongVec(vec_x, vec_y, vec_t, landmarks_inOrder[landmarks_index], cam) == 1 : # Target reached
+    if drivingStrategy.driveAlongVec(vec_x, vec_y, vec_t, landmarks_inOrder[landmarks_index], cam) == 1 : 
         print("\n NOW INCREMENTED!!!!! \n")
         landmarks_index += 1
         
