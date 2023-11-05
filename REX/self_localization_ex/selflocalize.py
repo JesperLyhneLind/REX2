@@ -152,7 +152,7 @@ try:
 
 
         #particle.add_uncertainty(particles, 4, 0.025) #noise sigmas are centimeter and radians
-        particle.add_uncertainty(particles, 15, 0.25) #noise sigmas are centimeter and radians
+        particle.add_uncertainty(particles, 14, 0.25) #noise sigmas are centimeter and radians
         # Fetch next frame
         
         colour = cam.get_next_frame()

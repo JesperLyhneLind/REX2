@@ -41,9 +41,10 @@ def angle_observation_model(phi_M, phi_i, sigma_theta):
     pdf_value = (1 / np.sqrt(2 * np.pi * sigma_theta**2)) * math.exp(-(phi_M - phi_i)**2 / (2 * sigma_theta**2))
     return pdf_value
 
-def self_localize(landmarks, landmarkIDs, num_particles, particles):
+def self_localize(landmarks, landmarkIDs):
+    particles = initialize_particles(1000)
     while True:# and time_running < 15: #stop loop after 15 seconds
-        particle.add_uncertainty(particles, 2, 0.025) #noise sigmas are centimeter and radians
+        particle.add_uncertainty(particles, 14, 0.25) #noise sigmas are centimeter and radians
         # Fetch next frame
         
         colour = cam.get_next_frame()
@@ -119,11 +120,12 @@ def self_localize(landmarks, landmarkIDs, num_particles, particles):
             print("landmarksSeen", landmarksSeen)
             if len(landmarks_in_map) == 1 and len(landmarksSeen) < 2: 
                 drive_functionality.turn(drive_functionality.Direction.Right, 30)
-                [p.move_particle(0, 0, math.radians(30)) for p in particles]  
+                [p.move_particle(0, 0, -math.radians(30)) for p in particles]  
             
         else:
             # No observation - reset weights to uniform distribution
             drive_functionality.turn(drive_functionality.Direction.Right, 30)
             [p.move_particle(0, 0, -math.radians(30)) for p in particles]  
             for p in particles:
-                p.setWeight(1.0/num_particles)
+                p.setWeight(1.0/len(particles))
+        return particle.estimate_pose(particles)

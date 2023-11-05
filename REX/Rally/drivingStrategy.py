@@ -25,31 +25,20 @@ landmarks = {
 }
 landmarks_inOrder = [1,2,3,4,1]
 
-# Initialize particles.
-num_particles = 1000
-particles = selflocalize_method.initialize_particles(num_particles)
-# The estimate of the robots current pose
-
-# est_pose = particle.estimate_pose(particles)
-
 # Funtion for finding the orientation from the robot towards its next goal in degrees.
 def orientation(id_index):
     # The estimate of the robots current pose
-    robot_pose = particle.estimate_pose(particles) # (x, y, theta)
+    robot_pose = selflocalize_method.self_localize(landmarks, landmarkIDs)
 
-    # Calculate the wanted position, that the robot should drive to in order to visit the goal.
-    wanted_posX = (landmarks[id_index])[0] - robot_pose.getX() # x-coordinate
-    wanted_posY = (landmarks[id_index])[1] - robot_pose.getY() # y-coordinate
+    # Calculate the vector, that the robot should drive to in order to visit the goal.
+    vec_posX = (landmarks[id_index])[0] - robot_pose.getX() # x-coordinate
+    vec_posY = (landmarks[id_index])[1] - robot_pose.getY() # y-coordinate
 
     # Calculate the new theta.
-    wanted_theta = math.atan2(wanted_posX, wanted_posY)
+    vec_theta = math.atan2(vec_posX, vec_posY)
 
     # Returns the orientation-vector.
-    return math.degrees(wanted_theta), wanted_posX, wanted_posY # degrees instead of radians.
-
-# Checks if the detected ID is in the landmarkIDs.
-#def correctID(id):
-#    id in landmarkIDs
+    return math.degrees(vec_theta), vec_posX, vec_posY # degrees instead of radians.
 
 # Avoids an object and drives the robot 0.3m if there's nothing detected in front of it.
 def avoid():
@@ -62,18 +51,12 @@ def avoid():
         print("Turning right")
         drive_functionality.turn(Direction.Right, 45)
 
-    Left_sensor, Right_sensor, Front_sensor = drive_functionality.check()
-
-    if Front_sensor < 400:
-        print("Obstacle in front, continuing turn...")
-        avoid()
-    else:
-        print("No obstacle in front, moving forward...")
-        drive_functionality.iDrive(0.3)
+    drive_functionality.iDrive(0.5)
 
 # Turns the robot and drives towards the goal while avoiding objects.
 def driveToGoal(goalX, goalY, theta):
     distance = math.sqrt(goalX**2 + goalY**2) # pythagorean theorem.
+    print("driving " + distance + "m to goal in " + goalX + goalY)
 
     # Let the robot face the goal.
     if np.sign(theta) == 1:
@@ -83,9 +66,11 @@ def driveToGoal(goalX, goalY, theta):
 
     # Drives the robot towards the goal, while there's longer than 0,4m to the goal.
     if drive_functionality.iDrive((distance-40)/100) == 1:
+        print("avoiding")
         avoid()
         return 0 # Ends with avoid
     else:
+        print("target reached")
         return 1 # Target reached
 
         
