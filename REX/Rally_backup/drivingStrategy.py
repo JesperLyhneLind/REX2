@@ -29,9 +29,13 @@ cam = camera.Camera(0, 'arlo', useCaptureThread = True)
 #landmarks_inOrder = [1,2,3,4,1]
 
 def detect(id):
-    colour = cam.get_next_frame()
-    # Detect objects
-    d_objectIDs, dists, angles = cam.detect_aruco_objects(colour)
+    for i in range(12):
+        colour = cam.get_next_frame()
+        # Detect objects
+        d_objectIDs, dists, angles = cam.detect_aruco_objects(colour)
+        if id in d_objectIDs:
+            break
+        
 
 # Avoids an object and drives the robot 0.3m if there's nothing detected in front of it.
 def avoid():
