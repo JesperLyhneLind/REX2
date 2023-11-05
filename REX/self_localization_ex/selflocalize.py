@@ -225,9 +225,7 @@ try:
             cam.draw_aruco_objects(colour)
             #landmarksSeen.append(landmarks_in_map) # Has the robot already seen one box 
             print("std:", np.std(normalized_weights))
-            if np.std(normalized_weights) < 0.00085:
-                print("done")
-                break
+            
             
             landmarks_in_map = list(filter(lambda x: x in landmarkIDs, objectIDs))
             for i in landmarks_in_map:
@@ -239,6 +237,10 @@ try:
             if len(landmarks_in_map) == 1 and len(landmarksSeen) < 2: 
                 drive_functionality.turn(drive_functionality.Direction.Right, 30)
                 [p.move_particle(0, 0, math.radians(30)) for p in particles]  
+            else:
+                if np.std(normalized_weights) < 0.00085:
+                    print("done")
+                    break
             
             
         
