@@ -27,6 +27,7 @@ def initialize_particles(num_particles):
         # Random starting points. 
         p = particle.Particle(600.0*rand.ranf() - 100.0, 600.0*rand.ranf() - 250.0, np.mod(2.0*np.pi*rand.ranf(), 2.0*np.pi), 1.0/num_particles)
         particles.append(p)
+    landmarksSeen = []
 
     return particles
 
@@ -117,7 +118,7 @@ def self_localize(landmarks, landmarkIDs):
                 [p.move_particle(0, 0, -math.radians(30)) for p in particles]  
             elif len(landmarksSeen) >= 2: 
                 print("saw at least two known landmarks")
-                if np.std(normalized_weights) < 0.005:
+                if np.std(normalized_weights) < 0.001:
                     print("done")
                     break
                 print("std too high:", np.std(normalized_weights))
