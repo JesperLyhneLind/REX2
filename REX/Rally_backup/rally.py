@@ -28,7 +28,6 @@ while landmarks_index < 5:
             print("Target not reached - i drive more")
         print("Target reached - next landmark")
         landmarks_index += 1
-        break
     else: 
         print("Finding obstacles")
         if drivingStrategy.detectObstacle == 1: # Spotted obstacle
