@@ -9,23 +9,10 @@ from time import sleep
 from enum import Enum
 import drive_functionality
 
-
-otto = robot.Robot()
 class Direction(Enum):
     Left = 1
     Right = 2
 
-def turn(dir: Direction, angle: int):
-    if dir == Direction.Left:
-        print(otto.go_diff(40, 40, 0, 1))
-        sleep(angle/65) 
-        print(otto.stop())
-        sleep(0.18)
-    else:
-        print(otto.go_diff(40, 40, 1, 0))
-        sleep(angle/65)
-        print(otto.stop())
-        sleep(0.18)
 
 # Landmarks.
 # The robot knows the position of 4 landmarks. Their coordinates are in the unit centimeters [cm].
@@ -47,13 +34,13 @@ particles = selflocalize_method.initialize_particles(num_particles)
 # est_pose = particle.estimate_pose(particles)
 
 # Funtion for finding the orientation from the robot towards its next goal in degrees.
-def orientation(id):
+def orientation(id_index):
     # The estimate of the robots current pose
     robot_pose = particle.estimate_pose(particles) # (x, y, theta)
 
     # Calculate the wanted position, that the robot should drive to in order to visit the goal.
-    wanted_posX = (landmarks[id-1])[0] - robot_pose.getX # x-coordinate
-    wanted_posY = (landmarks[id-1])[1] - robot_pose.getY # y-coordinate
+    wanted_posX = (landmarks[id_index])[0] - robot_pose.getX # x-coordinate
+    wanted_posY = (landmarks[id_index])[1] - robot_pose.getY # y-coordinate
 
     # Calculate the new theta.
     wanted_theta = math.atan2(wanted_posX, wanted_posY)
@@ -71,10 +58,10 @@ def avoid():
 
     if Left_sensor >= Right_sensor:
         print("Turning left")
-        turn(Direction.Left, 45)
+        drive_functionality.turn(Direction.Left, 45)
     else:
         print("Turning right")
-        turn(Direction.Right, 45)
+        drive_functionality.turn(Direction.Right, 45)
 
     Left_sensor, Right_sensor, Front_sensor = drive_functionality.check()
 
