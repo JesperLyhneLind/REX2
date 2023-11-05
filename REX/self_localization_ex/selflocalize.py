@@ -62,8 +62,8 @@ def draw_world(est_pose, particles, world):
     # Fix the origin of the coordinate system
     # offsetX = 100
     # offsetY = 250
-    offsetX = 10
-    offsetY = 10
+    offsetX = 30
+    offsetY = 30
     # Constant needed for transforming from world coordinates to screen coordinates (flip the y-axis)
     ymax = world.shape[0]
     world[:] = CWHITE # Clear background to white
