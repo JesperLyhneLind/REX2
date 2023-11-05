@@ -82,7 +82,7 @@ def driveToGoal(goalX, goalY, theta):
         drive_functionality.turn(Direction.Left, abs(theta)) # right.
 
     # Drives the robot towards the goal, while there's longer than 0,4m to the goal.
-    if drive_functionality.iDrive(distance-40) == 1:
+    if drive_functionality.iDrive((distance-40)/100) == 1:
         avoid()
         return 0 # Ends with avoid
     else:
