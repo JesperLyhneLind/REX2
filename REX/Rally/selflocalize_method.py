@@ -19,6 +19,7 @@ class Direction(Enum):
 sys.path.append("robot.py")
 cam = camera.Camera(0, 'arlo', useCaptureThread = True)
 otto = robot.Robot()
+landmarksSeen = []
 
 def initialize_particles(num_particles):
     particles = []
@@ -52,57 +53,77 @@ def self_localize(landmarks, landmarkIDs, num_particles, particles):
         if not isinstance(d_objectIDs, type(None)):
             # List detected objects
             objectIDs = np.unique(d_objectIDs)
+            print("Object ID = ", objectIDs, ", Distance = ", dists, ", angle = ", angles)
+            
+            #     # XXX: Do something for each detected object - remember, the same ID may appear several times.
+            #     # Use the camera function to get the measured distance
+            #     objectType, distance, angle, colourProb = cam.get_object(colour)
+                            
+            #objectType, distance, angle, colourProb = cam.get_object(colour)
             for par in particles:
                 par.setWeight(1.0)
                 for i in range(len(objectIDs)):
                     if objectIDs[i] in landmarkIDs:
                         particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
-                        sigma_d = 2
+                        #sigma_d = 5 # try value 20cm
+                        sigma_d = 14 # try value 20cm
                         p_d = distance_observation_model(dists[i], particle_distance, sigma_d)
-                        sigma_theta = 0.025
-                        
+                        #print("pd:", p_d)
+                        if p_d == 0.0:
+                            print("p_d = 0")
+                            exit
+                        #angle
+                        #sigma_theta = 0.03# try value 0.3 radians
+                        sigma_theta = 0.25# try value 0.3 radians
                         uvec_robot = [((landmarks[objectIDs[i]])[0] - par.getX()) / particle_distance, 
                                     ((landmarks[objectIDs[i]])[1] - par.getY()) / particle_distance]
                         uvec_orientation = [np.cos(par.getTheta()), np.sin(par.getTheta())]
-
+                        
+                        #fortegn skal kun byttes rundt, hvis på webcam?
                         uvec_orientation_ortho = [-np.sin(par.getTheta()), np.cos(par.getTheta())]
                         
                         phi_i = np.sign(np.dot(uvec_robot, uvec_orientation_ortho))*np.arccos(np.dot(uvec_robot,uvec_orientation)) 
                         
                         p_phi = angle_observation_model(angles[i], phi_i, sigma_theta)
-                        
+                        #print("p_phi:", p_phi)
+                        if p_phi == 0.0:
+                            print("p_phi = 0")
+                            exit
                         p_x = p_d * p_phi
-
+                        #update weights
                         par.setWeight(par.getWeight() * p_x)
-
             # Normalize particle weights
             total_weight = sum([p.getWeight() for p in particles])
             normalized_weights = []     
             for par in particles:
                 par.setWeight(par.getWeight() / total_weight)
                 normalized_weights.append(par.getWeight())
-            
             # Resampling
             r_particles = rand.choice(a=particles, replace=True, p=normalized_weights, size=len(particles))
+            #particles = [copy.deepcopy(p) for p in r_particles]
             particles = [particle.Particle(p.getX(), p.getY(), p.getTheta(), p.getWeight()) for p in r_particles]
-
-
-
-            est_pose = particle.estimate_pose(particles)
-            print("est_pose from method:", est_pose.getX(), est_pose.getY())
-
-            landmarksSeen = list(filter(lambda x: x in landmarkIDs, objectIDs))
-            if len(landmarksSeen) == 1:
-                drive_functionality.turn(Direction.Right, 30) # Has the robot already seen one box 
-                [p.move_particle(0, 0, math.radians(30)) for p in particles]   
-                
-            if np.std(normalized_weights) < 0.0000015:
-                return particles
+            # Draw detected objects
+            cam.draw_aruco_objects(colour)
+            #landmarksSeen.append(landmarks_in_map) # Has the robot already seen one box 
+            print(np.std(normalized_weights))
+            if np.std(normalized_weights) < 0.00085:
+                print("done")
+                break
+            
+            landmarks_in_map = list(filter(lambda x: x in landmarkIDs, objectIDs))
+            for i in landmarks_in_map:
+                if not landmarksSeen.__contains__(i):
+                    landmarksSeen.append(i) # Has the robot already seen one box
+            
+            print("landmarks_in_map", landmarks_in_map)
+            print("landmarksSeen", landmarksSeen)
+            if len(landmarks_in_map) == 1 and len(landmarksSeen) < 2: 
+                drive_functionality.turn(drive_functionality.Direction.Right, 30)
+                [p.move_particle(0, 0, math.radians(30)) for p in particles]  
             
         else:
             # No observation - reset weights to uniform distribution
-            drive_functionality.turn(Direction.Right, 30) # Has the robot already seen one box 
-            sleep(1)
-            [p.move_particle(0, 0, math.radians(30)) for p in particles]   
+            drive_functionality.turn(drive_functionality.Direction.Right, 30)
+            [p.move_particle(0, 0, -math.radians(30)) for p in particles]  
             for p in particles:
                 p.setWeight(1.0/num_particles)
