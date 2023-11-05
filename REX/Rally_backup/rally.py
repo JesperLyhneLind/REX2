@@ -5,7 +5,6 @@ import robot
 import math
 import particle
 import drive_functionality
-import selflocalize_method
 from time import sleep
 from enum import Enum
 import drivingStrategy
