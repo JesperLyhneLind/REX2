@@ -55,8 +55,17 @@ def iDrive(meters):
             sleep(0.18)
             print("oh yes I drived meters ", meters)
             return 0 # Otto drived intended distance
-   
 
+def simpDrive():
+    print(arlo.go_diff(70, 71, 1, 1))
+    while True:
+        Left_sensor, Right_sensor, Front_sensor = check()
+        if Front_sensor < 350:
+            print(arlo.stop())
+            print("Left: " + str(Left_sensor))
+            print("Front: " + str(Front_sensor))
+            print("Right: " + str(Right_sensor))
+            break
 
 
 # Drives the robot and checks which direction to go for avoiding an object.

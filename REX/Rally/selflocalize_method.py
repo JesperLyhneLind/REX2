@@ -116,9 +116,10 @@ def self_localize(landmarks, landmarkIDs):
                 sleep(1)
                 [p.move_particle(0, 0, math.radians(30)) for p in particles]  
             elif len(landmarksSeen) >= 2: 
-                if np.std(normalized_weights) < 0.0008:
-                    print("done")
-                    break
+                while np.std(normalized_weights) > 0.0008:
+                    pass
+                print("done")
+                break
             else: #he only sees boxes that are not in dictionary
                 drive_functionality.turn(drive_functionality.Direction.Right, 30)
                 sleep(1)

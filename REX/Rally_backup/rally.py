@@ -25,8 +25,9 @@ landmarks_inOrder = [1,2,3,4,1]
 landmarks_index = 0
 
 while landmarks_index < 5:
-    if drivingStrategy.detectLandmark(landmarks_inOrder[landmarks_index]) == 1: #spotted
-        drive_functionality.iDrive()
-    #landmarkX, landmarkY = landmarks[landmarks_inOrder[landmarks_index]]
-    if drivingStrategy.driveAlongVec(vec_x, vec_y, vec_t) == 1: # Target reached
+    if drivingStrategy.detectLandmark(landmarks_inOrder[landmarks_index]) == 1: # Spotted landmark
+        drive_functionality.simpDrive()
         landmarks_index += 1
+    elif drivingStrategy.detectObstacle == 1: # Spotted obstacle
+        if drive_functionality.iDrive(0.5) == 1: # Spotted obstacle and stopped
+    
