@@ -36,7 +36,16 @@ def detectLandmark(id):
         if id in d_objectIDs:
             return 1 # Spotted
     return 0 # Turned full 360 degrees
-            
+
+def detectObstacle():
+    for i in range(12):
+        colour = cam.get_next_frame()
+        # Detect objects
+        d_objectIDs, dists, angles = cam.detect_aruco_objects(colour)
+        if d_objectIDs:
+            return 1 # Spotted
+    return 0 # Turned full 360 degrees
+                
         
 
 # Avoids an object and drives the robot 0.3m if there's nothing detected in front of it.
