@@ -173,7 +173,9 @@ try:
             # List detected objects
             objectIDs = np.unique(d_objectIDs)
             print("Object ID = ", objectIDs, ", Distance = ", dists, ", angle = ", angles)
-            
+            print("")
+            print("d_object", d_objectIDs)
+            print("")
             #     # XXX: Do something for each detected object - remember, the same ID may appear several times.
             #     # Use the camera function to get the measured distance
             #     objectType, distance, angle, colourProb = cam.get_object(colour)
