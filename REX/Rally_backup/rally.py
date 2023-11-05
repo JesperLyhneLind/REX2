@@ -23,12 +23,16 @@ landmarks_index = 0
 
 while landmarks_index < 5:
     if drivingStrategy.detectLandmark(landmarks_inOrder[landmarks_index]) == 1: # Spotted landmark
-        drive_functionality.simpDrive() # Kachowwwwwwwwww skrrrtt swag lol yolo brrr brrr 888 kesi
-        landmarks_index += 1
-    elif drivingStrategy.detectObstacle == 1: # Spotted obstacle
-        if drive_functionality.iDrive(0.5) == 1: # Stopped due to obstacle
-            break
-            
+        if drive_functionality.iDrive(1) == 1: # Kachowwwwwwwwww skrrrtt swag lol yolo brrr brrr 888 kesi
+            print("Target reached - next landmark")
+            landmarks_index += 1
+        break
+    else: 
+        print("Finding obstacles")
+        if drivingStrategy.detectObstacle == 1: # Spotted obstacle
+            if drive_functionality.iDrive(0.5) == 1: # Stopped due to obstacle
+               break 
+                
 
         
     

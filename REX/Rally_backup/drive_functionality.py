@@ -42,7 +42,7 @@ def iDrive(meters):
     start = time.perf_counter()
     while True:
         Left_sensor, Right_sensor, Front_sensor = check()
-        if Front_sensor < 400:
+        if Front_sensor < 350:
             print(arlo.stop())
             print("Left: " + str(Left_sensor))
             print("Front: " + str(Front_sensor))
