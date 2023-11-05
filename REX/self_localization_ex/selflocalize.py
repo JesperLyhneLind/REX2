@@ -174,7 +174,7 @@ try:
             objectIDs, indices = np.unique(d_objectIDs, return_index=True)
             unique_dists = [dists[i] for i in indices]
             unique_angles = [angles[i] for i in indices]    
-            print("Object ID = ", objectIDs, ", Distance = ", dists, ", angle = ", angles)
+            print("Object ID = ", objectIDs, ", Distance = ", unique_dists, ", angle = ", unique_angles)
             print("")
             print("d_object", d_objectIDs)
             print("")
