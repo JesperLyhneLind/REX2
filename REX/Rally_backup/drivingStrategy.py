@@ -61,7 +61,7 @@ def avoid():
         print("Turning right - avoid, 45")
         drive_functionality.turn(Direction.Right, 45)
 
-    drive_functionality.iDrive(0.5)
+    drive_functionality.iDrive(0.3)
 
 # Turns the robot and drives towards the goal while avoiding objects.
 def driveAlongVec(vecX, vecY, theta):
