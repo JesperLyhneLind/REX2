@@ -5,7 +5,10 @@ import selflocalize_method
 from time import sleep
 from enum import Enum
 import drivingStrategy
+import camera
 
+
+cam = camera.Camera(0, 'arlo', useCaptureThread = True)
 otto = robot.Robot()
 class Direction(Enum):
     Left = 1
@@ -27,7 +30,7 @@ landmarks_index = 0
 
 # Initialize particles.
 num_particles = 1000
-particles = selflocalize_method.initialize_particles(num_particles)
+particles = selflocalize_method.initialize_particles(num_particles, cam)
 # The estimate of the robots current pose
 
 # est_pose = particle.estimate_pose(particles)
@@ -36,10 +39,7 @@ particles = selflocalize_method.initialize_particles(num_particles)
 while landmarks_index < 5:
     vec_t, vec_x, vec_y = drivingStrategy.orientation(landmarks_inOrder[landmarks_index])
     #landmarkX, landmarkY = landmarks[landmarks_inOrder[landmarks_index]]
-    if drivingStrategy.driveAlongVec(vec_x, vec_y, vec_t, landmarks_inOrder[landmarks_index]) == 1: # Target reached
-        vec_theta, vec_posX, vec_posY = drivingStrategy.orientation(landmarks_inOrder[landmarks_index])
-        print("Distance ", (math.sqrt(vec_posX**2) + math.sqrt(vec_posY**2)))
-        if (math.sqrt(vec_posX**2) + math.sqrt(vec_posY**2)) <= 40:
-            print("now going to next goal")
-            landmarks_index += 1
-        print("not close enough to target")
+    if drivingStrategy.driveAlongVec(vec_x, vec_y, vec_t, landmarks_inOrder[landmarks_index], cam) == 2: # Target reached
+        print("now going to next goal")
+        landmarks_index += 1
+        
