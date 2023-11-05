@@ -108,9 +108,6 @@ def self_localize(landmarks, landmarkIDs):
             cam.draw_aruco_objects(colour)
             #landmarksSeen.append(landmarks_in_map) # Has the robot already seen one box 
             print(np.std(normalized_weights))
-            if np.std(normalized_weights) < 0.005:
-                print("done")
-                break
             
             landmarks_in_map = list(filter(lambda x: x in landmarkIDs, objectIDs))
             for i in landmarks_in_map:
@@ -123,6 +120,10 @@ def self_localize(landmarks, landmarkIDs):
                 drive_functionality.turn(drive_functionality.Direction.Right, 30)
                 sleep(1)
                 [p.move_particle(0, 0, -math.radians(30)) for p in particles]  
+            else:
+                if np.std(normalized_weights) < 0.005:
+                    print("done")
+                    break
             
         else:
             # No observation - reset weights to uniform distribution
