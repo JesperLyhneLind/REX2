@@ -102,7 +102,6 @@ def self_localize(landmarks, landmarkIDs):
             # Draw detected objects
             cam.draw_aruco_objects(colour)
             #landmarksSeen.append(landmarks_in_map) # Has the robot already seen one box 
-            print(np.std(normalized_weights))
             
             landmarks_in_map = list(filter(lambda x: x in landmarkIDs, objectIDs))
             for i in landmarks_in_map:
@@ -112,21 +111,25 @@ def self_localize(landmarks, landmarkIDs):
             print("landmarks_in_map", landmarks_in_map)
             print("landmarksSeen", landmarksSeen)
             if len(landmarks_in_map) == 1 and len(landmarksSeen) < 2: 
+                print("have only seen one known landmark")
                 drive_functionality.turn(drive_functionality.Direction.Right, 30)
                 sleep(1)
                 [p.move_particle(0, 0, math.radians(30)) for p in particles]  
             elif len(landmarksSeen) >= 2: 
-                while np.std(normalized_weights) > 0.0008:
-                    pass
-                print("done")
-                break
+                print("saw at least two known landmarks")
+                if np.std(normalized_weights) < 0.0008:
+                    print("done")
+                    break
+                print("std too high:", np.std(normalized_weights))
             else: #he only sees boxes that are not in dictionary
+                print("no boxes seen")
                 drive_functionality.turn(drive_functionality.Direction.Right, 30)
                 sleep(1)
                 [p.move_particle(0, 0, math.radians(30)) for p in particles] 
             
         else:
             # No observation - reset weights to uniform distribution
+            print("no landmarks seen")
             drive_functionality.turn(drive_functionality.Direction.Right, 30)
             sleep(1)
             [p.move_particle(0, 0, -math.radians(30)) for p in particles]  

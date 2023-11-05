@@ -246,6 +246,7 @@ try:
                     print("done")
                     break
             else: #he only sees boxes that are not in dictionary
+                print("no boxes seen")
                 drive_functionality.turn(drive_functionality.Direction.Right, 30)
                 sleep(1)
                 [p.move_particle(0, 0, math.radians(30)) for p in particles] 

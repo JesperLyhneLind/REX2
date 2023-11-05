@@ -29,5 +29,7 @@ while landmarks_index < 5:
         drive_functionality.simpDrive()
         landmarks_index += 1
     elif drivingStrategy.detectObstacle == 1: # Spotted obstacle
-        if drive_functionality.iDrive(0.5) == 1: # Spotted obstacle and stopped
+        driveResult = drive_functionality.iDrive(0.5) # Attempt to drive half a meter
+    
+        
     

@@ -45,6 +45,7 @@ def detectObstacle():
         d_objectIDs, dists, angles = cam.detect_aruco_objects(colour)
         if not isinstance(d_objectIDs, type(None)):
             return 1 # Spotted
+        drive_functionality.turn(Direction.Right, 30)
     return 0 # Turned full 360 degrees
                 
         
