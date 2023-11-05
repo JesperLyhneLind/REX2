@@ -76,6 +76,7 @@ def driveAlongVec(vecX, vecY, theta, goalID, cam):
         print("turning right with degrees ", abs(theta))
     # If yes go until sensor sensors
         if canYouSeeTarget(goalID, cam):
+            print("I can see the target!!")
             res = drive_functionality.iDrive(40) # Drives until reaching landmark.
             return 2
     # If not do as before:
