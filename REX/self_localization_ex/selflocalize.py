@@ -62,8 +62,8 @@ def draw_world(est_pose, particles, world):
     # Fix the origin of the coordinate system
     # offsetX = 100
     # offsetY = 250
-    offsetX = 0
-    offsetY = 0
+    offsetX = 10
+    offsetY = 10
     # Constant needed for transforming from world coordinates to screen coordinates (flip the y-axis)
     ymax = world.shape[0]
     world[:] = CWHITE # Clear background to white
@@ -242,7 +242,7 @@ try:
                 sleep(1)
                 [p.move_particle(0, 0, math.radians(30)) for p in particles]  
             elif len(landmarksSeen) >= 2: 
-                if np.std(normalized_weights) < 0.00001:
+                if np.std(normalized_weights) < 0.0008:
                     print("done")
                     break
             else: #he only sees boxes that are not in dictionary
