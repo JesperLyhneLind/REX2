@@ -52,8 +52,8 @@ def orientation(id):
     robot_pose = particle.estimate_pose(particles) # (x, y, theta)
 
     # Calculate the wanted position, that the robot should drive to in order to visit the goal.
-    wanted_posX = landmarkIDs[id-1][0] - robot_pose.getX # x-coordinate
-    wanted_posY = landmarkIDs[id-1][1] - robot_pose.getY # y-coordinate
+    wanted_posX = (landmarkIDs[id-1])[0] - robot_pose.getX # x-coordinate
+    wanted_posY = (landmarkIDs[id-1])[1] - robot_pose.getY # y-coordinate
 
     # Calculate the new theta.
     wanted_theta = math.atan2(wanted_posX, wanted_posY)
