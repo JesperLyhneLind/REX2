@@ -34,7 +34,8 @@ landmarks_index = 0
 # Turns the robot towards goal.
 while landmarks_index < 5:
     vec_t, vec_x, vec_y = drivingStrategy.orientation(landmarks_inOrder[landmarks_index], cam)
-    if drivingStrategy.driveAlongVec(vec_x, vec_y, vec_t, landmarks_inOrder[landmarks_index], cam) == 2: # Target reached
+    if drivingStrategy.driveAlongVec(vec_x, vec_y, vec_t, landmarks_inOrder[landmarks_index], cam) == 2 \
+        or drivingStrategy.driveAlongVec(vec_x, vec_y, vec_t, landmarks_inOrder[landmarks_index], cam) == 1 : # Target reached
         print("\n NOW INCREMENTED!!!!! \n")
         landmarks_index += 1
         
