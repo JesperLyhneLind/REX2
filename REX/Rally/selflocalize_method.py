@@ -44,7 +44,7 @@ def angle_observation_model(phi_M, phi_i, sigma_theta):
 def self_localize(landmarks, landmarkIDs):
     particles = initialize_particles(1000)
     while True:# and time_running < 15: #stop loop after 15 seconds
-        particle.add_uncertainty(particles, 14, 0.25) #noise sigmas are centimeter and radians
+        particle.add_uncertainty(particles, 8, 0.25) #noise sigmas are centimeter and radians
         # Fetch next frame
         
         colour = cam.get_next_frame()
@@ -54,13 +54,12 @@ def self_localize(landmarks, landmarkIDs):
         if not isinstance(d_objectIDs, type(None)):
             print("estimating pose")
             # List detected objects
-            objectIDs = np.unique(d_objectIDs)
-            print("Object ID = ", objectIDs, ", Distance = ", dists, ", angle = ", angles)
-            
-            #     # XXX: Do something for each detected object - remember, the same ID may appear several times.
-            #     # Use the camera function to get the measured distance
-            #     objectType, distance, angle, colourProb = cam.get_object(colour)
-                            
+            objectIDs, indices = np.unique(d_objectIDs, return_index=True)
+            unique_dists = [dists[i] for i in indices]
+            unique_angles = [angles[i] for i in indices]  
+
+            print("Object ID = ", objectIDs, ", Distance = ", unique_dists, ", angle = ", unique_angles)
+                                       
             #objectType, distance, angle, colourProb = cam.get_object(colour)
             for par in particles:
                 par.setWeight(1.0)
@@ -68,12 +67,8 @@ def self_localize(landmarks, landmarkIDs):
                     if objectIDs[i] in landmarkIDs:
                         particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
                         #sigma_d = 5 # try value 20cm
-                        sigma_d = 14 # try value 20cm
-                        p_d = distance_observation_model(dists[i], particle_distance, sigma_d)
-                        #print("pd:", p_d)
-                        if p_d == 0.0:
-                            print("p_d = 0")
-                            exit
+                        sigma_d = 8 # try value 20cm
+                        p_d = distance_observation_model(dists[i], particle_distance, sigma_d)                       
                         #angle
                         #sigma_theta = 0.03# try value 0.3 radians
                         sigma_theta = 0.25# try value 0.3 radians
@@ -119,11 +114,15 @@ def self_localize(landmarks, landmarkIDs):
             if len(landmarks_in_map) == 1 and len(landmarksSeen) < 2: 
                 drive_functionality.turn(drive_functionality.Direction.Right, 30)
                 sleep(1)
-                [p.move_particle(0, 0, -math.radians(30)) for p in particles]  
-            else:
-                if np.std(normalized_weights) < 0.005:
+                [p.move_particle(0, 0, math.radians(30)) for p in particles]  
+            elif len(landmarksSeen) >= 2: 
+                if np.std(normalized_weights) < 0.0008:
                     print("done")
                     break
+            else: #he only sees boxes that are not in dictionary
+                drive_functionality.turn(drive_functionality.Direction.Right, 30)
+                sleep(1)
+                [p.move_particle(0, 0, math.radians(30)) for p in particles] 
             
         else:
             # No observation - reset weights to uniform distribution
