@@ -16,15 +16,14 @@ class Direction(Enum):
 
 # Landmarks.
 # The robot knows the position of 4 landmarks. Their coordinates are in the unit centimeters [cm].
-landmarkIDs = [6, 7, 3, 4]
+landmarkIDs = [1, 2, 3, 4]
 landmarks = {
-    6: (0.0, 0.0),  # Coordinates for landmark 1
-    7: (0.0, 300.0),  # Coordinates for landmark 2
+    1: (0.0, 0.0),  # Coordinates for landmark 1
+    2: (0.0, 300.0),  # Coordinates for landmark 2
     3: (400.0, 0.0),  # Coordinates for landmark 3
     4: (400.0, 300.0)  # Coordinates for landmark 4
 }
 landmarks_inOrder = [1,2,3,4,1]
-landmarks_index = 0
 
 # Initialize particles.
 num_particles = 1000
