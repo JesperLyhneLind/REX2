@@ -239,7 +239,7 @@ try:
                 sleep(1)
                 [p.move_particle(0, 0, math.radians(30)) for p in particles]  
             elif len(landmarksSeen) >= 2: 
-                if np.std(normalized_weights) < 0.0067:
+                if np.std(normalized_weights) < 0.0025:
                     print("done")
                     break
             else: #he only sees boxes that are not in dictionary
