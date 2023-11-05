@@ -154,7 +154,8 @@ try:
 
 
         #particle.add_uncertainty(particles, 4, 0.025) #noise sigmas are centimeter and radians
-        particle.add_uncertainty(particles, 14, 0.25) #noise sigmas are centimeter and radians
+        #particle.add_uncertainty(particles, 14, 0.25) #noise sigmas are centimeter and radians
+        particle.add_uncertainty(particles, 10, 0.25) #noise sigmas are centimeter and radians
         # Fetch next frame
         
         colour = cam.get_next_frame()
@@ -188,7 +189,8 @@ try:
                 for i in range(len(objectIDs)):
                     if objectIDs[i] in landmarkIDs:
                         particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
-                        sigma_d = 14 # try value 20cm
+                        #sigma_d = 14 # try value 20cm
+                        sigma_d = 10 # try value 20cm
                         p_d = distance_observation_model(dists[i], particle_distance, sigma_d)
                        
                         #angle
