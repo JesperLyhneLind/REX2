@@ -2,7 +2,6 @@ import time
 from time import sleep
 import robot
 from enum import Enum
-import selflocalize_method
 
 arlo = robot.Robot()
 
