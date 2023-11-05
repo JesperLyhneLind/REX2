@@ -39,6 +39,6 @@ particles = selflocalize_method.initialize_particles(num_particles)
 # Turns the robot towards goal.
 while landmarks_index < 5:
     wanted_t, wanted_x, wanted_y = drivingStrategy.orientation(landmarks_inOrder[landmarks_index])
-    landmarkX, landmarkY = landmarks[landmarks_inOrder[landmarks_index]]
-    if drivingStrategy.driveToGoal(landmarkX, landmarkY, wanted_t) == 1: # Target reached
+    #landmarkX, landmarkY = landmarks[landmarks_inOrder[landmarks_index]]
+    if drivingStrategy.driveToGoal(wanted_x, wanted_y, wanted_t) == 1: # Target reached
         landmarks_index += 1
