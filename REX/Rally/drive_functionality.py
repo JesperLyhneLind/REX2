@@ -45,12 +45,12 @@ def iDrive(meters):
         Left_sensor, Right_sensor, Front_sensor = check()
         if Front_sensor < 400:
             print(arlo.stop())
-            print("oh no, obstacle detected")
+            print("oh no, obstacle detected!! :( miv)")
             return 1 # Otto stopped because of obstacle
         if (time.perf_counter() - start > (2.6*meters)):
             print(arlo.stop())
             sleep(0.18)
-            print("oh yes I drived meters", meters)
+            print("oh yes I drived meters ", meters)
             return 0 # Otto drived intended distance
    
 
