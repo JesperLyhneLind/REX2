@@ -26,10 +26,12 @@ landmarks_index = 0
 
 while landmarks_index < 5:
     if drivingStrategy.detectLandmark(landmarks_inOrder[landmarks_index]) == 1: # Spotted landmark
-        drive_functionality.simpDrive()
+        drive_functionality.simpDrive() # Kachowwwwwwwwww skrrrtt swag lol yolo brrr brrr 888 kesi
         landmarks_index += 1
     elif drivingStrategy.detectObstacle == 1: # Spotted obstacle
-        driveResult = drive_functionality.iDrive(0.5) # Attempt to drive half a meter
-    
+        if drive_functionality.iDrive(0.5) == 1: # Stopped due to obstacle
+            break
+            
+
         
     
