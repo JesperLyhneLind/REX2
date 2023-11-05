@@ -14,14 +14,10 @@ class Direction(Enum):
     Left = 1
     Right = 2
 
-
-
 # Landmarks.
 landmarkIDs = [1, 2, 3, 4]
 landmarks_inOrder = [1,2,3,4,1]
 landmarks_index = 0
-
-
 
 # Turns the robot towards goal.
 while landmarks_index < 5:
