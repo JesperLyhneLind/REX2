@@ -237,7 +237,7 @@ try:
             if len(landmarks_in_map) == 1 and len(landmarksSeen) < 2: 
                 drive_functionality.turn(drive_functionality.Direction.Right, 30)
                 [p.move_particle(0, 0, math.radians(30)) for p in particles]  
-            else:
+            elif len(landmarksSeen) >= 2: 
                 if np.std(normalized_weights) < 0.00085:
                     print("done")
                     break
