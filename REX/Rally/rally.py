@@ -19,10 +19,10 @@ class Direction(Enum):
 
 # Landmarks.
 # The robot knows the position of 4 landmarks. Their coordinates are in the unit centimeters [cm].
-landmarkIDs = [6, 7, 3, 4]
+landmarkIDs = [1, 2, 3, 4]
 landmarks = {
-    6: (0.0, 0.0),  # Coordinates for landmark 1
-    7: (0.0, 300.0),  # Coordinates for landmark 2
+    1: (0.0, 0.0),  # Coordinates for landmark 1
+    2: (0.0, 300.0),  # Coordinates for landmark 2
     3: (400.0, 0.0),  # Coordinates for landmark 3
     4: (400.0, 300.0)  # Coordinates for landmark 4
 }
@@ -39,8 +39,6 @@ particles = selflocalize_method.initialize_particles(num_particles)
 # Turns the robot towards goal.
 while landmarks_index < 5:
     wanted_t, wanted_x, wanted_y = drivingStrategy.orientation(landmarks_inOrder[landmarks_index])
-    if drivingStrategy.driveToGoal(wanted_x, wanted_y, wanted_t) == 1: # Target reached
+    landmarkX, landmarkY = landmarks[landmarks_inOrder[landmarks_index]]
+    if drivingStrategy.driveToGoal(landmarkX, landmarkY, wanted_t) == 1: # Target reached
         landmarks_index += 1
-
-
-

@@ -52,6 +52,7 @@ def self_localize(landmarks, landmarkIDs):
         d_objectIDs, dists, angles = cam.detect_aruco_objects(colour)
 
         if not isinstance(d_objectIDs, type(None)):
+            print("estimating pose")
             # List detected objects
             objectIDs = np.unique(d_objectIDs)
             print("Object ID = ", objectIDs, ", Distance = ", dists, ", angle = ", angles)
@@ -128,4 +129,6 @@ def self_localize(landmarks, landmarkIDs):
             [p.move_particle(0, 0, -math.radians(30)) for p in particles]  
             for p in particles:
                 p.setWeight(1.0/len(particles))
-        return particle.estimate_pose(particles)
+        est_pose = particle.estimate_pose(particles)
+        print("selflocalize done, position estimated to be", est_pose)
+        return est_pose
