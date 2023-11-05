@@ -39,9 +39,18 @@ def turn(dir: Direction, angle: int):
 # Drives one meter.
 def iDrive(meters):
     print(arlo.go_diff(70, 71, 1, 1))
-    sleep(2.6*meters)
-    print(arlo.stop())
-    sleep(0.18)
+    start = time.perf_counter()
+    while True:
+        if (time.perf_counter() - start > (2.6*meters)):
+            print(arlo.stop())
+            sleep(0.18)
+            return 0 # Otto drived intended distance
+   
+
+    
+while (isDriving): # or some other form of loop
+if (time.perf_counter() – start > 5): # Stop after 5 seconds
+print arlo.stop()
 
 # Drives the robot and checks which direction to go for avoiding an object.
 def drive(): 
