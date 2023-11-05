@@ -42,7 +42,7 @@ def angle_observation_model(phi_M, phi_i, sigma_theta):
 def self_localize(landmarks, landmarkIDs, cam):
     particles = initialize_particles(1000)
     while True:# and time_running < 15: #stop loop after 15 seconds
-        particle.add_uncertainty(particles, 5, 0.15) #noise sigmas are centimeter and radians
+        particle.add_uncertainty(particles, 15, 0.25) #noise sigmas are centimeter and radians
         # Fetch next frame
         
         colour = cam.get_next_frame()
@@ -65,11 +65,11 @@ def self_localize(landmarks, landmarkIDs, cam):
                     if objectIDs[i] in landmarkIDs:
                         particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
                         #sigma_d = 5 # try value 20cm
-                        sigma_d = 5 # try value 20cm
+                        sigma_d = 15 # try value 20cm
                         p_d = distance_observation_model(dists[i], particle_distance, sigma_d)                       
                         #angle
                         #sigma_theta = 0.03# try value 0.3 radians
-                        sigma_theta = 0.15# try value 0.3 radians
+                        sigma_theta = 0.25# try value 0.3 radians
                         uvec_robot = [((landmarks[objectIDs[i]])[0] - par.getX()) / particle_distance, 
                                     ((landmarks[objectIDs[i]])[1] - par.getY()) / particle_distance]
                         uvec_orientation = [np.cos(par.getTheta()), np.sin(par.getTheta())]
