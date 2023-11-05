@@ -227,7 +227,7 @@ try:
             print("std:", np.std(normalized_weights))
             
             
-            landmarks_in_map = list(filter(lambda x: x in landmarkIDs, objectIDs))
+            landmarks_in_map = list(filter(lambda x: x in landmarkIDs, objectIDs)) #only 1,2,3,4 that are seen
             for i in landmarks_in_map:
                 if not landmarksSeen.__contains__(i):
                     landmarksSeen.append(i) # Has the robot already seen one box
@@ -241,6 +241,10 @@ try:
                 if np.std(normalized_weights) < 0.00085:
                     print("done")
                     break
+            else: #he only sees boxes that are not in dictionary
+                drive_functionality.turn(drive_functionality.Direction.Right, 30)
+                [p.move_particle(0, 0, math.radians(30)) for p in particles] 
+
             
             
         
