@@ -56,7 +56,7 @@ def avoid():
 # Turns the robot and drives towards the goal while avoiding objects.
 def driveToGoal(goalX, goalY, theta):
     distance = math.sqrt(goalX**2 + goalY**2) # pythagorean theorem.
-    print("driving " + distance + "m to goal in " + goalX + goalY)
+    print("driving " + str(distance) + "m to goal in " + str(goalX) + str(goalY))
 
     # Let the robot face the goal.
     if np.sign(theta) == 1:
