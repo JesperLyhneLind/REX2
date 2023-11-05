@@ -52,7 +52,7 @@ def iDrive(meters):
         if (time.perf_counter() - start > (2.6*meters)):
             print(arlo.stop())
             sleep(0.18)
-            print("yeeees meters", meters, "have been drived")
+            print("yeeees meters ", meters, " have been drived")
             return 0 # Otto drived intended distance
 
 def simpDrive():
