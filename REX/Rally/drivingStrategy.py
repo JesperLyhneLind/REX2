@@ -8,6 +8,7 @@ import selflocalize_method
 from time import sleep
 from enum import Enum
 import drive_functionality
+import camera
 
 class Direction(Enum):
     Left = 1
@@ -23,6 +24,7 @@ landmarks = {
     3: (400.0, 0.0),  # Coordinates for landmark 3
     4: (400.0, 300.0)  # Coordinates for landmark 4
 }
+cam = camera.Camera(0, 'arlo', useCaptureThread = True)
 #landmarks_inOrder = [1,2,3,4,1]
 
 # Funtion for finding the orientation from the robot towards its next goal in degrees.
@@ -54,8 +56,16 @@ def avoid():
 
     drive_functionality.iDrive(0.5)
 
+def canYouSeeTarget(goalID):
+    # Check if it can see target
+    colour = cam.get_next_frame()
+    d_objectIDs, dists, angles = cam.detect_aruco_objects(colour)
+    if isinstance(d_objectIDs, type(None)):
+        return goalID in d_objectIDs
+
+
 # Turns the robot and drives towards the goal while avoiding objects.
-def driveAlongVec(vecX, vecY, theta):
+def driveAlongVec(vecX, vecY, theta, goalID):
     distance = math.sqrt(vecX**2 + vecY**2) # pythagorean theorem.
     print("driving " + str(distance-40) + " cm to goal along " + str(vecX) + " " + str(vecY))
     # Let the robot face the goal.
@@ -65,14 +75,18 @@ def driveAlongVec(vecX, vecY, theta):
     elif np.sign(theta) == -1:
         drive_functionality.turn(Direction.Left, abs(theta)) # left.
         print("turning right with degrees ", abs(theta))
-
+    # If yes go until sensor sensors
+        if canYouSeeTarget(goalID):
+            res = drive_functionality.iDrive(40) # Drives until reaching landmark.
+            return 2
+    # If not do as before:
     # Drives the robot towards the goal, while there's longer than 0,4m to the goal.
     if drive_functionality.iDrive((distance-40)/100) == 1:
         print("avoiding")
         avoid()
         return 0 # Ends with avoid
     else:
-        print("target reached")
-        return 1 # Target reached
+        print("I drived distance:)")
+        return 1 # T
 
         
