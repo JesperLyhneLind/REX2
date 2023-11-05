@@ -28,7 +28,6 @@ def initialize_particles(num_particles):
         p = particle.Particle(600.0*rand.ranf() - 100.0, 600.0*rand.ranf() - 250.0, np.mod(2.0*np.pi*rand.ranf(), 2.0*np.pi), 1.0/num_particles)
         particles.append(p)
     landmarksSeen = []
-
     return particles
 
 
