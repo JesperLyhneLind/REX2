@@ -54,9 +54,9 @@ def avoid():
     drive_functionality.iDrive(0.5)
 
 # Turns the robot and drives towards the goal while avoiding objects.
-def driveToGoal(goalX, goalY, theta):
-    distance = math.sqrt(goalX**2 + goalY**2) # pythagorean theorem.
-    print("driving " + str(distance) + " to goal in " + str(goalX) + " " + str(goalY))
+def driveToGoal(vecX, vecY, theta):
+    distance = math.sqrt(vecX**2 + vecY**2) # pythagorean theorem.
+    print("driving " + str(distance) + " to goal in " + str(vecX) + " " + str(vecY))
     # Let the robot face the goal.
     if np.sign(theta) == 1:
         drive_functionality.turn(Direction.Right, theta) # left.
