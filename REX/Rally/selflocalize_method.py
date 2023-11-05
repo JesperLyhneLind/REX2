@@ -114,7 +114,7 @@ def self_localize(landmarks, landmarkIDs):
                 print("have only seen one known landmark")
                 drive_functionality.turn(drive_functionality.Direction.Right, 30)
                 sleep(1)
-                [p.move_particle(0, 0, math.radians(30)) for p in particles]  
+                [p.move_particle(0, 0, -math.radians(30)) for p in particles]  
             elif len(landmarksSeen) >= 2: 
                 print("saw at least two known landmarks")
                 if np.std(normalized_weights) < 0.0008:
@@ -125,7 +125,7 @@ def self_localize(landmarks, landmarkIDs):
                 print("no boxes seen")
                 drive_functionality.turn(drive_functionality.Direction.Right, 30)
                 sleep(1)
-                [p.move_particle(0, 0, math.radians(30)) for p in particles] 
+                [p.move_particle(0, 0, -math.radians(30)) for p in particles] 
             
         else:
             # No observation - reset weights to uniform distribution

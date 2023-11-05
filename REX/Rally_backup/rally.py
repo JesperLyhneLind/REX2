@@ -30,7 +30,9 @@ while landmarks_index < 5:
     else: 
         print("Finding obstacles")
         if drivingStrategy.detectObstacle == 1: # Spotted obstacle
+            print("Driving to obstacle")
             if drive_functionality.iDrive(0.5) == 1: # Stopped due to obstacle
+               print("Obstacle detected - avoiding")
                drivingStrategy.avoid() 
                 
 

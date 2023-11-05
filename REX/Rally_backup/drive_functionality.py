@@ -38,7 +38,7 @@ def turn(dir: Direction, angle: int):
 # Drives a certain amount of meters until obstacle is detected in front of it.
 def iDrive(meters):
     print(arlo.go_diff(70, 71, 1, 1))
-    print("driving meters ", meters)
+    print(f"driving {meters} meters")
     start = time.perf_counter()
     while True:
         Left_sensor, Right_sensor, Front_sensor = check()
