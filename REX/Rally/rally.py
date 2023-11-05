@@ -41,4 +41,6 @@ while landmarks_index < 5:
     vec_t, vec_x, vec_y = drivingStrategy.orientation(landmarks_inOrder[landmarks_index])
     #landmarkX, landmarkY = landmarks[landmarks_inOrder[landmarks_index]]
     if drivingStrategy.driveAlongVec(vec_x, vec_y, vec_t) == 1: # Target reached
-        landmarks_index += 1
+        vec_theta, vec_posX, vec_posY = drivingStrategy.orientation(landmarks_inOrder[landmarks_index])
+        if (math.sqrt(vec_posX**2 + vec_posY**2)) <= 40:
+            landmarks_index += 1
