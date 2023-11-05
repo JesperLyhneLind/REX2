@@ -38,7 +38,7 @@ def turn(dir: Direction, angle: int):
 # Drives a certain amount of meters until obstacle is detected in front of it.
 def iDrive(meters):
     print(arlo.go_diff(70, 71, 1, 1))
-    print(f"driving {meters} meters")
+    print(f"driving {meters} meters (i drive)")
     start = time.perf_counter()
     while True:
         Left_sensor, Right_sensor, Front_sensor = check()
@@ -52,7 +52,7 @@ def iDrive(meters):
         if (time.perf_counter() - start > (2.6*meters)):
             print(arlo.stop())
             sleep(0.18)
-            print("oh yes I drived meters ", meters)
+            print("yeeees meters", meters, "have been drived")
             return 0 # Otto drived intended distance
 
 def simpDrive():
