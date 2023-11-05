@@ -47,7 +47,7 @@ landmarks = {
     3: (400.0, 0.0),  # Coordinates for landmark 3
     4: (400.0, 300.0)  # Coordinates for landmark 4
 }
-landmark_colors = [CRED, CGREEN] # Colors used when drawing the landmarks
+landmark_colors = [CRED, CGREEN, CBLACK, CCYAN] # Colors used when drawing the landmarks
 landmarksSeen = []
 def jet(x):
     """Colour map for drawing particles. This function determines the colour of 
