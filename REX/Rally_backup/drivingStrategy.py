@@ -7,6 +7,7 @@ import particle
 import selflocalize_method
 from time import sleep
 from enum import Enum
+import camera
 import drive_functionality
 
 class Direction(Enum):
@@ -23,23 +24,14 @@ landmarks = {
     3: (400.0, 0.0),  # Coordinates for landmark 3
     4: (400.0, 300.0)  # Coordinates for landmark 4
 }
+cam = camera.Camera(0, 'arlo', useCaptureThread = True)
+
 #landmarks_inOrder = [1,2,3,4,1]
 
-# Funtion for finding the orientation from the robot towards its next goal in degrees.
-def orientation(id_index):
-    # The estimate of the robots current pose
-    robot_pose = selflocalize_method.self_localize(landmarks, landmarkIDs)
-
-    # Calculate the vector, that the robot should drive to in order to visit the goal.
-    print("goal: ", (landmarks[id_index]))
-    vec_posX = (landmarks[id_index])[0] - robot_pose.getX() # x-coordinate
-    vec_posY = (landmarks[id_index])[1] - robot_pose.getY() # y-coordinate
-
-    # Calculate the new theta.
-    vec_theta = math.degrees(math.atan2(vec_posY, vec_posX) - robot_pose.getTheta())
- 
-    # Returns the orientation-vector.
-    return vec_theta, vec_posX, vec_posY # degrees instead of radians.
+def detect(id):
+    colour = cam.get_next_frame()
+    # Detect objects
+    d_objectIDs, dists, angles = cam.detect_aruco_objects(colour)
 
 # Avoids an object and drives the robot 0.3m if there's nothing detected in front of it.
 def avoid():
