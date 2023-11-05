@@ -36,10 +36,10 @@ def orientation(id_index):
     vec_posY = (landmarks[id_index])[1] - robot_pose.getY() # y-coordinate
 
     # Calculate the new theta.
-    vec_theta = math.atan2(vec_posY, vec_posX) - robot_pose.getTheta()
-
+    vec_theta = math.degrees(math.atan2(vec_posY, vec_posX) - robot_pose.getTheta())
+ 
     # Returns the orientation-vector.
-    return math.degrees(vec_theta), vec_posX, vec_posY # degrees instead of radians.
+    return vec_theta, vec_posX, vec_posY # degrees instead of radians.
 
 # Avoids an object and drives the robot 0.3m if there's nothing detected in front of it.
 def avoid():
@@ -60,10 +60,10 @@ def driveAlongVec(vecX, vecY, theta):
     print("driving " + str(distance-40) + " cm to goal along " + str(vecX) + " " + str(vecY))
     # Let the robot face the goal.
     if np.sign(theta) == 1:
-        drive_functionality.turn(Direction.Right, theta) # left.
+        drive_functionality.turn(Direction.Right, theta) # right.
         print("turning right with degrees ", theta)
     elif np.sign(theta) == -1:
-        drive_functionality.turn(Direction.Left, abs(theta)) # right.
+        drive_functionality.turn(Direction.Left, abs(theta)) # left.
         print("turning right with degrees ", abs(theta))
 
     # Drives the robot towards the goal, while there's longer than 0,4m to the goal.

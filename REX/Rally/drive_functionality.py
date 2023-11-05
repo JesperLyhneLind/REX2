@@ -12,16 +12,16 @@ class Direction(Enum):
 
 # Checks if there's any object in the path of the robot.  
 def check():
-    while(True):
-        Front_sensor = arlo.read_front_ping_sensor()
-        Right_sensor = arlo.read_right_ping_sensor()
-        Left_sensor = arlo.read_left_ping_sensor()
+    #while(True):
+    Front_sensor = arlo.read_front_ping_sensor()
+    Right_sensor = arlo.read_right_ping_sensor()
+    Left_sensor = arlo.read_left_ping_sensor()
 
-        if Left_sensor < 300 or Right_sensor < 300 or Front_sensor < 400:
-            print("Left: " + str(Left_sensor))
-            print("Front: " + str(Front_sensor))
-            print("Right: " + str(Right_sensor))
-            return Left_sensor, Right_sensor, Front_sensor
+        # if Left_sensor < 300 or Right_sensor < 300 or Front_sensor < 400:
+        #     print("Left: " + str(Left_sensor))
+        #     print("Front: " + str(Front_sensor))
+        #     print("Right: " + str(Right_sensor))
+    return Left_sensor, Right_sensor, Front_sensor
         
 # Turns the robot angle degrees.
 def turn(dir: Direction, angle: int):
@@ -45,6 +45,9 @@ def iDrive(meters):
         Left_sensor, Right_sensor, Front_sensor = check()
         if Front_sensor < 400:
             print(arlo.stop())
+            print("Left: " + str(Left_sensor))
+            print("Front: " + str(Front_sensor))
+            print("Right: " + str(Right_sensor))
             print("oh no, obstacle detected!! :( miv)")
             return 1 # Otto stopped because of obstacle
         if (time.perf_counter() - start > (2.6*meters)):
