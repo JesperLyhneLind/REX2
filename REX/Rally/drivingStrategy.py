@@ -27,9 +27,9 @@ landmarks = {
 #landmarks_inOrder = [1,2,3,4,1]
 
 # Funtion for finding the orientation from the robot towards its next goal in degrees.
-def orientation(id_index):
+def orientation(id_index, cam):
     # The estimate of the robots current pose
-    robot_pose = selflocalize_method.self_localize(landmarks, landmarkIDs)
+    robot_pose = selflocalize_method.self_localize(landmarks, landmarkIDs, cam)
 
     # Calculate the vector, that the robot should drive to in order to visit the goal.
     print("goal: ", (landmarks[id_index]))

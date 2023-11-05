@@ -15,19 +15,17 @@ class Direction(Enum):
     Left = 1
     Right = 2
 
-cam = None
 sys.path.append("robot.py")
 otto = robot.Robot()
 landmarksSeen = []
 
-def initialize_particles(num_particles, cam):
+def initialize_particles(num_particles):
     particles = []
     for i in range(num_particles):
         # Random starting points. 
         p = particle.Particle(600.0*rand.ranf() - 100.0, 600.0*rand.ranf() - 250.0, np.mod(2.0*np.pi*rand.ranf(), 2.0*np.pi), 1.0/num_particles)
         particles.append(p)
     landmarksSeen = []
-    cam = cam
     return particles
 
 
@@ -41,7 +39,7 @@ def angle_observation_model(phi_M, phi_i, sigma_theta):
     pdf_value = (1 / np.sqrt(2 * np.pi * sigma_theta**2)) * math.exp(-(phi_M - phi_i)**2 / (2 * sigma_theta**2))
     return pdf_value
 
-def self_localize(landmarks, landmarkIDs):
+def self_localize(landmarks, landmarkIDs, cam):
     particles = initialize_particles(1000)
     while True:# and time_running < 15: #stop loop after 15 seconds
         particle.add_uncertainty(particles, 8, 0.25) #noise sigmas are centimeter and radians

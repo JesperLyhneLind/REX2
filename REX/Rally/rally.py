@@ -28,17 +28,12 @@ landmarkIDs = [1, 2, 3, 4]
 landmarks_inOrder = [1,2,3,4,1]
 landmarks_index = 0
 
-# Initialize particles.
-num_particles = 1000
-particles = selflocalize_method.initialize_particles(num_particles, cam)
-# The estimate of the robots current pose
 
 # est_pose = particle.estimate_pose(particles)
 
 # Turns the robot towards goal.
 while landmarks_index < 5:
-    vec_t, vec_x, vec_y = drivingStrategy.orientation(landmarks_inOrder[landmarks_index])
-    #landmarkX, landmarkY = landmarks[landmarks_inOrder[landmarks_index]]
+    vec_t, vec_x, vec_y = drivingStrategy.orientation(landmarks_inOrder[landmarks_index], cam)
     if drivingStrategy.driveAlongVec(vec_x, vec_y, vec_t, landmarks_inOrder[landmarks_index], cam) == 2: # Target reached
         print("now going to next goal")
         landmarks_index += 1
