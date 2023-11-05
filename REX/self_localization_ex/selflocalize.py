@@ -239,7 +239,7 @@ try:
                 sleep(1)
                 [p.move_particle(0, 0, math.radians(30)) for p in particles]  
             elif len(landmarksSeen) >= 2: 
-                if np.std(normalized_weights) < 0.003:
+                if np.std(normalized_weights) < 0.0067:
                     print("done")
                     break
                 else:
@@ -257,6 +257,7 @@ try:
         
         else:
             drive_functionality.turn(drive_functionality.Direction.Right, 30)
+            sleep(1)
             [p.move_particle(0, 0, -math.radians(30)) for p in particles]  
             for p in particles:
                 p.setWeight(1.0/num_particles)
