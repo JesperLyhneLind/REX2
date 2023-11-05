@@ -171,7 +171,9 @@ try:
             return pdf_value
         if not isinstance(d_objectIDs, type(None)):
             # List detected objects
-            objectIDs = np.unique(d_objectIDs)
+            objectIDs, indices = np.unique(d_objectIDs, return_index=True)
+            unique_dists = [dists[i] for i in indices]
+            unique_angles = [angles[i] for i in indices]    
             print("Object ID = ", objectIDs, ", Distance = ", dists, ", angle = ", angles)
             print("")
             print("d_object", d_objectIDs)
