@@ -28,12 +28,12 @@ def turn(dir: Direction, angle: int):
         print(arlo.go_diff(40, 40, 0, 1))
         sleep(angle/65) 
         print(arlo.stop())
-        sleep(0.18)
+        sleep(0.3)
     else:
         print(arlo.go_diff(40, 40, 1, 0))
         sleep(angle/65)
         print(arlo.stop())
-        sleep(0.18)
+        sleep(0.3)
 
 # Drives a certain amount of meters until obstacle is detected in front of it.
 def iDrive(meters):
