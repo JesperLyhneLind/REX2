@@ -130,7 +130,7 @@ def iDrive(meters):
     start = time.perf_counter()
     while True:
         Left_sensor, Right_sensor, Front_sensor = check()
-        if Front_sensor < 300 or Left_sensor < 250 or Right_sensor < 250:
+        if Front_sensor < 300 or Left_sensor < 200 or Right_sensor < 200:
             print(otto.stop())
             print("Left: " + str(Left_sensor))
             print("Front: " + str(Front_sensor))
@@ -369,6 +369,8 @@ while landmarks_index < 5:
     if driveAlongVec(vec_x, vec_y, vec_t, landmarks_inOrder[landmarks_index]) == 1 : 
         print("\n now incremented!!!!! \n")
         landmarks_index += 1
+        print(otto.go_diff(70, 70, 0, 0))
+        sleep(1)
         print("I have been at " + str(landmarks_inOrder[:landmarks_index]))
 cam.terminateCaptureThread() # Clean-up capture thread
 print("closing dem windows $$$ call me asparagus")
