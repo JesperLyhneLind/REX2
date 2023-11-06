@@ -272,7 +272,7 @@ def self_localize(landmarks, landmarkIDs):
             elif len(landmarksSeen) >= 2: 
                 print("saw at least 2")
                 if np.std(normalized_weights) < 0.0035:
-                    print("done")
+                    print("done with std at", np.std(normalized_weights))
                     break
                 print("std:", np.std(normalized_weights))
                 print("std too high")
@@ -290,6 +290,7 @@ def self_localize(landmarks, landmarkIDs):
                 p.setWeight(1.0/num_particles)
         est_pose = particle.estimate_pose(particles) # The estimate of the robots current pose
         if showGUI:
+            print("drawing?")
             # Draw map
             draw_world(est_pose, particles, world)
     
@@ -300,7 +301,7 @@ def self_localize(landmarks, landmarkIDs):
            
     # Make sure to clean up even if an exception occurred
     # Close all windows
-    cv2.destroyAllWindows()
+    # cv2.destroyAllWindows()
     # Clean-up capture thread
     print("\n EST POSE:", est_pose.getX(), est_pose.getY())
     return est_pose
@@ -370,3 +371,5 @@ while landmarks_index < 5:
         print("\n now incremented!!!!! \n")
         landmarks_index += 1
         print("I have been at " + str(landmarks_inOrder[:landmarks_index]))
+cam.terminateCaptureThread()
+print("We won - major success very cool")
