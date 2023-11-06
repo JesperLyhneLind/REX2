@@ -180,15 +180,16 @@ def angle_observation_model(phi_M, phi_i, sigma_theta):
     pdf_value = (1 / np.sqrt(2 * np.pi * sigma_theta**2)) * math.exp(-(phi_M - phi_i)**2 / (2 * sigma_theta**2))
     return pdf_value
 
+if showGUI:
+    # Open windows
+    WIN_RF1 = "Robot view"
+    cv2.namedWindow(WIN_RF1)
+    cv2.moveWindow(WIN_RF1, 50, 50)
+    WIN_World = "World view"
+    cv2.namedWindow(WIN_World)
+    cv2.moveWindow(WIN_World, 500, 50)
+
 def self_localize(landmarks, landmarkIDs):
-    if showGUI:
-        # Open windows
-        WIN_RF1 = "Robot view"
-        cv2.namedWindow(WIN_RF1)
-        cv2.moveWindow(WIN_RF1, 50, 50)
-        WIN_World = "World view"
-        cv2.namedWindow(WIN_World)
-        cv2.moveWindow(WIN_World, 500, 50)
     # Initialize particles
     num_particles = 1000
     particles = initialize_particles(num_particles)
@@ -222,7 +223,7 @@ def self_localize(landmarks, landmarkIDs):
                     if objectIDs[i] in landmarkIDs:
                         particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
                         #sigma_d = 14 # try value 20cm
-                        sigma_d = 1 # try value 20cm
+                        sigma_d = 10 # try value 20cm
                         p_d = distance_observation_model(dists[i], particle_distance, sigma_d)
                     
                         #angle
@@ -301,8 +302,6 @@ def self_localize(landmarks, landmarkIDs):
            
     # Make sure to clean up even if an exception occurred
     # Close all windows
-    # cv2.destroyAllWindows()
-    # Clean-up capture thread
     print("\n EST POSE:", est_pose.getX(), est_pose.getY())
     return est_pose
     
@@ -371,5 +370,7 @@ while landmarks_index < 5:
         print("\n now incremented!!!!! \n")
         landmarks_index += 1
         print("I have been at " + str(landmarks_inOrder[:landmarks_index]))
-cam.terminateCaptureThread()
+cam.terminateCaptureThread() # Clean-up capture thread
+print("closing dem windows $$$ call me asparagus")
+cv2.destroyAllWindows()
 print("We won - major success very cool")
