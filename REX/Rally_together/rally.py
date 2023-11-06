@@ -353,7 +353,7 @@ def driveAlongVec(vecX, vecY, theta, goalID):
         #     return 2
     # If not do as before:
     # Drives the robot towards the goal, while there's longer than 0,4m to the goal.
-    if iDrive((distance-50)/100) == 1:
+    if iDrive((distance-20)/100) == 1:
         print("avoiding")
         avoid()
         return 0 # Ends with avoid
