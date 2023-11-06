@@ -35,14 +35,14 @@ landmark_colors = [CRED, CGREEN, CBLACK, CCYAN] # Colors used when drawing the l
 landmarksSeen = []
 
 # Landmarks.
-landmarkIDs = [11, 2, 3, 4]
+landmarkIDs = [1, 2, 3, 4]
 landmarks = {
-    11: (0.0, 0.0),  # Coordinates for landmark 1
+    1: (0.0, 0.0),  # Coordinates for landmark 1
     2: (0.0, 300.0),  # Coordinates for landmark 2
     3: (400.0, 0.0),  # Coordinates for landmark 3
     4: (400.0, 300.0)  # Coordinates for landmark 4
 }
-landmarks_inOrder = [11,2,3,4,11]
+landmarks_inOrder = [1,2,3,4,1]
 landmarks_index = 0
 
 def initialize_particles(num_particles):
