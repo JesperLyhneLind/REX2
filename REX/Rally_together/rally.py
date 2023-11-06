@@ -313,8 +313,8 @@ def orientation(id_index):
     
     # Calculate the vector, that the robot should drive to in order to visit the goal.
     print(f"GOAL: {landmarks[landmarks_inOrder[id_index]]}, ID: {landmarks_inOrder[id_index]}")
-    vec_posX = (landmarks[id_index])[0] - robot_pose.getX() # x-coordinate
-    vec_posY = (landmarks[id_index])[1] - robot_pose.getY() # y-coordinate
+    vec_posX = (landmarks[landmarks_inOrder[id_index]])[0] - robot_pose.getX() # x-coordinate
+    vec_posY = (landmarks[landmarks_inOrder[id_index]])[1] - robot_pose.getY() # y-coordinate
 
     # Calculate the new theta.
     vec_theta = math.degrees(math.atan2(vec_posY, vec_posX) - robot_pose.getTheta())
@@ -368,5 +368,5 @@ while landmarks_index < 5:
     # If it has seen the goal and drives blindly or the distance has been reached successfully
     if driveAlongVec(vec_x, vec_y, vec_t, landmarks_inOrder[landmarks_index]) == 1 : 
         print("\n now incremented!!!!! \n")
-        print("I have been at " + str(landmarks_inOrder[:landmarks_index]))
         landmarks_index += 1
+        print("I have been at " + str(landmarks_inOrder[:landmarks_index]))
