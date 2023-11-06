@@ -271,7 +271,7 @@ def self_localize(landmarks, landmarkIDs):
                 [p.move_particle(0, 0, -math.radians(30)) for p in particles]  
             elif len(landmarksSeen) >= 2: 
                 print("saw at least 2")
-                if np.std(normalized_weights) < 0.0009:
+                if np.std(normalized_weights) < 0.0035:
                     print("done")
                     break
                 print("std:", np.std(normalized_weights))
