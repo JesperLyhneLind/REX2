@@ -202,7 +202,7 @@ def self_localize(landmarks, landmarkIDs):
     draw_world(est_pose, particles, world)
     
     while True:
-        particle.add_uncertainty(particles, 8, 0.25) #noise sigmas are centimeter and radians
+        particle.add_uncertainty(particles, 14, 0.25) #noise sigmas are centimeter and radians
         # Fetch next frame
         
         colour = cam.get_next_frame()
@@ -222,7 +222,7 @@ def self_localize(landmarks, landmarkIDs):
                     if objectIDs[i] in landmarkIDs:
                         particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
                         #sigma_d = 14 # try value 20cm
-                        sigma_d = 8 # try value 20cm
+                        sigma_d = 1 # try value 20cm
                         p_d = distance_observation_model(dists[i], particle_distance, sigma_d)
                     
                         #angle
@@ -307,14 +307,14 @@ def self_localize(landmarks, landmarkIDs):
     
         
 # Funtion for finding the orientation from the robot towards its next goal in degrees.
-def orientation(id_index):
+def orientation(id):
     # The estimate of the robots current pose
     robot_pose = self_localize(landmarks, landmarkIDs)
     
     # Calculate the vector, that the robot should drive to in order to visit the goal.
-    print(f"goal: {landmarks[id_index]}, id: {landmarks_inOrder[id_index]}")
-    vec_posX = (landmarks[id_index])[0] - robot_pose.getX() # x-coordinate
-    vec_posY = (landmarks[id_index])[1] - robot_pose.getY() # y-coordinate
+    print(f"goal: {landmarks[id]}, id: {id}")
+    vec_posX = (landmarks[id-1])[0] - robot_pose.getX() # x-coordinate
+    vec_posY = (landmarks[id-1])[1] - robot_pose.getY() # y-coordinate
 
     # Calculate the new theta.
     vec_theta = math.degrees(math.atan2(vec_posY, vec_posX) - robot_pose.getTheta())
