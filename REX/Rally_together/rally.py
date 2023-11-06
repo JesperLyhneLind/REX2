@@ -202,7 +202,7 @@ def self_localize(landmarks, landmarkIDs):
     draw_world(est_pose, particles, world)
     
     while True:
-        particle.add_uncertainty(particles, 14, 0.25) #noise sigmas are centimeter and radians
+        particle.add_uncertainty(particles, 15, 0.25) #noise sigmas are centimeter and radians
         # Fetch next frame
         
         colour = cam.get_next_frame()
