@@ -316,7 +316,7 @@ def avoid():
 # Turns the robot and drives towards the goal while avoiding objects.
 def driveAlongVec(vecX, vecY, theta, goalID):
     distance = math.sqrt(vecX**2 + vecY**2) # pythagorean theorem.
-    print("\n driving " + str(distance-40) + " CM TO GOAL ALONG" + str(vecX) + " " + str(vecY) + "\n")
+    print("\n driving " + str(distance-50) + " CM TO GOAL ALONG" + str(vecX) + " " + str(vecY) + "\n")
     # Let the robot face the goal.
     if np.sign(theta) == 1:
         turn(Direction.Left, theta) # right.
