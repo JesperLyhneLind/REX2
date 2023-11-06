@@ -203,7 +203,7 @@ def self_localize(landmarks, landmarkIDs):
     draw_world(est_pose, particles, world)
     
     while True:
-        particle.add_uncertainty(particles, 20, 0.25) #noise sigmas are centimeter and radians
+        particle.add_uncertainty(particles, 14, 0.25) #noise sigmas are centimeter and radians
         # Fetch next frame
         
         colour = cam.get_next_frame()
@@ -223,7 +223,7 @@ def self_localize(landmarks, landmarkIDs):
                     if objectIDs[i] in landmarkIDs:
                         particle_distance = np.sqrt(((landmarks[objectIDs[i]])[0] - par.getX())**2 + ((landmarks[objectIDs[i]])[1] - par.getY())**2)
                         #sigma_d = 14 # try value 20cm
-                        sigma_d = 20 # try value 20cm
+                        sigma_d = 14 # try value 20cm
                         p_d = distance_observation_model(dists[i], particle_distance, sigma_d)
                     
                         #angle
