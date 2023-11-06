@@ -35,9 +35,9 @@ landmark_colors = [CRED, CGREEN, CBLACK, CCYAN] # Colors used when drawing the l
 landmarksSeen = []
 
 # Landmarks.
-landmarkIDs = [1, 2, 3, 4]
+landmarkIDs = [11, 2, 3, 4]
 landmarks = {
-    1: (0.0, 0.0),  # Coordinates for landmark 1
+    11: (0.0, 0.0),  # Coordinates for landmark 1
     2: (0.0, 300.0),  # Coordinates for landmark 2
     3: (400.0, 0.0),  # Coordinates for landmark 3
     4: (400.0, 300.0)  # Coordinates for landmark 4
