@@ -378,8 +378,8 @@ def driveAlongVec(vecX, vecY, theta, goalID):
 # Turns the robot towards goal.
 while landmarks_index < 5:
     #Check orientation
-    vec_t, vec_x, vec_y = orientation(landmarks_inOrder[landmarks_index], camera.Camera(0, 'arlo', useCaptureThread = True))
+    vec_t, vec_x, vec_y = orientation(landmarks_inOrder[landmarks_index])
     # If it has seen the goal and drives blindly or the distance has been reached successfully
-    if driveAlongVec(vec_x, vec_y, vec_t, landmarks_inOrder[landmarks_index], camera.Camera(0, 'arlo', useCaptureThread = True)) == 1 : 
+    if driveAlongVec(vec_x, vec_y, vec_t, landmarks_inOrder[landmarks_index]) == 1 : 
         print("\n NOW INCREMENTED!!!!! \n")
         landmarks_index += 1
