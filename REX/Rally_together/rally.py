@@ -130,7 +130,7 @@ def iDrive(meters):
     start = time.perf_counter()
     while True:
         Left_sensor, Right_sensor, Front_sensor = check()
-        if Front_sensor < 300 or Left_sensor < 200 or Right_sensor < 200:
+        if Front_sensor < 400 or Left_sensor < 300 or Right_sensor < 300:
             print(otto.stop())
             print("Left: " + str(Left_sensor))
             print("Front: " + str(Front_sensor))
@@ -299,7 +299,7 @@ def orientation(id_index):
 # Avoids an object and drives the robot 0.3m if there's nothing detected in front of it.
 def avoid():
     Left_sensor, Right_sensor, Front_sensor = check()
-    print("Driving away from object - I 😇 AVOID for u 😍😍")
+    print("Driving away from object - I avoid")
     print(otto.go_diff(70,70,0,0))
     sleep(1)
     print(otto.stop())
