@@ -180,7 +180,7 @@ def angle_observation_model(phi_M, phi_i, sigma_theta):
     pdf_value = (1 / np.sqrt(2 * np.pi * sigma_theta**2)) * math.exp(-(phi_M - phi_i)**2 / (2 * sigma_theta**2))
     return pdf_value
 
-def self_localize(landmarks, landmarkIDs)
+def self_localize(landmarks, landmarkIDs):
     if showGUI:
         # Open windows
         WIN_RF1 = "Robot view"
