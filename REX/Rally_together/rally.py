@@ -215,15 +215,7 @@ def self_localize(landmarks, landmarkIDs):
             colour = cam.get_next_frame()
             # Detect objects
             d_objectIDs, dists, angles = cam.detect_aruco_objects(colour)
-            def distance_observation_model(d_M, d_i, sigma_d):
-                # Calculate the Gaussian PDF
-                pdf_value = (1 / np.sqrt(2 * np.pi * sigma_d**2)) * math.exp(-(d_M - d_i)**2 / (2 * sigma_d**2))
-                return pdf_value
-            
-            def angle_observation_model(phi_M, phi_i, sigma_theta):
-                # Calculate the Gaussian PDF
-                pdf_value = (1 / np.sqrt(2 * np.pi * sigma_theta**2)) * math.exp(-(phi_M - phi_i)**2 / (2 * sigma_theta**2))
-                return pdf_value
+        
             if not isinstance(d_objectIDs, type(None)):
                 # List detected objects
                 objectIDs, indices = np.unique(d_objectIDs, return_index=True)
