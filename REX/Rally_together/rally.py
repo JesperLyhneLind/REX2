@@ -13,7 +13,7 @@ import math
 import robot
 
 
-#cam = camera.Camera(0, 'arlo', useCaptureThread = True)
+cam = camera.Camera(0, 'arlo', useCaptureThread = True)
 class Direction(Enum):
     Left = 1
     Right = 2
@@ -204,10 +204,7 @@ def self_localize(landmarks, landmarkIDs):
         # Draw map
         draw_world(est_pose, particles, world)
         print("Opening and initializing camera")
-        if camera.isRunningOnArlo():
-            cam = camera.Camera(0, 'arlo', useCaptureThread = True)
-        else:
-            cam = camera.Camera(0, 'macbookpro', useCaptureThread = True)
+        
         while True:
             particle.add_uncertainty(particles, 8, 0.25) #noise sigmas are centimeter and radians
             # Fetch next frame
@@ -308,7 +305,7 @@ def self_localize(landmarks, landmarkIDs):
         # Close all windows
         cv2.destroyAllWindows()
         # Clean-up capture thread
-        camera.Camera(0, 'arlo', useCaptureThread = True).terminateCaptureThread()
+        cam.terminateCaptureThread()
         return est_pose
         
         
