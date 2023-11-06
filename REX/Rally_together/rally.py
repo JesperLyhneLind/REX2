@@ -144,32 +144,6 @@ def iDrive(meters):
             return 0 # Otto drived intended distance
 
 
-# Drives the robot and checks which direction to go for avoiding an object.
-def drive(): 
-    #otto.go_diff(70, 71, 1, 1)
-    Left_sensor, Right_sensor, Front_sensor = check()
-
-    if Left_sensor >= Right_sensor:
-        print("left")
-        turn(Direction.Left, 45)
-        iDrive(1)
-        turn(Direction.Right, 90)
-        iDrive(1)
-        turn(Direction.Left, 45)
-        iDrive(1)
-        
-
-    elif Right_sensor > Left_sensor:
-        print("Right")
-        turn(Direction.Right, 45)
-        iDrive(1)
-        turn(Direction.Left, 90)
-        iDrive(1)
-        turn(Direction.Right, 45)
-        iDrive(1)
-    else:
-        pass
-
 def distance_observation_model(d_M, d_i, sigma_d):
     # Calculate the Gaussian PDF
     pdf_value = (1 / np.sqrt(2 * np.pi * sigma_d**2)) * math.exp(-(d_M - d_i)**2 / (2 * sigma_d**2))
