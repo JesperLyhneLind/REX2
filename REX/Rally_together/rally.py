@@ -42,7 +42,7 @@ landmarks = {
     3: (400.0, 0.0),  # Coordinates for landmark 3
     4: (400.0, 300.0)  # Coordinates for landmark 4
 }
-landmarks_inOrder = [1,2,3,4,1]
+landmarks_inOrder = [11,2,3,4,11]
 landmarks_index = 0
 
 def initialize_particles(num_particles):
