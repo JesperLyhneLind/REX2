@@ -355,7 +355,7 @@ def driveAlongVec(vecX, vecY, theta, goalID):
     # Drives the robot towards the goal, while there's longer than 0,4m to the goal.
     if iDrive((distance-50)/100) == 1:
         print("avoiding")
-        # avoid()
+        avoid()
         return 0 # Ends with avoid
     else:
         print("I drived distance:)")
@@ -369,6 +369,8 @@ while landmarks_index < 5:
     if driveAlongVec(vec_x, vec_y, vec_t, landmarks_inOrder[landmarks_index]) == 1 : 
         print("\n now incremented!!!!! \n")
         landmarks_index += 1
+        sleep(2)
+        print("skkkkrt backwards")
         print(otto.go_diff(70, 70, 0, 0))
         sleep(1)
         print("I have been at " + str(landmarks_inOrder[:landmarks_index]))
