@@ -180,8 +180,7 @@ def angle_observation_model(phi_M, phi_i, sigma_theta):
     pdf_value = (1 / np.sqrt(2 * np.pi * sigma_theta**2)) * math.exp(-(phi_M - phi_i)**2 / (2 * sigma_theta**2))
     return pdf_value
 
-def self_localize(landmarks, landmarkIDs):
-
+def self_localize(landmarks, landmarkIDs)
     if showGUI:
         # Open windows
         WIN_RF1 = "Robot view"
@@ -271,11 +270,11 @@ def self_localize(landmarks, landmarkIDs):
                 [p.move_particle(0, 0, -math.radians(30)) for p in particles]  
             elif len(landmarksSeen) >= 2: 
                 print("saw at least 2")
-                if np.std(normalized_weights) < 0.0008:
+                if np.std(normalized_weights) < 0.0009:
                     print("done")
                     break
                 print("std:", np.std(normalized_weights))
-                print("std too low")
+                print("std too high")
             else: #he only sees boxes that are not in dictionary
                 print("no known landmarks seen")
                 turn(Direction.Right, 30)
@@ -310,9 +309,9 @@ def self_localize(landmarks, landmarkIDs):
 def orientation(id_index):
     # The estimate of the robots current pose
     robot_pose = self_localize(landmarks, landmarkIDs)
-
+    
     # Calculate the vector, that the robot should drive to in order to visit the goal.
-    print(f"goal: {landmarks[id_index]}, id: {landmarkIDs[landmarks]}")
+    print(f"goal: {landmarks[id_index]}, id: {landmarks_inOrder[id_index]}")
     vec_posX = (landmarks[id_index])[0] - robot_pose.getX() # x-coordinate
     vec_posY = (landmarks[id_index])[1] - robot_pose.getY() # y-coordinate
 
