@@ -343,10 +343,10 @@ def driveAlongVec(vecX, vecY, theta, goalID):
     print("driving " + str(distance-40) + " cm to goal along " + str(vecX) + " " + str(vecY))
     # Let the robot face the goal.
     if np.sign(theta) == 1:
-        turn(Direction.Right, theta) # right.
+        turn(Direction.Left, theta) # right.
         print("turning right with degrees ", theta)
     elif np.sign(theta) == -1:
-        turn(Direction.Left, abs(theta)) # left.
+        turn(Direction.Right, abs(theta)) # left.
         print("turning right with degrees ", abs(theta))
     # If yes go until sensor sensors
         # if canYouSeeTarget(goalID, cam):
