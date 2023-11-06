@@ -303,7 +303,6 @@ def self_localize(landmarks, landmarkIDs):
     # Close all windows
     cv2.destroyAllWindows()
     # Clean-up capture thread
-    cam.terminateCaptureThread()
     print("est_pose:", est_pose.getX(), est_pose.getY())
     return est_pose
     
