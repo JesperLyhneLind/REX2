@@ -200,7 +200,6 @@ def self_localize(landmarks, landmarkIDs):
     world = np.zeros((500,500,3), dtype=np.uint8)
     # Draw map
     draw_world(est_pose, particles, world)
-    print("Opening and initializing camera")
     
     while True:
         particle.add_uncertainty(particles, 8, 0.25) #noise sigmas are centimeter and radians
@@ -303,7 +302,7 @@ def self_localize(landmarks, landmarkIDs):
     # Close all windows
     cv2.destroyAllWindows()
     # Clean-up capture thread
-    print("est_pose:", est_pose.getX(), est_pose.getY())
+    print("\n EST POSE:", est_pose.getX(), est_pose.getY())
     return est_pose
     
         
@@ -313,7 +312,7 @@ def orientation(id_index):
     robot_pose = self_localize(landmarks, landmarkIDs)
 
     # Calculate the vector, that the robot should drive to in order to visit the goal.
-    print("goal: ", (landmarks[id_index]))
+    print(f"goal: {landmarks[id_index]}, id: {landmarkIDs[landmarks]}")
     vec_posX = (landmarks[id_index])[0] - robot_pose.getX() # x-coordinate
     vec_posY = (landmarks[id_index])[1] - robot_pose.getY() # y-coordinate
 
@@ -339,7 +338,7 @@ def avoid():
 # Turns the robot and drives towards the goal while avoiding objects.
 def driveAlongVec(vecX, vecY, theta, goalID):
     distance = math.sqrt(vecX**2 + vecY**2) # pythagorean theorem.
-    print("driving " + str(distance-40) + " cm to goal along " + str(vecX) + " " + str(vecY))
+    print("\n driving " + str(distance-40) + " CM TO GOAL ALONG" + str(vecX) + " " + str(vecY) + "\n")
     # Let the robot face the goal.
     if np.sign(theta) == 1:
         turn(Direction.Left, theta) # right.
@@ -354,7 +353,7 @@ def driveAlongVec(vecX, vecY, theta, goalID):
         #     return 2
     # If not do as before:
     # Drives the robot towards the goal, while there's longer than 0,4m to the goal.
-    if iDrive((distance-50)/100) == 1:
+    if iDrive((distance-40)/100) == 1:
         print("avoiding")
         # avoid()
         return 0 # Ends with avoid
@@ -368,5 +367,6 @@ while landmarks_index < 5:
     vec_t, vec_x, vec_y = orientation(landmarks_inOrder[landmarks_index])
     # If it has seen the goal and drives blindly or the distance has been reached successfully
     if driveAlongVec(vec_x, vec_y, vec_t, landmarks_inOrder[landmarks_index]) == 1 : 
-        print("\n NOW INCREMENTED!!!!! \n")
+        print("\n now incremented!!!!! \n")
+        print("I have been at " + str(landmarks_inOrder[:landmarks_index]))
         landmarks_index += 1
