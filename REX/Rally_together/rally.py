@@ -299,7 +299,11 @@ def orientation(id_index):
 # Avoids an object and drives the robot 0.3m if there's nothing detected in front of it.
 def avoid():
     Left_sensor, Right_sensor, Front_sensor = check()
-
+    print("Driving away from object - I 😇 AVOID for u 😍😍")
+    print(otto.go_diff(70,70,0,0))
+    sleep(1)
+    print(otto.stop())
+    sleep(0.18)
     if Left_sensor >= Right_sensor:
         print("Turning left - avoid, 45")
         turn(Direction.Left, 45)
@@ -332,7 +336,7 @@ def driveAlongVec(vecX, vecY, theta, goalID):
         avoid()
         return 0 # Ends with avoid
     else:
-        print("I drived distance:)")
+        print("I drived distance >:)")
         return 1 # Intended drived distance.
 
 # Turns the robot towards goal.
