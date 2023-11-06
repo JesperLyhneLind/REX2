@@ -290,7 +290,6 @@ def self_localize(landmarks, landmarkIDs):
                 for p in particles:
                     p.setWeight(1.0/num_particles)
             est_pose = particle.estimate_pose(particles) # The estimate of the robots current pose
-            
             if showGUI:
                 # Draw map
                 draw_world(est_pose, particles, world)
@@ -306,6 +305,7 @@ def self_localize(landmarks, landmarkIDs):
         cv2.destroyAllWindows()
         # Clean-up capture thread
         cam.terminateCaptureThread()
+        print("est_pose:", est_pose.getX(), est_pose.getY())
         return est_pose
         
         
