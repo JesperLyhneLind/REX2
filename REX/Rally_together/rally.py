@@ -135,12 +135,12 @@ def iDrive(meters):
             print("Left: " + str(Left_sensor))
             print("Front: " + str(Front_sensor))
             print("Right: " + str(Right_sensor))
-            print("oh no, obstacle detected!! :( miv)")
+            print("oh no, obstacle detected!! :(")
             return 1 # Otto stopped because of obstacle
         if (time.perf_counter() - start > (2.6*meters)):
             print(otto.stop())
             sleep(0.18)
-            print("oh yes I drived meters ", meters)
+            print("yes I drived ", meters)
             return 0 # Otto drived intended distance
 
 
@@ -336,7 +336,7 @@ def driveAlongVec(vecX, vecY, theta, goalID):
         avoid()
         return 0 # Ends with avoid
     else:
-        print("I drived distance >:)")
+        print("I drived distance")
         return 1 # Intended drived distance.
 
 # Turns the robot towards goal.
@@ -348,11 +348,9 @@ while landmarks_index < 5:
         print("\n now incremented!!!!! \n")
         landmarks_index += 1
         sleep(2)
-        print("skkkkrt backwards")
         print(otto.go_diff(70, 70, 0, 0))
         sleep(1)
         print("I have been at " + str(landmarks_inOrder[:landmarks_index]))
 cam.terminateCaptureThread() # Clean-up capture thread
-print("closing dem windows $$$ call me asparagus")
 cv2.destroyAllWindows()
 print("We won - major success very cool")
